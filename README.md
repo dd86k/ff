@@ -1,4 +1,4 @@
-# ff, simple bianry file scanner
+# ff, simple binary file scanner
 
 ff is a rewrite of dfile in C.
 
@@ -6,6 +6,9 @@ What's better?
 - Lots of fixes
 - ~10x smaller executable size
 - Simply faster
+
+What's left to add
+- Globbing
 
 # Compiling
 
