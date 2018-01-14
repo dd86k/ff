@@ -520,7 +520,6 @@ void scan() {
 
 	// Apple DMG disk image
 	case 0x0D730178:
-	case 0x6d697368:
 	case 0x6B6F6C79: // "koly"
 	case 0x6d697368: // "mish"
 		report("Apple disk (dmg)");
