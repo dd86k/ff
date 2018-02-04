@@ -550,6 +550,10 @@ void scan() {
 			// ...
 		*/
 		return;
+	
+	case 0x0c0901fe:
+		report("MySQL FORM");
+		return;
 
 	default:
 		switch (s & 0xFFFFFF) {
