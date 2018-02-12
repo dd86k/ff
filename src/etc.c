@@ -1,3 +1,4 @@
+#include <stdio.h> // Mostly for *nix
 #include "utils.h"
 #include "ff.h"
 #include "etc.h"

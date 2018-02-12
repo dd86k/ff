@@ -226,7 +226,7 @@ enum { // SUBTYPE_VEO
 // ========================
 /// File types
 // ========================
-enum filetype_t : unsigned long int {
+enum filetype_t {
 	FILETYPE_UNKNOWN = 0,
 	MH_OBJECT      = 0x1,
 	MH_EXECUTE     = 0x2,

@@ -4,12 +4,13 @@
 #include <tchar.h>
 #include <wchar.h>
 #elif __linux__
-
+#include <glob.h>
 #else // POSIX
 
 #endif
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "ff.h"
 #include "settings.h"
 #include "utils.h"
@@ -32,7 +33,7 @@ void version() {
 #else
 		"ff v%s\n"
 #endif
-		"MIT License: Copyright (c) 2017 dd86k\n"
+		"MIT License: Copyright (c) 2017-2018 dd86k\n"
 		"Project page: <https://github.com/dd86k/ff>\n",
 		VERSION
 #ifdef TIMESTAMP
@@ -40,6 +41,8 @@ void version() {
 #endif
 	);
 }
+
+char _args = 1;
 
 #ifdef _WIN32
 #define MAIN int wmain(int argc, wchar_t **argv)
@@ -53,6 +56,7 @@ void sa(char *a) {
 		case 'h': help(); exit(0); return;
 		case 'v': version(); exit(0); return;
 		case 'm': More = 1; break;
+		case '-': _args = 0; break;
 		}
 	}
 }
@@ -95,35 +99,49 @@ MAIN {
 		help();
 		return 0;
 	}
-	for (int i = argc; --i >= 1;) {
-		if (argv[i][1] == '-') { // long arguments
-			sb(argv[i]+2);
-		} else if (argv[i][0] == '-') { // short arguments
-			sa(argv[i]);
-		} else {
+	while (--argc >= 1) {
+		if (_args) {
+			if (argv[argc][1] == '-') { // long arguments
+				sb(argv[argc]+2);
+			} else if (argv[argc][0] == '-') { // short arguments
+				sa(argv[argc]);
+			}
+		}
 #ifdef _WIN32
-		unsigned int a = GetFileAttributesW(argv[i]);
+		unsigned int a = GetFileAttributesW(argv[argc]);
 		if (a & 0x10) { // FILE_ATTRIBUTE_DIRECTORY
 			report("Directory");
 		} else if (a != 0xFFFFFFFF) {
-			f = CreateFileW(argv[i],
-				GENERIC_READ, FILE_SHARE_READ, NULL,
-				OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-			if (!f) { //TODO: GetLastError (Windows)
-				puts("There was an issue opening the file.");
-				return 2;
-			}
-			scan();
-#elif __linux__
-
-#else // POSIX
-
-#endif
+				f = CreateFileW(argv[argc],
+					GENERIC_READ, FILE_SHARE_READ, NULL,
+					OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+				if (!f) { //TODO: GetLastError (Windows)
+					puts("There was an issue opening the file.");
+					return 2;
+				}
+				scan();
 			} else {
 				puts("Entry does not exist");
 				return 1;
 			}
 		} // else
-	} // for
+#elif __linux__
+		glob_t globbuf;
+		globbuf.gl_offs = 1;
+		glob(argv[argc], GLOB_DOOFFS, NULL, &globbuf);
+		if (globbuf.gl_pathc > 0) {
+			f = fopen(argv[argc], "rb"); // maybe use _s?
+			if (!f) {
+				puts("There was an issue opening the file.");
+				return 2;
+			}
+			scan();
+		}
+		globfree(&globbuf);
+#else // POSIX
+
+#endif
+	} // while
+
 	return 0;
 }

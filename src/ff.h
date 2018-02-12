@@ -2,6 +2,7 @@
 #include <Windows.h>
 HANDLE f;
 #else
+#include <stdio.h>
 FILE *f;
 #endif
 

@@ -7,6 +7,8 @@
 #include <stdio.h>
 
 void scan_mz() {
+    struct mz_hdr h;
+
 	if (_ddseek(0x3c, SEEK_SET)) {
         printf("Partial ");
         goto _MZ;
@@ -34,7 +36,6 @@ void scan_mz() {
     }
 
 _MZ:
-    struct mz_hdr h;
     _ddseek(0, SEEK_SET);
     _ddread(&h, sizeof(h));
 
@@ -57,7 +58,7 @@ _MZ:
             "e_cs      : %Xh\n"
             "e_lfarlc  : %Xh\n"
             "e_ovno    : %Xh\n"
-            "e_lfanew  : %lXh\n",
+            "e_lfanew  : %Xh\n",
             h.e_cblp, h.e_cp, h.e_crlc, h.e_cparh,
             h.e_minalloc, h.e_maxalloc, h.e_ss,
             h.e_sp, h.e_csum, h.e_ip, h.e_cs,

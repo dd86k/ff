@@ -27,7 +27,7 @@ int _ddseek(long int position, int mode) {
 #ifdef _WIN32
 	return SetFilePointer(f, position, NULL, mode) == 0xFFFFFFFF;
 #else
-	return fseek(fp, position, mode);
+	return fseek(f, position, mode);
 #endif
 }
 
