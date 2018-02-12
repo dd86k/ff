@@ -12,7 +12,7 @@ void scan_mz() {
         goto _MZ;
     }
 
-	unsigned long int p;
+	unsigned int p;
 	_ddread(&p, 4);
 
     if (p) {
@@ -42,11 +42,9 @@ _MZ:
     if (h.e_ovno)
         printf(" (Overlay: %d)", h.e_ovno);
 
-    puts("");
-
     if (More) {
         printf(
-            "e_cblp    : %Xh\n"
+            "\ne_cblp    : %Xh\n"
             "e_cp      : %Xh\n"
             "e_crlc    : %Xh\n"
             "e_cparh   : %Xh\n"

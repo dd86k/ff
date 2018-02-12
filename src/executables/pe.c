@@ -180,14 +180,12 @@ void scan_pe() {
 
 	if (More) {
 		printf(
-			"Machine type           : %Xh\n"
 			"Number of sections     : %Xh\n"
 			"Timestamp              : %Xh\n"
 			"Pointer to Symbol Table: %Xh\n"
 			"Number of symbols      : %Xh\n"
 			"Size of Optional Header: %Xh\n"
 			"Characteristics        : %Xh\n",
-			peh.Machine,
 			peh.NumberOfSymbols,
 			peh.TimeDateStamp,
 			peh.PointerToSymbolTable,
@@ -195,14 +193,5 @@ void scan_pe() {
 			peh.SizeOfOptionalHeader,
 			peh.Characteristics
 		);
-
-		if (peh.SizeOfOptionalHeader) {
-			printf(
-				"Format    : %Xh\n"
-				"Subsystem : %Xh\n"
-				"CLR Header: %llX\n",
-				peoh.magic, peoh.Subsystem, dirs.CLRHeader
-			);
-		}
 	}
 }
