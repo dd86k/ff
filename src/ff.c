@@ -2,6 +2,7 @@
 #include "ff.h"
 #include "utils.h"
 #include "etc.h"
+#include "settings.h"
 //TODO: A master header for every folder (e.g. audio/audio.h)
 //      Only get scan_* functions
 #include "archives/cab.h"
@@ -110,7 +111,7 @@ void scan() {
 		report("Various JPEG-2000 image formats");
 		return;
 
-	case 0xD75F2A80: //TODO: Maybe do Kodak Cineon images
+	case 0xD75F2A80:
 	// http://www.cineon.com/ff_draft.php
 		report("Kodak Cineon image (DPX)");
 		return;
@@ -637,12 +638,22 @@ void scan() {
 } // scan
 
 void report(char *s) {
-	//TODO: if -s show filename
+	if (ShowName)
+#ifdef _WIN32
+		_wprintf_p(L"%s: ", _currf);
+#else
+		printf("%s: ", _currf);
+#endif
 	puts(s);
 }
 
 void reportn(char *s) {
-	//TODO: if -s show filename
+	if (ShowName)
+#ifdef _WIN32
+		_wprintf_p(L"%s: ", _currf);
+#else
+		printf("%s: ", _currf);
+#endif
 	printf("%s", s);
 }
 

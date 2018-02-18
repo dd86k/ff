@@ -18,29 +18,6 @@ void scan_elf() {
     printf(" for ");
     elf_print_machine(h.e_machine);
     printf(" machines\n");
-
-    if (More) {
-        printf(
-            "e_type     : %X\n"
-            "e_machine  : %X\n"
-            "e_version  : %X\n"
-            "e_entry    : %X\n"
-            "e_phoff    : %X\n"
-            "e_shoff    : %X\n"
-            "e_flags    : %X\n"
-            "e_ehsize   : %X\n"
-            "e_phentsize: %X\n"
-            "e_phnum    : %X\n"
-            "e_shentsize: %X\n"
-            "e_shnum    : %X\n"
-            "e_shstrndx : %X\n",
-            h.e_type, h.e_machine, h.e_version,
-            h.e_entry, h.e_phoff, h.e_shoff, 
-            h.e_flags, h.e_ehsize, h.e_phentsize, 
-            h.e_phnum, h.e_shentsize, h.e_shnum,
-            h.e_shstrndx
-        );
-    }
 }
 
 // These functions below are also used by FATELF!

@@ -31,11 +31,11 @@
 #define EM_AARCH64 0xB7 // 64-bit ARM
 
 struct Elf32_Ehdr {
-    unsigned char e_ident[EI_NIDENT-4];
+    unsigned char e_ident[EI_NIDENT-4]; // Excludes magic
     unsigned short e_type;
     unsigned short e_machine;
     unsigned int e_version;
-    unsigned int e_entry;
+    /*unsigned int e_entry; // Don't need the rest
     unsigned int e_phoff;
     unsigned int e_shoff;
     unsigned int e_flags;
@@ -44,7 +44,7 @@ struct Elf32_Ehdr {
     unsigned short e_phnum;
     unsigned short e_shentsize;
     unsigned short e_shnum;
-    unsigned short e_shstrndx;
+    unsigned short e_shstrndx;*/
 };
 
 void scan_elf(void);

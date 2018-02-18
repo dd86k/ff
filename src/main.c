@@ -1,9 +1,4 @@
-#ifdef _WIN32
-#include <Windows.h>
-#include <WinBase.h>
-#include <tchar.h>
-#include <wchar.h>
-#elif __linux__
+#ifdef __linux__
 #include <glob.h>
 #else // POSIX
 
@@ -56,6 +51,7 @@ void sa(char *a) {
 		case 'h': help(); exit(0); return;
 		case 'v': version(); exit(0); return;
 		case 'm': More = 1; break;
+		case 's': ShowName = 1; break;
 		case '-': _args = 0; break;
 		}
 	}
@@ -102,29 +98,29 @@ MAIN {
 	while (--argc >= 1) {
 		if (_args) {
 			if (argv[argc][1] == '-') { // long arguments
-				sb(argv[argc]+2);
+				sb(argv[argc] + 2); continue;
 			} else if (argv[argc][0] == '-') { // short arguments
-				sa(argv[argc]);
+				sa(argv[argc]); continue;
 			}
 		}
+		_currf = argv[argc];
 #ifdef _WIN32
-		unsigned int a = GetFileAttributesW(argv[argc]);
+		unsigned int a = GetFileAttributesW(_currf);
 		if (a & 0x10) { // FILE_ATTRIBUTE_DIRECTORY
 			report("Directory");
 		} else if (a != 0xFFFFFFFF) {
-				f = CreateFileW(argv[argc],
-					GENERIC_READ, FILE_SHARE_READ, NULL,
-					OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-				if (!f) { //TODO: GetLastError (Windows)
-					puts("There was an issue opening the file.");
-					return 2;
-				}
-				scan();
-			} else {
-				puts("Entry does not exist");
-				return 1;
+			f = CreateFileW(_currf,
+				GENERIC_READ, FILE_SHARE_READ, NULL,
+				OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+			if (!f) { //TODO: GetLastError (Windows)
+				puts("There was an issue opening the file.");
+				return 2;
 			}
-		} // else
+			scan();
+		} else {
+			puts("Entry does not exist");
+			return 1;
+		}
 #elif __linux__
 		glob_t globbuf;
 		globbuf.gl_offs = 1;

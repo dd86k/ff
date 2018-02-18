@@ -42,6 +42,7 @@ _MZ:
     reportn("MZ executable for MS-DOS");
     if (h.e_ovno)
         printf(" (Overlay: %d)", h.e_ovno);
+    puts("");
 
     if (More) {
         printf(

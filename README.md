@@ -2,6 +2,8 @@
 
 ff is a rewrite of dfile in C.
 
+![ff in action](https://dd86k.github.io/imgs/ff0.png)
+
 What's better?
 - Lots of fixes
 - ~10x smaller executable size
