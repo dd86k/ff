@@ -10,16 +10,19 @@
 #include "settings.h"
 #include "utils.h"
 
-#define VERSION "0.0.0-0"
+#define VERSION "0.0.1-0"
 
 void help() {
 	puts(
 		"Print file type with some information if available\n"
 		"  Usage: ff FILE [OPTIONS]\n"
-		"         ff OPTIONS\n"
+		"         ff SCREENS\n"
 		"\nOPTIONS\n"
-		" -m        Print even more information if available\n"
-		" -h        Print this help screen"
+		" -m   Print even more information if available\n"
+		" -s   Show name before result"
+		"\nSCREENS\n"
+		" -h, -?   Print this help screen and quits"
+		" -v       Print the version screen and quits"
 	);
 }
 
@@ -46,7 +49,7 @@ void sa(char *a) {
 #endif
 	while (*++a != 0) {
 		switch (*a) {
-		case 'h': help(); exit(0); return;
+		case 'h': case '?': help(); exit(0); return;
 		case 'v': version(); exit(0); return;
 		case 'm': More = 1; break;
 		case 's': ShowName = 1; break;
@@ -67,21 +70,21 @@ void sa(char *a) {
 
 #ifdef _WIN32
 void sb(wchar_t *a) {
-	if (_strcmpw_l(a, O_HELP, sizeof(O_HELP)/2) == 0) {
+	if (_strcmpw_l(a, O_HELP, 4) == 0) {
 		help();
 		exit(0);
 	}
-	if (_strcmpw_l(a, O_VERSION, sizeof(O_VERSION)/2) == 0) {
+	if (_strcmpw_l(a, O_VERSION, 6) == 0) {
 		version();
 		exit(0);
 	}
 #else
 void sb(char *a) {
-	if (_strcmp_l(a, O_HELP, sizeof(O_HELP)) == 0) {
+	if (_strcmp_l(a, O_HELP, 4) == 0) {
 		help();
 		exit(0);
 	}
-	if (_strcmp_l(a, O_VERSION, sizeof(O_VERSION)) == 0) {
+	if (_strcmp_l(a, O_VERSION, 6) == 0) {
 		version();
 		exit(0);
 	}
