@@ -11,7 +11,7 @@ void scan_flac() {
 	struct flac_hdr h;
 	_ddread(&h, sizeof(h));
 	reportn("FLAC audio");
-	if ((h.header & 0xFF) == 0) { // Big endian. Not a fan.
+	if ((h.header & 0xFF) == 0) { // Big endian on top of this shit
 		int bits = ((h.stupid[8] & 1) << 4 | (h.stupid[9] >> 4)) + 1;
 		int chan = ((h.stupid[8] >> 1) & 7) + 1;
 		int rate =
@@ -20,9 +20,7 @@ void scan_flac() {
 		if (More) {
 			printf("MD5: ");
 			print_array(h.md5, sizeof(h.md5));
-			puts("");
 		}
 	}
-	else
-		puts("");
+	puts("");
 }

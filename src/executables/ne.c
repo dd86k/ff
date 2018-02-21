@@ -1,8 +1,8 @@
+#include <stdio.h>
 #include "../utils.h"
 #include "../settings.h"
 #include "../ff.h"
 #include "ne.h"
-#include <stdio.h>
 
 /// Scan a NE executable
 void scan_ne() {
@@ -21,7 +21,7 @@ void scan_ne() {
 
 	if (h.ne_flags) {
 		if (h.ne_flags & NENONC)
-			printf(", non-conforming program");
+			printf(", non-conform program");
 		if (h.ne_flags & NEIERR)
 			printf(", errors in image");
 		if (h.ne_flags & NEPROT)
@@ -43,13 +43,13 @@ void scan_ne() {
 			"ne_rev         : %Xh\n"
 			"ne_enttab      : %Xh\n"
 			"ne_cbenttab    : %Xh\n"
-			"ne_crc         : %lXh\n"
+			"ne_crc         : %Xh\n"
 			"ne_flags       : %Xh\n"
 			"ne_autodata    : %Xh\n"
 			"ne_heap        : %Xh\n"
 			"ne_stack       : %Xh\n"
-			"ne_csip        : %lXh\n"
-			"ne_sssp        : %lXh\n"
+			"ne_csip        : %Xh\n"
+			"ne_sssp        : %Xh\n"
 			"ne_cseg        : %Xh\n"
 			"ne_cmod        : %Xh\n"
 			"ne_cbnrestab   : %Xh\n"
@@ -58,7 +58,7 @@ void scan_ne() {
 			"ne_restab      : %Xh\n"
 			"ne_modtab      : %Xh\n"
 			"ne_imptab      : %Xh\n"
-			"ne_nrestab     : %lXh\n"
+			"ne_nrestab     : %Xh\n"
 			"ne_cmovent     : %Xh\n"
 			"ne_align       : %Xh\n"
 			"ne_cres        : %Xh\n"
@@ -66,7 +66,7 @@ void scan_ne() {
 			"ne_pretthunks  : %Xh\n"
 			"ne_psegrefbytes: %Xh\n"
 			"ne_swaparea    : %Xh\n"
-			"ne_expver      : %X %X\n",
+			"ne_expver      : %Xh, %Xh\n",
 			h.ne_ver, h.ne_rev, h.ne_enttab, h.ne_cbenttab,
 			h.ne_crc, h.ne_flags, h.ne_autodata, h.ne_heap,
 			h.ne_stack, h.ne_csip, h.ne_sssp, h.ne_cseg,

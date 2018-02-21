@@ -21,7 +21,7 @@ void scan_ps() { // big-endian
 	case 7: printf("Multichannel"); break;
 	case 8: printf("Duotone"); break;
 	case 9: printf("Lab"); break;
-	default: printf("Unknown type"); break;
+	default: printf("type?"); break;
 	}
 	printf(", %d channel(s)\n", bswap16(h.channels));
 }

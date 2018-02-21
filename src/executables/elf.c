@@ -52,7 +52,7 @@ void elf_print_data(unsigned char c) {
  */
 void elf_print_osabi(unsigned char c) {
     switch (c) {
-    default:   printf("Unknown DECL"); break;
+    default:   printf("DECL?"); break;
     case 0x00: printf("System V"); break;
     case 0x01: printf("HP-UX"); break;
     case 0x02: printf("NetBSD"); break;
@@ -108,6 +108,6 @@ void elf_print_machine(unsigned short c) {
     case EM_ARM:     printf("ARM"); break;
     case EM_SUPERH:  printf("SuperH"); break;
     case EM_AARCH64: printf("ARM (64-bit)"); break;
-    default:         printf("Unknown Machine"); break;
+    default:         printf("machine?"); break;
     }
 }

@@ -34,7 +34,7 @@ void scan_vhd() { // big-endian
 	switch (h.creator_os) {
 	case OS_WINDOWS: printf("Windows"); break;
 	case OS_MAC:     printf("macOS"); break;
-	default: printf("Unknown OS"); break;
+	default: printf("OS?"); break;
 	}
 
 	printf(", "); _printfd(bswap64(h.size_current));

@@ -38,7 +38,7 @@ void scan_vdi() {
 	switch (sh.u32Type) {
 	case 1: printf("dynamic"); break;
 	case 2: printf("static"); break;
-	default: printf("unknown type"); break;
+	default: printf("type?"); break;
 	}
 	printf(", ");
 	_printfd(sh.cbDisk);

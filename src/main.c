@@ -10,6 +10,8 @@
 #include "settings.h"
 #include "utils.h"
 
+#define VERSION "0.0.0-0"
+
 void help() {
 	puts(
 		"Print file type with some information if available\n"
@@ -104,7 +106,7 @@ MAIN {
 		unsigned int a = GetFileAttributesW(_currf);
 		if (a & 0x10) { // FILE_ATTRIBUTE_DIRECTORY
 			report("Directory");
-		} else if (a != 0xFFFFFFFF) {
+		} else if (a != 0xFFFFFFFF) { // not INVALID
 			f = CreateFileW(_currf,
 				GENERIC_READ, FILE_SHARE_READ, NULL,
 				OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
@@ -113,6 +115,7 @@ MAIN {
 				return 2;
 			}
 			scan();
+			CloseHandle(f);
 		} else {
 			puts("Entry does not exist");
 			return 1;
@@ -128,6 +131,7 @@ MAIN {
 				return 2;
 			}
 			scan();
+			fclose(f);
 		}
 		globfree(&globbuf);
 #else // POSIX
