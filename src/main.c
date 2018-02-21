@@ -22,18 +22,14 @@ void help() {
 }
 
 void version() {
-	printf(
+	puts(
 #ifdef TIMESTAMP
-		"ff v%s  (%s)\n"
+		"ff v" VERSION "  (" TIMESTAMP ")\n"
 #else
-		"ff v%s\n"
+		"ff v" VERSION "\n"
 #endif
 		"MIT License: Copyright (c) 2017-2018 dd86k\n"
-		"Project page: <https://github.com/dd86k/ff>\n",
-		VERSION
-#ifdef TIMESTAMP
-		, TIMESTAMP
-#endif
+		"Project page: <https://github.com/dd86k/ff>"
 	);
 }
 
