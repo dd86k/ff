@@ -13,8 +13,6 @@ void scan_vdi() {
 		report_text(); // Coincidence
 		return;
 	}
-	reportn("VirtualBox VDI disk v");
-	printf("%d.%d, ", h.majorv, h.minorv);
 	struct VDIHEADER1 sh;
 	switch (h.majorv) { // Use latest major version natively
 	case 1:
@@ -32,9 +30,11 @@ void scan_vdi() {
 		break;
 	}
 	default:
-		puts("unsupported major version");
+		puts("VirtualBox VDI vdisk, unsupported major version");
 		return;
 	}
+	reportn("VirtualBox VDI vdisk v");
+	printf("%d.%d, ", h.majorv, h.minorv);
 	switch (sh.u32Type) {
 	case 1: printf("dynamic"); break;
 	case 2: printf("static"); break;

@@ -11,7 +11,7 @@ void scan_qcow2(void) {
 	struct QCowHeader h;
 	_ddread(&h, sizeof(h));
 
-	reportn("QEMU QCOW2 disk v");
+	reportn("QEMU QCOW2 vdisk v");
 	printf("%d, ", bswap32(h.version));
 	_printfd(bswap64(h.size));
 	printf(" capacity");

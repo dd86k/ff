@@ -21,7 +21,7 @@ int _ddread(void *buffer, size_t size) {
  * Fast seek the already opened file handle.
  * position: New position (<32-bit limit)
  * mode: File mode
- * Returns: 
+ * Returns: Returns 0 if successful
  */
 int _ddseek(long int position, int mode) {
 #ifdef _WIN32
@@ -32,6 +32,14 @@ int _ddseek(long int position, int mode) {
 }
 
 #define _ddrewind(); _ddseek(0, SEEK_SET);
+
+/**
+ * Prints a line to stdout.
+ * s: Input string
+ */
+void printl(char *s) {
+	fputs(s, stdout);
+}
 
 /**
  * Simple string compare with a defined length

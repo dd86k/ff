@@ -14,6 +14,7 @@ typedef uint64_t u64;
 int _ddread(void *, size_t);
 int _ddseek(long int, int);
 void _printfd(unsigned long long);
+void printl(char *);
 int _strcmp_l(char *, char *, size_t);
 #ifdef _WIN32
 int _strcmpw_l(wchar_t *, wchar_t *, size_t);

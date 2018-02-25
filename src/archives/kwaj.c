@@ -11,11 +11,11 @@ void scan_kwaj() {
 	reportn("MS-DOS ");
 
 	switch (h.method) {
-	case 0: printf("non-compressed"); break;
-	case 1: printf("FFh-XOR'd data"); break;
-	case 2: printf("regular SZDD compressed"); break;
-	case 3: printf("LZ + Huffman \"Jeff Johnson\" compressed"); break;
-	case 4: printf("MS-ZIP compressed"); break;
+	case 0: printl("non-compressed"); break;
+	case 1: printl("FFh-XOR'd data"); break;
+	case 2: printl("regular SZDD compressed"); break;
+	case 3: printl("LZ + Huffman \"Jeff Johnson\" compressed"); break;
+	case 4: printl("MS-ZIP compressed"); break;
 	default: printf("?");
 	}
 

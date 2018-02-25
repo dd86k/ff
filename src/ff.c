@@ -654,7 +654,7 @@ void reportn(char *s) {
 #else
 		printf("%s: ", _currf);
 #endif
-	printf("%s", s);
+	printl(s);
 }
 
 void report_unknown() {

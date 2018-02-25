@@ -12,7 +12,7 @@ void scan_cowd() {
 		return;
 	}
 	long long size = h.numSectors * 512;
-	reportn("ESXi COW disk v");
+	reportn("ESXi COW vdisk v");
 	printf("%d, \"%s\", ", h.version, h.name);
 	_printfd(size);
 	puts("");

@@ -13,17 +13,17 @@ void scan_vhd() { // big-endian
 		return;
 	}
 	h.disk_type = bswap32(h.disk_type);
-	reportn("Microsoft VHD disk v");
+	reportn("Microsoft VHD vdisk v");
 	printf("%d.%d, ", bswap16(h.major), bswap16(h.minor));
 	switch(h.disk_type) {
-	case D_FIXED: printf("fixed"); break;
-	case D_DYNAMIC: printf("dynamic"); break;
-	case D_DIFF: printf("differencing"); break;
+	case D_FIXED: printl("fixed"); break;
+	case D_DYNAMIC: printl("dynamic"); break;
+	case D_DIFF: printl("differencing"); break;
 	default:
 		if (h.disk_type < 7)
-			printf("reserved (deprecated)");
+			printl("reserved (deprecated)");
 		else {
-			printf("Invalid type");
+			printl("Invalid type");
 			return;
 		}
 	}
@@ -32,25 +32,25 @@ void scan_vhd() { // big-endian
 		h.creator_app, bswap16(h.creator_major), bswap16(h.creator_minor));
 
 	switch (h.creator_os) {
-	case OS_WINDOWS: printf("Windows"); break;
-	case OS_MAC:     printf("macOS"); break;
-	default: printf("OS?"); break;
+	case OS_WINDOWS: printl("Windows"); break;
+	case OS_MAC:     printl("macOS"); break;
+	default: printl("OS?"); break;
 	}
 
-	printf(", "); _printfd(bswap64(h.size_current));
-	printf("/"); _printfd(bswap64(h.size_original));
-	printf(" used");
+	printl(", "); _printfd(bswap64(h.size_current));
+	printl("/"); _printfd(bswap64(h.size_original));
+	printl(" used");
 
 	if (h.features & F_TEMPORARY)
-		printf(", temporary");
+		printl(", temporary");
 
 	if (h.savedState)
-		printf(", saved state");
+		printl(", saved state");
 
 	puts("");
 
 	if (More) {
-		printf("UUID: ");
+		printl("UUID: ");
 		print_array(h.uuid, sizeof(h.uuid));
 		printf(
 			"Cylinders: %d\n"

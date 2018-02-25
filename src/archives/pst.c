@@ -24,15 +24,15 @@ void scan_pst() {
 	reportn("PST archive, v");
 	printf("%d (client v%d), ", h.version_, h.client_version);
 	if (ansi)
-		printf("ANSI, ");
+		printl("ANSI, ");
 	else if (unicode)
-		printf("Unicode, ");
+		printl("Unicode, ");
 
 	switch (uh.crypt) {
-	case 0x01: printf("encrypted (Permutation algorithm)"); break;
-	case 0x02: printf("encrypted (Cyclic algorithm)"); break;
-	case 0x10: printf("encrypted (Windows Information Protection)"); break;
-	default: printf("unencrypted");
+	case 0x01: printl("encrypted (Permutation algorithm)"); break;
+	case 0x02: printl("encrypted (Cyclic algorithm)"); break;
+	case 0x10: printl("encrypted (Windows Information Protection)"); break;
+	default: printl("unencrypted");
 	}
 
 	puts("");
