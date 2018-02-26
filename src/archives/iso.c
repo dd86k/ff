@@ -99,6 +99,7 @@ void scan_iso() {
 ISO_DONE:
 	reportn("ISO-9660 CD/DVD disc");
 	printf(" \"%s\", ", label);
+	memset(label, 0, sizeof(label)); // Important while globbing
 	_printfd(volume_size);
 	if (bootable) printf(", Bootable");
 

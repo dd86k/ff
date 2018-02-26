@@ -8,18 +8,16 @@ void scan_kwaj() {
 	struct kwaj_hdr h;
 	_ddread(&h, sizeof(h));
 
-	reportn("MS-DOS ");
+	reportn("MS-DOS KWAJ archive, ");
 
 	switch (h.method) {
 	case 0: printl("non-compressed"); break;
 	case 1: printl("FFh-XOR'd data"); break;
-	case 2: printl("regular SZDD compressed"); break;
+	case 2: printl("regular compression"); break;
 	case 3: printl("LZ + Huffman \"Jeff Johnson\" compressed"); break;
 	case 4: printl("MS-ZIP compressed"); break;
 	default: printf("?");
 	}
-
-	printf(" archive (KWAJ)");
 
 	if (h.offset)
 		printf(", offset: %Xh", h.offset);

@@ -68,7 +68,7 @@ void scan() {
 			}
 		default:
 			if (*b) // b[0] != 0
-				report("Palm Desktop data Dile (Access)");
+				report("Palm Desktop database (Access)");
 			else
 				report("TrueType font");
 			return;
@@ -198,13 +198,11 @@ void scan() {
 				report("QuickTime video");
 				return;
 			case 0x35706733: // "3gp5"
+			case 0x564E534D: // "MSNV"
 				report("MPEG-4 video");
 				return;
 			case 0x3234706D: // "mp42", very common!
 				report("MPEG-4/QuickTime video");
-				return;
-			case 0x564E534D: // "MSNV"
-				report("MPEG-4 video");
 				return;
 			case 0x2041344D: // "M4A "
 				report("Apple Lossless audio (m4a)");
