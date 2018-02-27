@@ -12,9 +12,9 @@ void scan_gif() {
 	reportn("GIF");
 
 	switch (h.version_[1]) { // 87a, 89a, lazy switch
-		case '7': printf("87a"); break;
-		case '9': printf("89a"); break;
-		default: printf(" image, non-supported version\n"); return;
+		case '7': printl("87a"); break;
+		case '9': printl("89a"); break;
+		default: printl(" image, non-supported version\n"); return;
 	}
 
 	printf(" image, %d x %d pixels, %d-bit",
@@ -24,7 +24,7 @@ void scan_gif() {
 		if (h.packed & GLOBAL_COLOR_TABLE) {
 			printf(", Global Color Table");
 			if (h.packed & 3)
-				printf(" of %f bytes", pow(2, ((h.packed & 3) + 1)));
+				printf(" of %lf bytes", pow(2, ((h.packed & 3) + 1)));
 			if (h.packed & SORT_FLAG)
 				printf(", Sorted");
 			if (h.bgcolor)

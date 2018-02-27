@@ -5,3 +5,4 @@ ff
 *.tar
 *.tar.xz
 *.tar.gz
+bin/

@@ -1,16 +1,14 @@
-#ifdef __linux__
-#include <glob.h>
-#else // POSIX
-
+#if __unix__
+#include <sys/types.h>
+#include <sys/stat.h>
 #endif
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "ff.h"
 #include "settings.h"
 #include "utils.h"
 
-#define VERSION "0.0.1-0"
+#define VERSION "0.1.0-0"
 
 void help() {
 	puts(
@@ -54,6 +52,9 @@ void sa(char *a) {
 		case 'm': More = 1; break;
 		case 's': ShowName = 1; break;
 		case '-': _args = 0; break;
+		default:
+			printf("ERROR: -%c -- Unknown argument\n", *a);
+			exit(1);
 		}
 	}
 }
@@ -78,6 +79,7 @@ void sb(wchar_t *a) {
 		version();
 		exit(0);
 	}
+	wprintf(L"ERROR: --%s -- Unknown argument\n", a);
 #else
 void sb(char *a) {
 	if (_strcmp_l(a, O_HELP, 4) == 0) {
@@ -88,7 +90,9 @@ void sb(char *a) {
 		version();
 		exit(0);
 	}
+	printf("ERROR: --%s -- Unknown argument\n", a);
 #endif
+	exit(1);
 }
 
 MAIN {
@@ -123,22 +127,23 @@ MAIN {
 			puts("Entry does not exist");
 			return 1;
 		}
-#elif __linux__
-		glob_t globbuf;
-		globbuf.gl_offs = 1;
-		glob(argv[argc], GLOB_DOOFFS, NULL, &globbuf);
-		if (globbuf.gl_pathc > 0) {
-			f = fopen(argv[argc], "rb"); // maybe use _s?
-			if (!f) {
-				puts("There was an issue opening the file.");
-				return 2;
-			}
-			scan();
-			fclose(f);
-		}
-		globfree(&globbuf);
 #else // POSIX
-
+		struct stat s;
+		if (stat(_currf, &s) == 0) {
+			if (s.st_mode & S_IFDIR) {
+				report("Directory");
+			} else if (s.st_mode & S_IFREG) {
+				f = fopen(_currf, "rb"); // maybe use _s?
+				if (!f) {
+					puts("There was an issue opening the file.");
+					return 2;
+				}
+				scan();
+				fclose(f);
+			}
+		} else {
+			perror("ERROR:");
+		}
 #endif
 	} // while
 

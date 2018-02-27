@@ -11,6 +11,8 @@ What's better?
 
 # Compiling
 
+The Makefile is **not** ready.
+
 You **MUST**:
 - Byte-align structs
   - cl, clang-cl: `/Zp`
