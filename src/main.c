@@ -17,9 +17,9 @@ void help() {
 		"         ff SCREENS\n"
 		"\nOPTIONS\n"
 		" -m   Print even more information if available\n"
-		" -s   Show name before result"
+		" -s   Show name before result\n"
 		"\nSCREENS\n"
-		" -h, -?   Print this help screen and quits"
+		" -h, -?   Print this help screen and quits\n"
 		" -v       Print the version screen and quits"
 	);
 }
@@ -53,7 +53,7 @@ void sa(char *a) {
 		case 's': ShowName = 1; break;
 		case '-': _args = 0; break;
 		default:
-			printf("ERROR: -%c -- Unknown argument\n", *a);
+			printf("E: -%c -- Unknown argument\n", *a);
 			exit(1);
 		}
 	}
@@ -79,7 +79,7 @@ void sb(wchar_t *a) {
 		version();
 		exit(0);
 	}
-	wprintf(L"ERROR: --%s -- Unknown argument\n", a);
+	wprintf(L"E: --%s -- Unknown argument\n", a);
 #else
 void sb(char *a) {
 	if (_strcmp_l(a, O_HELP, 4) == 0) {
@@ -90,7 +90,7 @@ void sb(char *a) {
 		version();
 		exit(0);
 	}
-	printf("ERROR: --%s -- Unknown argument\n", a);
+	printf("E: --%s -- Unknown argument\n", a);
 #endif
 	exit(1);
 }
@@ -124,7 +124,7 @@ MAIN {
 			scan();
 			CloseHandle(f);
 		} else {
-			puts("Entry does not exist");
+			puts("E: Entry does not exist");
 			return 1;
 		}
 #else // POSIX
@@ -142,10 +142,14 @@ MAIN {
 				fclose(f);
 			}
 		} else {
-			perror("ERROR:");
+			perror("E:");
 		}
 #endif
 	} // while
+
+	if (!f) {
+		puts("E: Missing file input");
+	}
 
 	return 0;
 }

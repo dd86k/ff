@@ -41,15 +41,15 @@
 void scan() {
 	unsigned int s;
 	if (_ddread(&s, 4)) {
-		puts("ERROR: Could not read file.");
+		puts("E: Could not read file.");
 		return;
 	}
 
 	switch (s) {
 	case 0x00000100: {
-		unsigned char b[12];
+		char b[12];
 		_ddread(&b, sizeof(b));
-		unsigned long int *p = (unsigned long int*)&b;
+		unsigned int *p = (unsigned int *)&b;
 		switch (*p) { // b[0..4]
 		case 0x5349534D: // "MSIS"
 			report("Microsoft Money");
@@ -120,8 +120,8 @@ void scan() {
 	case 0x02434E52: // RNC\x01 or \x02
 		reportn("Rob Northen Compressed archive v");
 		switch (s) { // Very lazy
-		case 0x01000000: printf("2\n"); break;
-		case 0x02000000: printf("1\n"); break;
+		case 0x01000000: puts("2"); return;
+		case 0x02000000: puts("1"); return;
 		}
 		return;
 
@@ -264,7 +264,7 @@ void scan() {
 		return;
 
 	// Only the last signature is within the documentation.
-	case 0x04034B42: // PKZIP
+	case 0x04034B42: // PKZIP, which includes
 	case 0x06054B42: // JAR, ODF, OOXML, EPUB (PKware ZIP format)
 	case 0x08074B42:
 	case 0x04034B50:
@@ -581,7 +581,7 @@ void scan() {
 			return;
 
 		default:
-			switch ((unsigned short)s) { // MOVZX (x86)
+			switch ((unsigned short)s) {
 			case 0x9D1F:
 				report("Lempel-Ziv-Welch archive (RAR/ZIP)");
 				return;
@@ -635,24 +635,44 @@ void scan() {
 	} // 4 Byte signatures
 } // scan
 
+/*
+ * For Windows platforms, it used to be _wprintf_p
+ */
+
+/**
+ * Report to stdout the filetype with a newline
+ * Params: s = Type
+ */
 void report(char *s) {
 	if (ShowName)
+		printf(
 #ifdef _WIN32
-		_wprintf_p(L"%s: ", _currf);
+			"%ls: %s\n",
 #else
-		printf("%s: ", _currf);
+			"%s: %s\n",
 #endif
-	puts(s);
+			_currf, s
+		);
+	else
+		puts(s);
 }
 
+/**
+ * Report to stdout the filetype without a newline
+ * Params: s = Type
+ */
 void reportn(char *s) {
 	if (ShowName)
+		printf(
 #ifdef _WIN32
-		_wprintf_p(L"%s: ", _currf);
+			"%ls: %s",
 #else
-		printf("%s: ", _currf);
+			"%s: %s",
 #endif
-	printl(s);
+			_currf, s
+		);
+	else
+		printl(s);
 }
 
 void report_unknown() {

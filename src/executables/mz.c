@@ -46,7 +46,7 @@ _MZ:
 
     if (More) {
         printf(
-            "\ne_cblp    : %Xh\n"
+            "e_cblp    : %Xh\n"
             "e_cp      : %Xh\n"
             "e_crlc    : %Xh\n"
             "e_cparh   : %Xh\n"

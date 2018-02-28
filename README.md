@@ -1,17 +1,14 @@
 # ff, simple binary file scanner
 
-ff is a rewrite of dfile in C.
+ff aims to be a simple, fast, and easy-to-understand binary file scanner.
 
-![ff in action](https://dd86k.github.io/imgs/ff0.png)
-
-What's better?
-- Lots of fixes
-- ~10x smaller executable size
-- Simply faster
+![ff screenshot](https://dd86k.github.io/imgs/ff0.png)
 
 # Compiling
 
 The Makefile is **not** ready.
+
+To compile ff:
 
 You **MUST**:
 - Byte-align structs
@@ -23,6 +20,7 @@ You **COULD**:
   - They usually includes the `TIMESTAMP` macro
     - Windows: `%DATE% %TIME%`
     - Linux: (To be defined)
+  - They require clang to be installed
 
 ## Windows Notes
 

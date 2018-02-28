@@ -1,8 +1,8 @@
+#include <stdio.h>
 #include "../utils.h"
 #include "../settings.h"
 #include "../ff.h"
 #include "ms-shllink.h"
-#include <stdio.h>
 
 // See [MS-SHLLINK].pdf from Microsoft.
 void scan_lnk() {
@@ -12,21 +12,21 @@ void scan_lnk() {
 
 	if (h.show_command)
 		switch (h.show_command) {
-		case SW_SHOWNORMAL: printf(", normal window"); break;
-		case SW_SHOWMAXIMIZED: printf(", maximized"); break;
-		case SW_SHOWMINNOACTIVE: printf(", minimized"); break;
+		case SW_SHOWNORMAL: printl(", normal window"); break;
+		case SW_SHOWMAXIMIZED: printl(", maximized"); break;
+		case SW_SHOWMINNOACTIVE: printl(", minimized"); break;
 		}
 
 	if (h.hotkey) {
-		printf(", hotkey (");
+		printl(", hotkey (");
 		int high = h.hotkey & 0xFF00;
 		if (high) {
 			if (high & 0x0100)
-				printf("shift+");
+				printl("shift+");
 			if (high & 0x0200)
-				printf("ctrl+");
+				printl("ctrl+");
 			if (high & 0x0400)
-				printf("alt+");
+				printl("alt+");
 		}
 		unsigned char low = (unsigned char)h.hotkey;
 		if (low) {
@@ -35,11 +35,11 @@ void scan_lnk() {
 			else if (low >= 0x70 && low <= 0x87)
 				printf("F%d", low - 0x6F); // Function keys
 			else switch (low) {
-				case 0x90: printf("num lock"); break;
-				case 0x91: printf("scroll lock"); break;
+				case 0x90: printl("num lock"); break;
+				case 0x91: printl("scroll lock"); break;
 			}
 		}
-		printf(")"); // from "hotkey ("
+		printl(")"); // from "hotkey ("
 	}
 
 	/*if (h.flags & HasLinkTargetIDList &&
