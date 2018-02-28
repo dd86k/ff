@@ -26,11 +26,11 @@ void help() {
 
 void version() {
 	puts(
+		"ff v" VERSION 
 #ifdef TIMESTAMP
-		"ff v" VERSION "  (" TIMESTAMP ")\n"
-#else
-		"ff v" VERSION "\n"
+		"  (" TIMESTAMP ")"
 #endif
+		"\n"
 		"MIT License: Copyright (c) 2017-2018 dd86k\n"
 		"Project page: <https://github.com/dd86k/ff>"
 	);
@@ -53,7 +53,7 @@ void sa(char *a) {
 		case 's': ShowName = 1; break;
 		case '-': _args = 0; break;
 		default:
-			printf("E: -%c -- Unknown argument\n", *a);
+			printf("E: -%c: Unknown argument\n", *a);
 			exit(1);
 		}
 	}
@@ -79,7 +79,7 @@ void sb(wchar_t *a) {
 		version();
 		exit(0);
 	}
-	wprintf(L"E: --%s -- Unknown argument\n", a);
+	wprintf(L"E: --%s: Unknown argument\n", a);
 #else
 void sb(char *a) {
 	if (_strcmp_l(a, O_HELP, 4) == 0) {
@@ -90,7 +90,7 @@ void sb(char *a) {
 		version();
 		exit(0);
 	}
-	printf("E: --%s -- Unknown argument\n", a);
+	printf("E: --%s: Unknown argument\n", a);
 #endif
 	exit(1);
 }
@@ -111,21 +111,30 @@ MAIN {
 		_currf = argv[argc];
 #ifdef _WIN32
 		unsigned int a = GetFileAttributesW(_currf);
+		if (a == 0xFFFFFFFF) { // INVALID_FILE_ATTRIBUTES
+			_wprintf_p(
+				L"E: Entry does not exist or is invalid: %s\n",
+				_currf
+			);
+			return 1;
+		}
 		if (a & 0x10) { // FILE_ATTRIBUTE_DIRECTORY
 			report("Directory");
-		} else if (a != 0xFFFFFFFF) { // not INVALID
+		} else if (a & 0x400) { // FILE_ATTRIBUTE_REPARSE_POINT
+			report("Symbolic link");
+		} else {
 			f = CreateFileW(_currf,
 				GENERIC_READ, FILE_SHARE_READ, NULL,
 				OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 			if (!f) { //TODO: GetLastError (Windows)
-				puts("There was an issue opening the file.");
+				_wprintf_p(
+					L"E: There was an issue opening the file: %s\n",
+					_currf
+				);
 				return 2;
 			}
 			scan();
 			CloseHandle(f);
-		} else {
-			puts("E: Entry does not exist");
-			return 1;
 		}
 #else // POSIX
 		struct stat s;
@@ -146,10 +155,6 @@ MAIN {
 		}
 #endif
 	} // while
-
-	if (!f) {
-		puts("E: Missing file input");
-	}
 
 	return 0;
 }
