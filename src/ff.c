@@ -84,7 +84,7 @@ void scan() {
 		return;
 
 	case 0x00010000:
-		report("Icon, ICO format");
+		report("ICO icon");
 		return;
 
 	case 0xBA010000:
@@ -108,7 +108,7 @@ void scan() {
 	}
 
 	case 0x0C000000: //TODO: Maybe get those "various" JPEG-2000 images
-		report("Various JPEG-2000 image formats");
+		report("JPEG-2000 image");
 		return;
 
 	case 0xD75F2A80:
