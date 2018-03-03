@@ -22,6 +22,7 @@
 #include "audio/wav.h"
 #include "documents/cfb.h"
 #include "etc/ms-shllink.h"
+#include "etc/idx.h"
 #include "executables/elf.h"
 #include "executables/fatelf.h"
 #include "executables/mach.h"
@@ -552,6 +553,10 @@ void scan() {
 	
 	case 0x0c0901fe:
 		report("MySQL FORM");
+		return;
+	
+	case 0xff743064: // '\377t0c'
+		scan_idx();
 		return;
 
 	default:
