@@ -1,10 +1,10 @@
 @ECHO OFF
 REM 
-REM ff custom build script for Windows
+REM dd custom build script for Windows
 REM Optimized for: clang-cl
 REM 
 
-REM Version
+REM Script Version
 SET V=1.0
 
 SET CC=clang-cl
@@ -64,4 +64,5 @@ GOTO :EOF
 
 :CLEAN
 DEL /S /Q bin > NUL
+DEL /Q ff.exe
 GOTO :EOF
