@@ -20,7 +20,6 @@ SET _COMP=%CC% %CFLAGS% -o bin\
 IF "%1"=="clean" goto :CLEAN
 IF "%1"=="help" goto :HELP
 IF "%1"=="/?" goto :HELP
-IF "%1"=="-?" goto :HELP
 IF "%1"=="-h" goto :HELP
 IF "%1"=="--help" goto :HELP
 

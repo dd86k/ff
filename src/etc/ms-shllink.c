@@ -10,12 +10,11 @@ void scan_lnk() {
 	_ddread(&h, sizeof(h));
 	reportn("Microsoft Shortcut link (MS-SHLLINK)");
 
-	if (h.show_command)
-		switch (h.show_command) {
-		case SW_SHOWNORMAL: printl(", normal window"); break;
-		case SW_SHOWMAXIMIZED: printl(", maximized"); break;
-		case SW_SHOWMINNOACTIVE: printl(", minimized"); break;
-		}
+	switch (h.show_command) {
+	case SW_SHOWNORMAL: printl(", normal window"); break;
+	case SW_SHOWMAXIMIZED: printl(", maximized"); break;
+	case SW_SHOWMINNOACTIVE: printl(", minimized"); break;
+	}
 
 	if (h.hotkey) {
 		printl(", hotkey (");

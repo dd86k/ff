@@ -8,17 +8,16 @@
 #include "settings.h"
 #include "utils.h"
 
-#define VERSION "0.1.0-0"
+#define VERSION "0.1.1-0"
 
 void help() {
 	puts(
 		"Print file type with some information if available\n"
 		"  Usage: ff FILE [OPTIONS]\n"
-		"         ff SCREENS\n"
+		"         ff [OPTIONS]\n"
 		"\nOPTIONS\n"
 		" -m   Print even more information if available\n"
 		" -s   Show name before result\n"
-		"\nSCREENS\n"
 		" -h, -?   Print this help screen and quits\n"
 		" -v       Print the version screen and quits"
 	);
@@ -49,9 +48,9 @@ void sa(char *a) {
 		switch (*a) {
 		case 'h': case '?': help(); exit(0); return;
 		case 'v': version(); exit(0); return;
-		case 'm': More = 1; break;
-		case 's': ShowName = 1; break;
-		case '-': _args = 0; break;
+		case 'm': ++More; break;
+		case 's': ++ShowName; break;
+		case '-': --_args; break;
 		default:
 			printf("E: -%c: Unknown argument\n", *a);
 			exit(1);
@@ -64,12 +63,6 @@ void sa(char *a) {
 #ifdef _WIN32
 #define O_HELP L"help"
 #define O_VERSION L"version"
-#else
-#define O_HELP "help"
-#define O_VERSION "version"
-#endif
-
-#ifdef _WIN32
 void sb(wchar_t *a) {
 	if (_strcmpw_l(a, O_HELP, 4) == 0) {
 		help();
@@ -81,6 +74,8 @@ void sb(wchar_t *a) {
 	}
 	wprintf(L"E: --%s: Unknown argument\n", a);
 #else
+#define O_HELP "help"
+#define O_VERSION "version"
 void sb(char *a) {
 	if (_strcmp_l(a, O_HELP, 4) == 0) {
 		help();
@@ -122,19 +117,21 @@ MAIN {
 			report("Directory");
 		} else if (a & 0x400) { // FILE_ATTRIBUTE_REPARSE_POINT
 			report("Symbolic link");
-		} else {
+		} else if (a != 0xFFFFFFFF) { // Not invalid
 			f = CreateFileW(_currf,
 				GENERIC_READ, FILE_SHARE_READ, NULL,
 				OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 			if (!f) { //TODO: GetLastError (Windows)
-				_wprintf_p(
-					L"E: There was an issue opening the file: %s\n",
-					_currf
-				);
-				return 2;
+				goto EWFO;
 			}
-			scan();
+			scan(); 
 			CloseHandle(f);
+		} else { // avoids trying to open the invalid file
+EWFO:		_wprintf_p(
+				L"E: There was an issue opening the file: %s\n",
+				_currf
+			);
+			return 2;
 		}
 #else // POSIX
 		struct stat s;
