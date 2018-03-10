@@ -16,6 +16,7 @@ release)
 	;;
 clean)
 	rm bin/*
+	exit 0
 	;;
 help|--help|-h)
 	echo "Usage:"
