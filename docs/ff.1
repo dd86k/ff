@@ -1,0 +1,87 @@
+." Hi! This manual (man page) was written by dd86k.
+." Please read man-pages(7) and groff_man(7) about the manual page format.
+."
+.TH ff 1 "March 2018" dd86k "User manual"
+.SH NAME
+.B ff
+- Determine the file type via pre-determined magic.
+
+.SH SYNOPSIS
+.SY ff
+.OP -cmsvh
+.I file
+.I ...
+.YS
+.SY ff
+.OP --help
+.OP --version
+.YS
+
+.SH DESCRIPTION
+.B ff
+is a fast and simple binary file scanner that is very similar to and inspired by the UNIX/BSD file(1) utility. It is mostly intended for most of the binary formats.
+
+It works by scanning an internal switch case (against signatures) in order: 4-bytes, 3-bytes, 2-bytes, then offsets.
+
+If ff can't find the file format could not be found, it reports
+.B data
+to stdout.
+
+.SH OPTIONS
+
+.IP -c
+Continue on symlink.
+
+.IP -m
+Show more information if available.
+
+.IP -s
+Prepend filename to result, useful while globbing.
+
+.IP -v
+Show version screen and exit.
+
+.IP -h
+Show help screen and exit.
+
+.SH EXAMPLES
+.EX
+$ ff ff ff.exe
+PE32+ Windows Console Executable for x86-64 machines, LARGE_ADDRESS_AWARE
+ELF64 LE System V Shared object for x86-64 machines
+
+$ ff ff.exe -m
+PE32+ Windows Console Executable for x86-64 machines, LARGE_ADDRESS_AWARE
+Number of sections     : 0h
+Timestamp              : 5AA58AC4h
+Pointer to Symbol Table: 0h
+Number of symbols      : 0h
+Size of Optional Header: F0h
+Characteristics        : 22h
+
+$ ff t/*.png -sm
+t/mspaint.png: Portable Network Graphics image, 281 x 198 pixels, 24-bit RGB
+Default compression, Default filtering, No interlacing
+t/asciifull.png: Portable Network Graphics image, 715 x 823 pixels, 32-bit RGBA
+Default compression, Default filtering, No interlacing
+t/8bit.png: Portable Network Graphics image, 201 x 192 pixels, 8-bit PLTE Palette
+Default compression, Default filtering, No interlacing
+.EE
+
+.SH WARNINGS
+ff is still a work in progress and may be incorrect on certain things.
+
+.SH NOTES
+ff starts taking command arguments at its most right first.
+
+.SH BUGS
+None.
+
+.SH AUTHOR
+Program and man-gage written by dd86k
+.MT devddstuff@gmail.com
+.ME .
+
+.UR https://github.com/dd86k/ff
+Homepage:
+.UE
