@@ -8,7 +8,7 @@
 #include "settings.h"
 #include "utils.h"
 
-#define VERSION "0.1.1-0"
+#define VERSION "0.2.0-0"
 
 void help() {
 	puts(
@@ -21,6 +21,7 @@ void help() {
 		" -h, -?   Print this help screen and quits\n"
 		" -v       Print the version screen and quits"
 	);
+	exit(0);
 }
 
 void version() {
@@ -33,9 +34,11 @@ void version() {
 		"MIT License: Copyright (c) 2017-2018 dd86k\n"
 		"Project page: <https://github.com/dd86k/ff>"
 	);
+	exit(0);
 }
 
 char _args = 1;
+char Continue = 0;
 
 #ifdef _WIN32
 #define MAIN int wmain(int argc, wchar_t **argv)
@@ -46,11 +49,12 @@ void sa(char *a) {
 #endif
 	while (*++a != 0) {
 		switch (*a) {
-		case 'h': case '?': help(); exit(0); return;
-		case 'v': version(); exit(0); return;
-		case 'm': ++More; break;
-		case 's': ++ShowName; break;
-		case '-': --_args; break;
+		case 'h': case '?': help(); return;
+		case 'v': version(); return;
+		case 'm': ++More; return;
+		case 's': ++ShowName; return;
+		case 'c': ++Continue; return;
+		case '-': --_args; return;
 		default:
 			printf("E: -%c: Unknown argument\n", *a);
 			exit(1);
@@ -64,27 +68,19 @@ void sa(char *a) {
 #define O_HELP L"help"
 #define O_VERSION L"version"
 void sb(wchar_t *a) {
-	if (_strcmpw_l(a, O_HELP, 4) == 0) {
+	if (_strcmpw_l(a, O_HELP, 4) == 0)
 		help();
-		exit(0);
-	}
-	if (_strcmpw_l(a, O_VERSION, 6) == 0) {
+	if (_strcmpw_l(a, O_VERSION, 6) == 0)
 		version();
-		exit(0);
-	}
 	wprintf(L"E: --%s: Unknown argument\n", a);
 #else
 #define O_HELP "help"
 #define O_VERSION "version"
 void sb(char *a) {
-	if (_strcmp_l(a, O_HELP, 4) == 0) {
+	if (_strcmp_l(a, O_HELP, 4) == 0)
 		help();
-		exit(0);
-	}
-	if (_strcmp_l(a, O_VERSION, 6) == 0) {
+	if (_strcmp_l(a, O_VERSION, 6) == 0)
 		version();
-		exit(0);
-	}
 	printf("E: --%s: Unknown argument\n", a);
 #endif
 	exit(1);
@@ -116,8 +112,10 @@ MAIN {
 		if (a & 0x10) { // FILE_ATTRIBUTE_DIRECTORY
 			report("Directory");
 		} else if (a & 0x400) { // FILE_ATTRIBUTE_REPARSE_POINT
+			if (Continue) goto _fo;
 			report("Symbolic link");
 		} else if (a != 0xFFFFFFFF) { // Not invalid
+_fo:
 			f = CreateFileW(_currf,
 				GENERIC_READ, FILE_SHARE_READ, NULL,
 				OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
@@ -135,17 +133,38 @@ EWFO:		_wprintf_p(
 		}
 #else // POSIX
 		struct stat s;
-		if (stat(_currf, &s) == 0) {
-			if (s.st_mode & S_IFDIR) {
+		if (lstat(_currf, &s) == 0) {
+			switch (s.st_mode & S_IFMT) { // stat(2)
+			case S_IFBLK:
+				report("Block device\n");
+				break;
+			case S_IFCHR:
+				report("Character device\n");
+				break;
+			case S_IFDIR:
 				report("Directory");
-			} else if (s.st_mode & S_IFREG) {
-				f = fopen(_currf, "rb"); // maybe use _s?
+				break;
+			case S_IFIFO:
+				report("FIFO/pipe\n");
+				break;
+			case S_IFLNK:
+				if (Continue) goto _fo;
+				reportn("Symbolic link to ");
+				char p[512];
+				realpath(_currf, p);
+				printf("\"%s\"\n", p);
+				break;
+			case S_IFREG:
+_fo:			f = fopen(_currf, "rb"); // maybe use _s?
 				if (!f) {
 					puts("There was an issue opening the file.");
 					return 2;
 				}
 				scan();
 				fclose(f);
+				break;
+			case S_IFSOCK: printf("socket\n"); break;
+			default: report_unknown(); break;
 			}
 		} else {
 			perror("E:");
