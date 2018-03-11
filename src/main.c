@@ -104,8 +104,8 @@ MAIN {
 #ifdef _WIN32
 		uint32_t a = GetFileAttributesW(_currf);
 		if (a == 0xFFFFFFFF) { // INVALID_FILE_ATTRIBUTES
-			_wprintf_p(
-				L"#E Entry does not exist or is invalid: %s\n",
+EWFO:		_wprintf_p(
+				L"#E Could not open file: %s\n",
 				_currf
 			);
 			return 1;
@@ -115,7 +115,7 @@ MAIN {
 		} else if (a & 0x400) { // FILE_ATTRIBUTE_REPARSE_POINT
 			if (Continue) goto _fo;
 			report("Symbolic link");
-		} else if (a != 0xFFFFFFFF) { // Not invalid
+		} else { // Not invalid at this point
 _fo:		f = CreateFileW(_currf,
 				GENERIC_READ, FILE_SHARE_READ, NULL,
 				OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
@@ -123,12 +123,6 @@ _fo:		f = CreateFileW(_currf,
 				goto EWFO;
 			scan(); 
 			CloseHandle(f);
-		} else { // avoids trying to open the invalid file
-EWFO:		_fwprintf_p(stderr,
-				L"#E Could not open file: %s\n",
-				_currf
-			);
-			return 2;
 		}
 #else // POSIX
 		struct stat s;
