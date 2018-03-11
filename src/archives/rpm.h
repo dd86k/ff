@@ -1,12 +1,12 @@
 struct rpm_hdr {
 	//char[4] magic;
-	unsigned char major;
-	unsigned char minor;
-	unsigned short type;
-	unsigned short archnum;
+	uint8_t major;
+	uint8_t minor;
+	uint16_t type;
+	uint16_t archnum;
 	char name[66];
-	unsigned short osnum;
-	unsigned short signature_type;
+	uint16_t osnum;
+	uint16_t signature_type;
 	//char reserved[16];
 };
 

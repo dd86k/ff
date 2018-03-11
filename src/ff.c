@@ -40,7 +40,7 @@
 #include "vdisk/qed.h"
 
 void scan() {
-	unsigned int s;
+	uint32_t s;
 	if (_ddread(&s, 4)) {
 		puts("E: Could not read file.");
 		return;
@@ -50,7 +50,7 @@ void scan() {
 	case 0x00000100: {
 		char b[12];
 		_ddread(&b, sizeof(b));
-		unsigned int *p = (unsigned int *)&b;
+		uint32_t *p = (uint32_t *)&b;
 		switch (*p) { // b[0..4]
 		case 0x5349534D: // "MSIS"
 			report("Microsoft Money");
@@ -186,7 +186,7 @@ void scan() {
 	case 0x18000000:
 	case 0x1C000000:
 	case 0x20000000: {
-		unsigned int b[2];
+		uint32_t b[2];
 		_ddread(&b, sizeof(b));
 		switch (*b) {
 		case 0x70797466: // "ftyp"
@@ -586,7 +586,7 @@ void scan() {
 			return;
 
 		default:
-			switch ((unsigned short)s) {
+			switch ((uint16_t)s) {
 			case 0x9D1F:
 				report("Lempel-Ziv-Welch archive (RAR/ZIP)");
 				return;

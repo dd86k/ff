@@ -1,16 +1,16 @@
 #define STARTPOS 944
 
 struct palmdoc_hdr {
-    unsigned short Compression;
-    unsigned short Reserved;
+    uint16_t Compression;
+    uint16_t Reserved;
     unsigned long int TextLength;
-    unsigned short RecordCount;
-	unsigned short RecordSize;
+    uint16_t RecordCount;
+	uint16_t RecordSize;
     union {
         unsigned long int CurrentPosition;
         struct { // MOBI
-            unsigned short Encryption;
-			unsigned short Reversed;
+            uint16_t Encryption;
+			uint16_t Reversed;
         };
     };
 };

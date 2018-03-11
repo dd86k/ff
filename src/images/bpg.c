@@ -9,8 +9,8 @@ void scan_bpg(void) {
     struct heic_hdr h;
     _ddread(&h, sizeof(h));
 
-    unsigned int width = fread_l(4);
-    unsigned int height = fread_l(4);
+    uint32_t width = fread_l(4);
+    uint32_t height = fread_l(4);
 
     reportn("Better Portable Graphics image, ");
 

@@ -1,9 +1,9 @@
 struct iscab_hdr {
 	//uint magic;
-	unsigned int version;
-	unsigned int volumeinfo;
-	unsigned int desc_offset;
-	unsigned int desc_size;
+	uint32_t version;
+	uint32_t volumeinfo;
+	uint32_t desc_offset;
+	uint32_t desc_size;
 };
 
 #define LEGACY    0x000CC9B8

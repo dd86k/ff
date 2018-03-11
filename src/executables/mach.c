@@ -4,14 +4,14 @@
 #include "mach.h"
 #include <stdio.h>
 
-void scan_mach(unsigned int s) {
+void scan_mach(uint32_t s) {
 	char reversed = 0;
 	char fat = 0;
 
-	unsigned int filetype;
-	unsigned int cpu_type;
-	unsigned int cpu_subtype;
-	unsigned int flags;
+	uint32_t filetype;
+	uint32_t cpu_type;
+	uint32_t cpu_subtype;
+	uint32_t flags;
 
 	reportn("Mach-O ");
 

@@ -16,7 +16,7 @@ void scan_midi() { // Bigendian
 	default: printf("?"); return;
 	}
 
-	unsigned short div = bswap16(h.division);
+	uint16_t div = bswap16(h.division);
 	printf(", %d tracks at ", bswap16(h.number));
 	if (div & 0x8000) // Negative, SMPTE units
 		printf("%d ticks/frame (SMPTE: %d)\n", div & 0xFF, div >> 8 & 0xFF);

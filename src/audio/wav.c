@@ -6,7 +6,7 @@
 
 // http://www-mmsp.ece.mcgill.ca/Documents/AudioFormats/WAVE/WAVE.html
 void scan_wav() {
-	unsigned int s;
+	uint32_t s;
 	_ddread(&s, 4);
 	if (s != FMT_CHUNK) // Time to find the right chunk type
 		do { // Skip useless chunks
@@ -37,7 +37,7 @@ void scan_wav() {
 	default: printf("%d channels\n", h.channels); break;
 	}
 	if (More) {
-		unsigned char guid[16];
+		uint8_t guid[16];
 		_ddseek(8, SEEK_CUR);
 		_ddread(&guid, sizeof(guid));
 		printf("EXTENDED:");

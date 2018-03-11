@@ -108,11 +108,11 @@ void _printfd(unsigned long long l) {
 		printf("%lldB", l);
 }
 
-unsigned short bswap16(unsigned short s) {
+uint16_t bswap16(uint16_t s) {
 	return (s & 0xff00) >> 8 | (s & 0xff) << 8;
 }
 
-unsigned int bswap32(unsigned int s) {
+uint32_t bswap32(uint32_t s) {
 	return
 		(s & 0x000000ff) << 24 |
 		(s & 0x0000ff00) << 8 |
@@ -136,7 +136,7 @@ unsigned long long bswap64(unsigned long long s) {
 	return s;
 }
 
-void print_array(unsigned char *a, size_t s) {
+void print_array(uint8_t *a, size_t s) {
 	while (--s) {
 		printf(" %02X", *a); ++a;
 	}

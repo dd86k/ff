@@ -105,7 +105,7 @@ MAIN {
 		}
 		_currf = argv[argc];
 #ifdef _WIN32
-		unsigned int a = GetFileAttributesW(_currf);
+		uint32_t a = GetFileAttributesW(_currf);
 		if (a == 0xFFFFFFFF) { // INVALID_FILE_ATTRIBUTES
 			_wprintf_p(
 				L"E: Entry does not exist or is invalid: %s\n",

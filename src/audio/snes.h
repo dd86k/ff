@@ -1,9 +1,9 @@
 struct spc2_hdr {
 	//char[5] magic;
 	char magic_padding;
-	unsigned char major;
-	unsigned char minor;
-	unsigned short entries;
+	uint8_t major;
+	uint8_t minor;
+	uint16_t entries;
 };
 
 void scan_kspc(void);

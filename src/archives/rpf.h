@@ -6,4 +6,4 @@ struct rpf_hdr {
 	int encrypted;
 };
 
-void scan_rpf(unsigned int);
+void scan_rpf(uint32_t);

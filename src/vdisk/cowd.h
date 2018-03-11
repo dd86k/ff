@@ -3,33 +3,33 @@
 #define COWDISK_MAX_DESC_LEN 512
 
 struct Root {
-	unsigned int cylinders;
-	unsigned int heads;
-	unsigned int sectors;
+	uint32_t cylinders;
+	uint32_t heads;
+	uint32_t sectors;
 };
 struct Child {
 	char parentFileName[COWDISK_MAX_PARENT_FILELEN];
-	unsigned int parentGeneration;
+	uint32_t parentGeneration;
 };
 struct COWDisk_Header {
 	//uint magicNumber;
-	unsigned int version;
-	unsigned int flags;
-	unsigned int numSectors;
-	unsigned int grainSize;
-	unsigned int gdOffset;
-	unsigned int numGDEntries;
-	unsigned int freeSector;
+	uint32_t version;
+	uint32_t flags;
+	uint32_t numSectors;
+	uint32_t grainSize;
+	uint32_t gdOffset;
+	uint32_t numGDEntries;
+	uint32_t freeSector;
 	union {
 		struct Root root;
 		struct Child child;
 	};
-	unsigned int generation;
+	uint32_t generation;
 	char name[COWDISK_MAX_NAME_LEN];
 	char description[COWDISK_MAX_DESC_LEN];
-	unsigned int savedGeneration;
+	uint32_t savedGeneration;
 	char reserved[8];
-	unsigned int uncleanShutdown;
+	uint32_t uncleanShutdown;
 	//char[396] padding;
 };
 

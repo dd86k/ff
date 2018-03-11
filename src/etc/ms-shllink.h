@@ -1,18 +1,18 @@
 struct ShellLinkHeader {
-	//unsigned int magic; // HeaderSize
-	unsigned char clsid[16]; /// Class identifier. MUST be 00021401-0000-0000-C000-000000000046.
-	unsigned int flags; /// Link attributes
-	unsigned int attrs; /// File attributes
+	//uint32_t magic; // HeaderSize
+	uint8_t clsid[16]; /// Class identifier. MUST be 00021401-0000-0000-C000-000000000046.
+	uint32_t flags; /// Link attributes
+	uint32_t attrs; /// File attributes
 	unsigned long long creation_time;
 	unsigned long long access_time;
 	unsigned long long write_time;
-	unsigned int filesize;
-	unsigned int icon_index;
-	unsigned int show_command;
-	unsigned short hotkey;
-	unsigned short res1;
-	unsigned int res2;
-	unsigned int res3;
+	uint32_t filesize;
+	uint32_t icon_index;
+	uint32_t show_command;
+	uint16_t hotkey;
+	uint16_t res1;
+	uint32_t res2;
+	uint32_t res3;
 };
 
 #define SW_SHOWNORMAL 1

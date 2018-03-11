@@ -41,6 +41,7 @@ echo "*************************"
 echo
 
 if [ ! -d bin ]; then mkdir bin; fi
+# Cheap, but working workaround
 cd bin
 for f in ../src/**/*.c ../src/*.c; do
 	echo [$CC] $f

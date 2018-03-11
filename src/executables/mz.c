@@ -14,11 +14,11 @@ void scan_mz() {
         goto _MZ;
     }
 
-	unsigned int p;
+	uint32_t p;
 	_ddread(&p, 4);
 
     if (p) {
-        unsigned short sig;
+        uint16_t sig;
         if (_ddseek(p, SEEK_SET)) goto _MZ;
         _ddread(&sig, sizeof(sig));
         switch (sig) {

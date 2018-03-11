@@ -1,1 +1,1 @@
-unsigned int fread_l(int);
+uint32_t fread_l(int);

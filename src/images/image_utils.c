@@ -5,11 +5,11 @@
  *   max = Maximum amount of bytes to travel before stopping
  * Returns: Value from current file position
  */
-unsigned int fread_l(int max) {
+uint32_t fread_l(int max) {
 	//TODO: Consider pointer arithmetics for ue(64) numbers!
-    unsigned int r = 0; // result
-    unsigned char b; // buffer
-    unsigned int s = 0; // Shift
+    uint32_t r = 0; // result
+    uint8_t b; // buffer
+    uint32_t s = 0; // Shift
     do {
         _ddread(&b, 1);
         r |= b & 0x7F;

@@ -26,7 +26,7 @@ void scan_elf() {
  * Print the ELF's class type (32/64-bit)
  * Params: c = Unsigned byte
  */
-void elf_print_class(unsigned char c) {
+void elf_print_class(uint8_t c) {
     switch (c) {
     case 1: printf("32 "); break;
     case 2: printf("64 "); break;
@@ -38,7 +38,7 @@ void elf_print_class(unsigned char c) {
  * Print the ELF's data type (LE/BE)
  * Params: c = Unsigned byte
  */
-void elf_print_data(unsigned char c) {
+void elf_print_data(uint8_t c) {
     switch (c) {
     case 1: printf("LE "); break;
     case 2: printf("BE "); break;
@@ -50,7 +50,7 @@ void elf_print_data(unsigned char c) {
  * Print the ELF's OS ABI (calling convention)
  * Params: c = Unsigned byte
  */
-void elf_print_osabi(unsigned char c) {
+void elf_print_osabi(uint8_t c) {
     switch (c) {
     default:   printf("DECL?"); break;
     case 0x00: printf("System V"); break;
@@ -73,9 +73,9 @@ void elf_print_osabi(unsigned char c) {
 
 /**
  * Print the ELF's type (exec/lib/etc.)
- * Params: c = Unsigned short
+ * Params: c = uint16_t
  */
-void elf_print_type(unsigned short c) {
+void elf_print_type(uint16_t c) {
     switch (c) {
     default:        printf("?"); break;
     case ET_NONE:   printf("(No file type)"); break;
@@ -90,9 +90,9 @@ void elf_print_type(unsigned short c) {
 
 /**
  * Print the ELF's machine type (system)
- * Params: c = Unsigned short
+ * Params: c = uint16_t
  */
-void elf_print_machine(unsigned short c) {
+void elf_print_machine(uint16_t c) {
     switch (c) {
     case EM_NONE:    printf("no"); break;
     case EM_M32:     printf("AT&T WE 32100 (M32)"); break;

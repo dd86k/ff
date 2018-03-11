@@ -4,47 +4,47 @@
 #define VDI_IMAGE_COMMENT_SIZE 256
 
 struct vdi_hdr { // Excludes char[64]
-	unsigned int magic;
-	unsigned short majorv;
-	unsigned short minorv;
+	uint32_t magic;
+	uint16_t majorv;
+	uint16_t minorv;
 };
 struct VDIDISKGEOMETRY {
-	unsigned int cCylinders;
-	unsigned int cHeads;
-	unsigned int cSectors;
-	unsigned int cbSector;
+	uint32_t cCylinders;
+	uint32_t cHeads;
+	uint32_t cSectors;
+	uint32_t cbSector;
 };
 struct VDIHEADER0 { // Major v0
-	unsigned int u32Type;
-	unsigned int fFlags;
+	uint32_t u32Type;
+	uint32_t fFlags;
 	char szComment[VDI_IMAGE_COMMENT_SIZE];
 	struct VDIDISKGEOMETRY LegacyGeometry;
 	unsigned long long cbDisk;
-	unsigned int cbBlock;
-	unsigned int cBlocks;
-	unsigned int cBlocksAllocated;
-	unsigned char uuidCreate[16];
-	unsigned char uuidModify[16];
-	unsigned char uuidLinkage[16];
+	uint32_t cbBlock;
+	uint32_t cBlocks;
+	uint32_t cBlocksAllocated;
+	uint8_t uuidCreate[16];
+	uint8_t uuidModify[16];
+	uint8_t uuidLinkage[16];
 };
 struct VDIHEADER1 { // Major v1
-	unsigned int cbHeader;
-	unsigned int u32Type;
-	unsigned int fFlags;
+	uint32_t cbHeader;
+	uint32_t u32Type;
+	uint32_t fFlags;
 	char szComment[VDI_IMAGE_COMMENT_SIZE];
-	unsigned int offBlocks;
-	unsigned int offData;
+	uint32_t offBlocks;
+	uint32_t offData;
 	struct VDIDISKGEOMETRY LegacyGeometry;
-	unsigned int u32Dummy;
+	uint32_t u32Dummy;
 	unsigned long long cbDisk;
-	unsigned int cbBlock;
-	unsigned int cbBlockExtra;
-	unsigned int cBlocks;
-	unsigned int cBlocksAllocated;
-	unsigned char uuidCreate[16];
-	unsigned char uuidModify[16];
-	unsigned char uuidLinkage[16];
-	unsigned char uuidParentModify[16];
+	uint32_t cbBlock;
+	uint32_t cbBlockExtra;
+	uint32_t cBlocks;
+	uint32_t cBlocksAllocated;
+	uint8_t uuidCreate[16];
+	uint8_t uuidModify[16];
+	uint8_t uuidLinkage[16];
+	uint8_t uuidParentModify[16];
 };
 
 void scan_vdi(void);

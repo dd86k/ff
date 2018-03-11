@@ -4,16 +4,16 @@
 
 struct qed_hdr {
 	//uint magic;
-	unsigned int cluster_size;
-	unsigned int table_size;
-	unsigned int header_size;
+	uint32_t cluster_size;
+	uint32_t table_size;
+	uint32_t header_size;
 	unsigned long long features;
 	unsigned long long compat_features;
 	unsigned long long autoclear_features;
 	unsigned long long l1_table_offset;
 	unsigned long long image_size;
-	unsigned int backing_filename_offset;
-	unsigned int backing_filename_size;
+	uint32_t backing_filename_offset;
+	uint32_t backing_filename_size;
 };
 
 void scan_qed(void);

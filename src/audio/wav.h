@@ -1,15 +1,15 @@
 struct fmt_chunk {
 	//char[4] id;
-	unsigned int cksize;
-	unsigned short format;
-	unsigned short channels;
-	unsigned int samplerate; // Blocks per second
-	unsigned int datarate; // Bytes/s
-	unsigned short blockalign;
-	unsigned short samplebits; // Bits per sample
-	unsigned short extensionsize;
-	unsigned short nbvalidbits;
-	unsigned int speakmask; // Speaker position mask
+	uint32_t cksize;
+	uint16_t format;
+	uint16_t channels;
+	uint32_t samplerate; // Blocks per second
+	uint32_t datarate; // Bytes/s
+	uint16_t blockalign;
+	uint16_t samplebits; // Bits per sample
+	uint16_t extensionsize;
+	uint16_t nbvalidbits;
+	uint32_t speakmask; // Speaker position mask
 };
 #define FMT_CHUNK 0x20746D66 // "fmt "
 // Types

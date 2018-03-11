@@ -1,12 +1,12 @@
 struct ihdr_chunk_full { // Includes CRC
-	unsigned int width;        // START IHDR
-	unsigned int height;
-	unsigned char depth;       // bit depth
-	unsigned char color;       // color type
-	unsigned char compression;
-	unsigned char filter;
-	unsigned char interlace;   // END IHDR
-	unsigned int crc;
+	uint32_t width;        // START IHDR
+	uint32_t height;
+	uint8_t depth;       // bit depth
+	uint8_t color;       // color type
+	uint8_t compression;
+	uint8_t filter;
+	uint8_t interlace;   // END IHDR
+	uint32_t crc;
 };
 /*enum { // Types -- future use?
 	IHDR = 0x52444849,

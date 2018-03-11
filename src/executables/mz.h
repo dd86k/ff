@@ -1,22 +1,22 @@
 #define ERESWDS 0x10
 
 struct mz_hdr {
-	unsigned short e_magic;        // Magic number
-	unsigned short e_cblp;         // Bytes on last page of file
-	unsigned short e_cp;           // Pages in file
-	unsigned short e_crlc;         // Relocations
-	unsigned short e_cparh;        // Size of header in paragraphs
-	unsigned short e_minalloc;     // Minimum extra paragraphs needed
-	unsigned short e_maxalloc;     // Maximum extra paragraphs needed
-	unsigned short e_ss;           // Initial (relative) SS value
-	unsigned short e_sp;           // Initial SP value
-	unsigned short e_csum;         // Checksum
-	unsigned short e_ip;           // Initial IP value
-	unsigned short e_cs;           // Initial (relative) CS value
-	unsigned short e_lfarlc;       // File address of relocation table
-	unsigned short e_ovno;         // Overlay number
-	unsigned short e_res[ERESWDS]; // Reserved words
-	unsigned int e_lfanew;    // File address of new exe header (usually at 3Ch)
+	uint16_t e_magic;        // Magic number
+	uint16_t e_cblp;         // Bytes on last page of file
+	uint16_t e_cp;           // Pages in file
+	uint16_t e_crlc;         // Relocations
+	uint16_t e_cparh;        // Size of header in paragraphs
+	uint16_t e_minalloc;     // Minimum extra paragraphs needed
+	uint16_t e_maxalloc;     // Maximum extra paragraphs needed
+	uint16_t e_ss;           // Initial (relative) SS value
+	uint16_t e_sp;           // Initial SP value
+	uint16_t e_csum;         // Checksum
+	uint16_t e_ip;           // Initial IP value
+	uint16_t e_cs;           // Initial (relative) CS value
+	uint16_t e_lfarlc;       // File address of relocation table
+	uint16_t e_ovno;         // Overlay number
+	uint16_t e_res[ERESWDS]; // Reserved words
+	uint32_t e_lfanew;    // File address of new exe header (usually at 3Ch)
 };
 
 void scan_mz(void);

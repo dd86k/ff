@@ -27,7 +27,7 @@ void scan_lnk() {
 			if (high & 0x0400)
 				printl("alt+");
 		}
-		unsigned char low = (unsigned char)h.hotkey;
+		uint8_t low = (uint8_t)h.hotkey;
 		if (low) {
 			if (low >= 0x30 && low <= 0x5A)
 				printf("%c", low);
@@ -43,7 +43,7 @@ void scan_lnk() {
 
 	/*if (h.flags & HasLinkTargetIDList &&
 		h.flags & HasLinkInfo) {
-		unsigned short l;
+		uint16_t l;
 		_ddread(&l, 2); // Read IDListSize
 		// Skip LinkTargetIDList to LinkInfo->LocalBasePath
 		_ddseek(l + 47, SEEK_CUR);

@@ -1,11 +1,6 @@
 #include "ff.h"
 #include <stdint.h>
 
-typedef uint8_t u8;
-typedef uint16_t u16;
-typedef uint32_t u32;
-typedef uint64_t u64;
-
 #ifdef _WIN32
 #include <Windows.h>
 #include <WinBase.h>
@@ -21,10 +16,10 @@ int _strcmpw_l(wchar_t *, wchar_t *, size_t);
 #endif
 void isoslice(char *, char *, size_t);
 
-void print_array(unsigned char *, size_t);
+void print_array(uint8_t *, size_t);
 
-unsigned short bswap16(unsigned short);
-unsigned int bswap32(unsigned int);
+uint16_t bswap16(uint16_t);
+uint32_t bswap32(uint32_t);
 unsigned long long bswap64(unsigned long long);
 
 #define GB 1073741824

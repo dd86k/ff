@@ -1,22 +1,22 @@
 struct cfb_header {
 	//ulong magic;
-	unsigned int magic; // reduced magic
-	unsigned char clsid[16]; // CLSID_NULL
-	unsigned short minor;
-	unsigned short major;
-	unsigned short byte_order;
-	unsigned short shift; /// Sector Shift
-	unsigned short mini_shift; /// Mini Sector Shift
-	unsigned char res[6];
-	unsigned int dir_sectors;
-	unsigned int fat_sectors;
-	unsigned int first_dir_sector;
-	unsigned int trans_sig; /// Transaction Signature Number
-	unsigned int mini_stream_cutsize;
-	unsigned int first_mini_fat_loc;
-	unsigned int mini_fat_sectors; /// Number of Mini FAT Sectors
-	unsigned int first_difat_loc; /// First DIFAT Sector Location
-	unsigned int difat_sectors; /// Number of DIFAT Sectors
+	uint32_t magic; // reduced magic
+	uint8_t clsid[16]; // CLSID_NULL
+	uint16_t minor;
+	uint16_t major;
+	uint16_t byte_order;
+	uint16_t shift; /// Sector Shift
+	uint16_t mini_shift; /// Mini Sector Shift
+	uint8_t res[6];
+	uint32_t dir_sectors;
+	uint32_t fat_sectors;
+	uint32_t first_dir_sector;
+	uint32_t trans_sig; /// Transaction Signature Number
+	uint32_t mini_stream_cutsize;
+	uint32_t first_mini_fat_loc;
+	uint32_t mini_fat_sectors; /// Number of Mini FAT Sectors
+	uint32_t first_difat_loc; /// First DIFAT Sector Location
+	uint32_t difat_sectors; /// Number of DIFAT Sectors
 	//ubyte[436] difat;
 };
 

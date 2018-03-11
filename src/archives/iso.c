@@ -36,7 +36,7 @@ void scan_block(char *buf) {
 	case PRIMARY_VOL_DESC:
 		isoslice(buf + 40, label, 31); // 40..71
 		volume_size = // size * blocksize
-			*(unsigned long int*)(&buf[80]) * *(unsigned short*)(&buf[128]);
+			*(unsigned long int*)(&buf[80]) * *(uint16_t*)(&buf[128]);
 		if (More) {
 			isoslice(buf + 8, _system, sizeof(_system));
 			isoslice(buf + 190, voliden, sizeof(voliden)); // 190..318
@@ -76,12 +76,12 @@ void isodate(char *s) {
 	//2017-01-13 18:20:44.00+3540
 
 	// The middle casting is due to clang's superb implicit casting warning
-	*(unsigned short *)(s + 20) = (unsigned short)*(unsigned short *)(s + 14); // ms
-	*(unsigned short *)(s + 17) = (unsigned short)*(unsigned short *)(s + 12); // s
-	*(unsigned short *)(s + 14) = (unsigned short)*(unsigned short *)(s + 10); // m
-	*(unsigned short *)(s + 11) = (unsigned short)*(unsigned short *)(s + 8); // h
-	*(unsigned short *)(s + 8)  = (unsigned short)*(unsigned short *)(s + 6); // D
-	*(unsigned short *)(s + 5)  = (unsigned short)*(unsigned short *)(s + 4); // M
+	*(uint16_t *)(s + 20) = (uint16_t)*(uint16_t *)(s + 14); // ms
+	*(uint16_t *)(s + 17) = (uint16_t)*(uint16_t *)(s + 12); // s
+	*(uint16_t *)(s + 14) = (uint16_t)*(uint16_t *)(s + 10); // m
+	*(uint16_t *)(s + 11) = (uint16_t)*(uint16_t *)(s + 8); // h
+	*(uint16_t *)(s + 8)  = (uint16_t)*(uint16_t *)(s + 6); // D
+	*(uint16_t *)(s + 5)  = (uint16_t)*(uint16_t *)(s + 4); // M
 	s[4] = s[7] = '-';
 	s[10] = ' ';
 	s[13] = s[16] = ':';

@@ -1,18 +1,18 @@
 struct fat_header {
 	//uint magic; // 0x1F0E70FA
-	unsigned short version_;
-	unsigned char num_records;
-	unsigned char reserved0;
+	uint16_t version_;
+	uint8_t num_records;
+	uint8_t reserved0;
 };
 
 struct fat_subheader_v1 {
-	unsigned short machine; /* maps to e_machine. */
-	unsigned char osabi;           /* maps to e_ident[EI_OSABI]. */ 
-	unsigned char osabi_version;   /* maps to e_ident[EI_ABIVERSION]. */
-	unsigned char word_size;       /* maps to e_ident[EI_CLASS]. */
-	unsigned char byte_order;      /* maps to e_ident[EI_DATA]. */
-	unsigned char reserved0;
-	unsigned char reserved1;
+	uint16_t machine; /* maps to e_machine. */
+	uint8_t osabi;           /* maps to e_ident[EI_OSABI]. */ 
+	uint8_t osabi_version;   /* maps to e_ident[EI_ABIVERSION]. */
+	uint8_t word_size;       /* maps to e_ident[EI_CLASS]. */
+	uint8_t byte_order;      /* maps to e_ident[EI_DATA]. */
+	uint8_t reserved0;
+	uint8_t reserved1;
 	unsigned long long offset;
 	unsigned long long size;
 };

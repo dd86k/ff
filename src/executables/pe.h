@@ -1,65 +1,65 @@
 struct PE_HEADER {
-	u8  Signature[2]; // Padding
-	u16 Machine;
-	u16 NumberOfSections;
-	u32 TimeDateStamp;
-	u32 PointerToSymbolTable;
-	u32 NumberOfSymbols;
-	u16 SizeOfOptionalHeader;
-	u16 Characteristics;
+	uint8_t  Signature[2]; // Padding
+	uint16_t Machine;
+	uint16_t NumberOfSections;
+	uint32_t TimeDateStamp;
+	uint32_t PointerToSymbolTable;
+	uint32_t NumberOfSymbols;
+	uint16_t SizeOfOptionalHeader;
+	uint16_t Characteristics;
 };
 
 // https://msdn.microsoft.com/en-us/library/windows/desktop/ms680339(v=vs.85).aspx
 struct PE_OPTIONAL_HEADER {
-	u16 magic; // "Format"
-	u8  MajorLinkerVersion;
-	u8  MinorLinkerVersion;
-	u32 SizeOfCode;
-	u32 SizeOfInitializedData;
-	u32 SizeOfUninitializedData;
-	u32 AddressOfEntryPoint;
-	u32 BaseOfCode;
-	u32 BaseOfData;
-	u32 ImageBase;
-	u32 SectionAlignment;
-	u32 FileAlignment;
-	u16 MajorOperatingSystemVersion;
-	u16 MinorOperatingSystemVersion;
-	u16 MajorImageVersion;
-	u16 MinorImageVersion;
-	u16 MajorSubsystemVersion;
-	u16 MinorSubsystemVersion;
-	u32 Win32VersionValue;
-	u32 SizeOfImage;
-	u32 SizeOfHeaders;
-	u32 CheckSum;
-	u16 Subsystem;
-	u16 DllCharacteristics;
-	u32 SizeOfStackReserve;
-	u32 SizeOfStackCommit;
-	u32 SizeOfHeapReserve;
-	u32 SizeOfHeapCommit;
-	u32 LoaderFlags; // Obsolete
-	u32 NumberOfRvaAndSizes;
+	uint16_t magic; // "Format"
+	uint8_t  MajorLinkerVersion;
+	uint8_t  MinorLinkerVersion;
+	uint32_t SizeOfCode;
+	uint32_t SizeOfInitializedData;
+	uint32_t SizeOfUninitializedData;
+	uint32_t AddressOfEntryPoint;
+	uint32_t BaseOfCode;
+	uint32_t BaseOfData;
+	uint32_t ImageBase;
+	uint32_t SectionAlignment;
+	uint32_t FileAlignment;
+	uint16_t MajorOperatingSystemVersion;
+	uint16_t MinorOperatingSystemVersion;
+	uint16_t MajorImageVersion;
+	uint16_t MinorImageVersion;
+	uint16_t MajorSubsystemVersion;
+	uint16_t MinorSubsystemVersion;
+	uint32_t Win32VersionValue;
+	uint32_t SizeOfImage;
+	uint32_t SizeOfHeaders;
+	uint32_t CheckSum;
+	uint16_t Subsystem;
+	uint16_t DllCharacteristics;
+	uint32_t SizeOfStackReserve;
+	uint32_t SizeOfStackCommit;
+	uint32_t SizeOfHeapReserve;
+	uint32_t SizeOfHeapCommit;
+	uint32_t LoaderFlags; // Obsolete
+	uint32_t NumberOfRvaAndSizes;
 };
 
 // IMAGE_NUMBEROF_DIRECTORY_ENTRIES = 16
 struct IMAGE_DATA_DIRECTORY {
-	u64 ExportTable;
-	u64 ImportTable;
-	u64 ResourceTable;
-	u64 ExceptionTable;
-	u64 CertificateTable;
-	u64 BaseRelocationTable;
-	u64 DebugDirectory;
-	u64 ArchitectureData;
-	u64 GlobalPtr;
-	u64 TLSTable;
-	u64 LoadConfigurationTable;
-	u64 BoundImportTable;
-	u64 ImportAddressTable;
-	u64 DelayImport;
-	u64 CLRHeader;
+	uint64_t ExportTable;
+	uint64_t ImportTable;
+	uint64_t ResourceTable;
+	uint64_t ExceptionTable;
+	uint64_t CertificateTable;
+	uint64_t BaseRelocationTable;
+	uint64_t DebugDirectory;
+	uint64_t ArchitectureData;
+	uint64_t GlobalPtr;
+	uint64_t TLSTable;
+	uint64_t LoadConfigurationTable;
+	uint64_t BoundImportTable;
+	uint64_t ImportAddressTable;
+	uint64_t DelayImport;
+	uint64_t CLRHeader;
 	//ulong Reserved;
 };
 

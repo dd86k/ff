@@ -31,25 +31,25 @@
 #define EM_AARCH64 0xB7 // 64-bit ARM
 
 struct Elf32_Ehdr {
-    unsigned char e_ident[EI_NIDENT-4]; // Excludes magic
-    unsigned short e_type;
-    unsigned short e_machine;
-    unsigned int e_version;
-    /*unsigned int e_entry; // Don't need the rest
-    unsigned int e_phoff;
-    unsigned int e_shoff;
-    unsigned int e_flags;
-    unsigned short e_ehsize;
-    unsigned short e_phentsize;
-    unsigned short e_phnum;
-    unsigned short e_shentsize;
-    unsigned short e_shnum;
-    unsigned short e_shstrndx;*/
+    uint8_t e_ident[EI_NIDENT-4]; // Excludes magic
+    uint16_t e_type;
+    uint16_t e_machine;
+    uint32_t e_version;
+    /*uint32_t e_entry; // Don't need the rest
+    uint32_t e_phoff;
+    uint32_t e_shoff;
+    uint32_t e_flags;
+    uint16_t e_ehsize;
+    uint16_t e_phentsize;
+    uint16_t e_phnum;
+    uint16_t e_shentsize;
+    uint16_t e_shnum;
+    uint16_t e_shstrndx;*/
 };
 
 void scan_elf(void);
-void elf_print_class(unsigned char);
-void elf_print_data(unsigned char);
-void elf_print_osabi(unsigned char);
-void elf_print_type(unsigned short);
-void elf_print_machine(unsigned short);
+void elf_print_class(uint8_t);
+void elf_print_data(uint8_t);
+void elf_print_osabi(uint8_t);
+void elf_print_type(uint16_t);
+void elf_print_machine(uint16_t);

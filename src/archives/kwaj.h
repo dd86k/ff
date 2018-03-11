@@ -1,8 +1,8 @@
 struct kwaj_hdr {
 	char magic[4]; // halven
-	unsigned short method; // compressed method
-	unsigned short offset;
-	unsigned short header; // header flag
+	uint16_t method; // compressed method
+	uint16_t offset;
+	uint16_t header; // header flag
 };
 
 #define ULENGHT 1 // 4 bytes, uncompressed data length

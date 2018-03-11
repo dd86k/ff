@@ -1,10 +1,10 @@
 struct e32_hdr {
     //char[2] e32_magic; // "LX" or "LE"
-    unsigned char e32_border;  // Byte order
-    unsigned char e32_worder;  // Word order
+    uint8_t e32_border;  // Byte order
+    uint8_t e32_worder;  // Word order
     unsigned long int e32_level;    // LE/LX Version
-    unsigned short e32_cpu;    // CPU
-    unsigned short e32_os;     // OS
+    uint16_t e32_cpu;    // CPU
+    uint16_t e32_os;     // OS
     unsigned long int e32_ver;      // Module version
     unsigned long int e32_mflags;   // Module flags
     unsigned long int e32_mpages;   // # Module pages

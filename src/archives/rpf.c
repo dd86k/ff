@@ -4,7 +4,7 @@
 #include "rpf.h"
 #include <stdio.h>
 
-void scan_rpf(unsigned int s) {
+void scan_rpf(uint32_t s) {
 	struct rpf_hdr h;
 	_ddread(&h, sizeof(h));
 	reportn("RPF ");

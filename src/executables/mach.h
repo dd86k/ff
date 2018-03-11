@@ -7,26 +7,26 @@
 
 struct mach_header {
 	// 64-bit version just adds a reserved field at the end.
-//	unsigned int magic;      /* mach magic number identifier */
-	unsigned int cputype;    /* cpu specifier */
-	unsigned int cpusubtype; /* machine specifier */
-	unsigned int filetype;   /* type of file */
-	unsigned int ncmds;      /* number of load commands */
-	unsigned int sizeofcmds; /* the size of all the load commands */
-	unsigned int flags;      /* flags */
+//	uint32_t magic;      /* mach magic number identifier */
+	uint32_t cputype;    /* cpu specifier */
+	uint32_t cpusubtype; /* machine specifier */
+	uint32_t filetype;   /* type of file */
+	uint32_t ncmds;      /* number of load commands */
+	uint32_t sizeofcmds; /* the size of all the load commands */
+	uint32_t flags;      /* flags */
 };
 
 struct fatmach_header {
-//	unsigned int magic;
-	unsigned int nfat_arch;
+//	uint32_t magic;
+	uint32_t nfat_arch;
 };
 
 struct fat_arch {
-	unsigned int cputype;
-	unsigned int cpusubtype;
-	unsigned int offset;
-	unsigned int size;
-	unsigned int align;
+	uint32_t cputype;
+	uint32_t cpusubtype;
+	uint32_t offset;
+	uint32_t size;
+	uint32_t align;
 };
 
 enum cpu_type_t {
@@ -92,7 +92,7 @@ enum { // SUBTYPE_32032
 	MMAX_XPC = 5, /* 532 CPU */
 };
 
-/*unsigned int SUBTYPE_INTEL(short f, short m) {
+/*uint32_t SUBTYPE_INTEL(short f, short m) {
 	return f + (m << 4);
 }*/
 
@@ -270,4 +270,4 @@ enum flag_t { //flag_t
 	MH_APP_EXTENSION_SAFE      = 0x02000000
 };
 
-void scan_mach(unsigned int);
+void scan_mach(uint32_t);

@@ -1,12 +1,12 @@
 struct psd_hdr {
-	//unsigned short magic;
-	unsigned short version;
-	unsigned char reserved[6];
-	unsigned short channels;
-	unsigned int height;
-	unsigned int width;
-	unsigned short depth;
-	unsigned short colormode;
+	//uint16_t magic;
+	uint16_t version;
+	uint8_t reserved[6];
+	uint16_t channels;
+	uint32_t height;
+	uint32_t width;
+	uint16_t depth;
+	uint16_t colormode;
 };
 
 void scan_ps();

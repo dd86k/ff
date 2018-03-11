@@ -11,7 +11,7 @@ void scan_flif() {
 
     int width = fread_l(4) + 1;
     int height = fread_l(4) + 1;
-    //unsigned char animf;
+    //uint8_t animf;
 	//_ddread(&animf, 1);
     //const int animf = fread_l + 1; // animation frames
 

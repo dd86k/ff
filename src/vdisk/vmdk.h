@@ -1,21 +1,21 @@
 struct SparseExtentHeader {
 	//uint magicNumber;
-	unsigned int version;
-	unsigned int flags;
+	uint32_t version;
+	uint32_t flags;
 	unsigned long long capacity;
 	unsigned long long grainSize;
 	unsigned long long descriptorOffset;
 	unsigned long long descriptorSize;
-	unsigned int numGTEsPerGT;
+	uint32_t numGTEsPerGT;
 	unsigned long long rgdOffset;
 	unsigned long long gdOffset;
 	unsigned long long overHead;
-	unsigned char uncleanShutdown; // "Bool"
+	uint8_t uncleanShutdown; // "Bool"
 	char singleEndLineChar;
 	char nonEndLineChar;
 	char doubleEndLineChar1;
 	char doubleEndLineChar2;
-	unsigned short compressAlgorithm;
+	uint16_t compressAlgorithm;
 	//ubyte[433] pad;
 };
 //enum COMPRESSED = 1 << 16;
