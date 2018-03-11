@@ -42,7 +42,7 @@
 void scan() {
 	uint32_t s;
 	if (_ddread(&s, 4)) {
-		puts("E: Could not read file.");
+		puts("#E Could not read file.");
 		return;
 	}
 

@@ -12,10 +12,11 @@
 
 void help() {
 	puts(
-		"Print file type with some information if available\n"
+		"Simple binary file scanner\n"
 		"  Usage: ff FILE [OPTIONS]\n"
 		"         ff [OPTIONS]\n"
 		"\nOPTIONS\n"
+		" -c   Continue on soft symbolic link\n"
 		" -m   Print even more information if available\n"
 		" -s   Show name before result\n"
 		" -h, -?   Print this help screen and quits\n"
@@ -38,7 +39,7 @@ void version() {
 }
 
 char _args = 1;
-char Continue = 0;
+char Continue = 0; // on symbolic link
 
 #ifdef _WIN32
 #define MAIN int wmain(int argc, wchar_t **argv)
@@ -56,7 +57,7 @@ void sa(char *a) {
 		case 'c': ++Continue; break;
 		case '-': --_args; return;
 		default:
-			printf("E: -%c: Unknown argument\n", *a);
+			fprintf(stderr, "#E -%c: Unknown argument\n", *a);
 			exit(1);
 		}
 	}
@@ -72,7 +73,7 @@ void sb(wchar_t *a) {
 		help();
 	if (_strcmpw_l(a, O_VERSION, 6) == 0)
 		version();
-	wprintf(L"E: --%s: Unknown argument\n", a);
+	_fwprintf_p(stderr, L"#E --%s: Unknown argument\n", a);
 #else
 #define O_HELP "help"
 #define O_VERSION "version"
@@ -81,7 +82,7 @@ void sb(char *a) {
 		help();
 	if (_strcmp_l(a, O_VERSION, 6) == 0)
 		version();
-	printf("E: --%s: Unknown argument\n", a);
+	fprintf(stderr, "#E --%s: Unknown argument\n", a);
 #endif
 	exit(1);
 }
@@ -104,7 +105,7 @@ MAIN {
 		uint32_t a = GetFileAttributesW(_currf);
 		if (a == 0xFFFFFFFF) { // INVALID_FILE_ATTRIBUTES
 			_wprintf_p(
-				L"E: Entry does not exist or is invalid: %s\n",
+				L"#E Entry does not exist or is invalid: %s\n",
 				_currf
 			);
 			return 1;
@@ -115,18 +116,16 @@ MAIN {
 			if (Continue) goto _fo;
 			report("Symbolic link");
 		} else if (a != 0xFFFFFFFF) { // Not invalid
-_fo:
-			f = CreateFileW(_currf,
+_fo:		f = CreateFileW(_currf,
 				GENERIC_READ, FILE_SHARE_READ, NULL,
 				OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-			if (!f) { //TODO: GetLastError (Windows)
+			if (!f) //TODO: GetLastError (Windows)
 				goto EWFO;
-			}
 			scan(); 
 			CloseHandle(f);
 		} else { // avoids trying to open the invalid file
-EWFO:		_wprintf_p(
-				L"E: There was an issue opening the file: %s\n",
+EWFO:		_fwprintf_p(stderr,
+				L"#E Could not open file: %s\n",
 				_currf
 			);
 			return 2;
@@ -135,18 +134,10 @@ EWFO:		_wprintf_p(
 		struct stat s;
 		if (lstat(_currf, &s) == 0) {
 			switch (s.st_mode & S_IFMT) { // stat(2)
-			case S_IFBLK:
-				report("Block device\n");
-				break;
-			case S_IFCHR:
-				report("Character device\n");
-				break;
-			case S_IFDIR:
-				report("Directory");
-				break;
-			case S_IFIFO:
-				report("FIFO/pipe\n");
-				break;
+			case S_IFBLK: report("Block device\n"); break;
+			case S_IFCHR: report("Character device\n"); break;
+			case S_IFDIR: report("Directory"); break;
+			case S_IFIFO: report("FIFO/pipe\n"); break;
 			case S_IFLNK:
 				if (Continue) goto _fo;
 				reportn("Symbolic link to ");
@@ -157,17 +148,17 @@ EWFO:		_wprintf_p(
 			case S_IFREG:
 _fo:			f = fopen(_currf, "rb"); // maybe use _s?
 				if (!f) {
-					puts("There was an issue opening the file.");
+					fprintf(stderr, "#E Could not open file: %s\n", _currf);
 					return 2;
 				}
 				scan();
 				fclose(f);
 				break;
-			case S_IFSOCK: printf("socket\n"); break;
+			case S_IFSOCK: printf("Socket\n"); break;
 			default: report_unknown(); break;
 			}
 		} else {
-			perror("E:");
+			perror("#E");
 		}
 #endif
 	} // while

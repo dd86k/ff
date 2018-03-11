@@ -6,6 +6,7 @@ REM
 
 REM Script Version
 SET V=1.0
+SET t="\"%date% %time%\""
 
 SET CC=clang-cl
 SET CFLAGS=/Zp /TC -c /Gd /GR-
@@ -40,7 +41,7 @@ FOR /D %%d in (src\*) DO (
 )
 FOR /R %%f in (src\*.c) DO (
 	echo [%CC%] %%f
-	%_COMP% %%f
+	%_COMP% %%f -DTIMESTAMP=%t%
 	IF ERRORLEVEL 1 GOTO :EOF
 )
 echo [%CC%] Linking...
