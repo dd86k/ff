@@ -121,7 +121,7 @@ _fo:		f = CreateFileW(_currf,
 				OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 			if (!f) //TODO: GetLastError (Windows)
 				goto EWFO;
-			scan(); 
+			scan();
 			CloseHandle(f);
 		}
 #else // POSIX
