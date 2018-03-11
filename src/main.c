@@ -51,9 +51,9 @@ void sa(char *a) {
 		switch (*a) {
 		case 'h': case '?': help(); return;
 		case 'v': version(); return;
-		case 'm': ++More; return;
-		case 's': ++ShowName; return;
-		case 'c': ++Continue; return;
+		case 'm': ++More; break;
+		case 's': ++ShowName; break;
+		case 'c': ++Continue; break;
 		case '-': --_args; return;
 		default:
 			printf("E: -%c: Unknown argument\n", *a);
