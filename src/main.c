@@ -57,7 +57,7 @@ void sa(char *a) {
 		case 'c': ++Continue; break;
 		case '-': --_args; return;
 		default:
-			fprintf(stderr, "#E -%c: Unknown argument\n", *a);
+			fprintf(stderr, "E: -%c: Unknown argument\n", *a);
 			exit(1);
 		}
 	}
@@ -73,7 +73,7 @@ void sb(wchar_t *a) {
 		help();
 	if (_strcmpw_l(a, O_VERSION, 6) == 0)
 		version();
-	_fwprintf_p(stderr, L"#E --%s: Unknown argument\n", a);
+	_fwprintf_p(stderr, L"E: --%s: Unknown argument\n", a);
 #else
 #define O_HELP "help"
 #define O_VERSION "version"
@@ -82,7 +82,7 @@ void sb(char *a) {
 		help();
 	if (_strcmp_l(a, O_VERSION, 6) == 0)
 		version();
-	fprintf(stderr, "#E --%s: Unknown argument\n", a);
+	fprintf(stderr, "E: --%s: Unknown argument\n", a);
 #endif
 	exit(1);
 }
@@ -105,7 +105,7 @@ MAIN {
 		uint32_t a = GetFileAttributesW(_currf);
 		if (a == 0xFFFFFFFF) { // INVALID_FILE_ATTRIBUTES
 EWFO:		_fwprintf_p(stderr, //TODO: GetLastError (Windows)
-				L"#E Could not open file: %s\n",
+				L"E: Could not open file: %s\n",
 				_currf
 			);
 			return 1;
@@ -119,12 +119,10 @@ EWFO:		_fwprintf_p(stderr, //TODO: GetLastError (Windows)
 _fo:		f = CreateFileW(_currf,
 				GENERIC_READ, FILE_SHARE_READ, NULL,
 				OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-			if (!f)
-				goto EWFO;
+			if (!f) goto EWFO;
 			switch (GetFileType(f)) {
-			case 0x0001: // FILE_TYPE_DISK
-				report("Disk/block device");
-				return 0;
+			//case 0x0001: // FILE_TYPE_DISK
+			//	return 0; // Normal files fall here, because they're on disk
 			case 0x0002: // FILE_TYPE_CHAR
 				report("Character device");
 				return 0;
@@ -153,7 +151,7 @@ _fo:		f = CreateFileW(_currf,
 			case S_IFREG:
 _fo:			f = fopen(_currf, "rb"); // maybe use _s?
 				if (!f) {
-					fprintf(stderr, "#E Could not open file: %s\n", _currf);
+					fprintf(stderr, "E: Could not open file: %s\n", _currf);
 					return 2;
 				}
 				scan();
@@ -163,7 +161,7 @@ _fo:			f = fopen(_currf, "rb"); // maybe use _s?
 			default: report_unknown(); break;
 			}
 		} else {
-			perror("#E");
+			perror("E:");
 		}
 #endif
 	} // while

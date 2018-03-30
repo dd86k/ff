@@ -42,7 +42,7 @@
 void scan() {
 	uint32_t s;
 	if (_ddread(&s, 4)) {
-		puts("#E Could not read file.");
+		puts("E: Could not read file.");
 		return;
 	}
 
@@ -117,17 +117,12 @@ void scan() {
 		report("Kodak Cineon image (DPX)");
 		return;
 
-	case 0x01434E52:
-	case 0x02434E52: // RNC\x01 or \x02
+	case 0x01434E52: case 0x02434E52: // RNC\x01 or \x02
 		reportn("Rob Northen Compressed archive v");
-		switch (s) { // Very lazy
-		case 0x01000000: puts("2"); return;
-		case 0x02000000: puts("1"); return;
-		}
+		printf("%d\n", s >> 24);
 		return;
 
-	case 0x58504453: // "SDPX", "XPDS"
-	case 0x53445058:
+	case 0x58504453: case 0x53445058: // "SDPX", "XPDS"
 		report("SMPTE DPX image");
 		return;
 
@@ -139,9 +134,7 @@ void scan() {
 		scan_bpg();
 		return;
 
-	case 0xDBFFD8FF:
-	case 0xE0FFD8FF:
-	case 0xE1FFD8FF:
+	case 0xDBFFD8FF: case 0xE0FFD8FF: case 0xE1FFD8FF:
 		report("Joint Photographic Experts Group image");
 		return;
 
@@ -182,10 +175,8 @@ void scan() {
 		scan_rpf(s);
 		return;
 
-	case 0x14000000:
-	case 0x18000000:
-	case 0x1C000000:
-	case 0x20000000: {
+	case 0x14000000: case 0x18000000:
+	case 0x1C000000: case 0x20000000: {
 		uint32_t b[2];
 		_ddread(&b, sizeof(b));
 		switch (*b) {
@@ -265,10 +256,9 @@ void scan() {
 		return;
 
 	// Only the last signature is within the documentation.
-	case 0x04034B42: // PKZIP, which includes
-	case 0x06054B42: // JAR, ODF, OOXML, EPUB (PKware ZIP format)
-	case 0x08074B42:
-	case 0x04034B50:
+	// PKWare ZIP format: JAR, ODF, OOXML, EPUB
+	case 0x04034B42: case 0x06054B42:
+	case 0x08074B42: case 0x04034B50:
 		scan_zip();
 		return;
 
@@ -456,8 +446,7 @@ void scan() {
 		scan_rpm();
 		return;
 
-	case 0x44415749:   // "IWAD"
-	case 0x44415750: { // "PWAD"
+	case 0x44415749: case 0x44415750: { // "IWAD", "PWAD"
 		int b[2]; // Reads as ints.
 		_ddread(&b, sizeof(b));
 		reportn(s == 0x44415750 ? "PWAD" : "IWAD");
@@ -519,9 +508,7 @@ void scan() {
 		return;
 
 	// Apple DMG disk image
-	case 0x0D730178:
-	case 0x6B6F6C79: // "koly"
-	case 0x6d697368: // "mish"
+	case 0x0D730178: case 0x6B6F6C79: case 0x6d697368: // ?, "koly", "mish"
 		report("Apple disk (dmg)");
 		return;
 
@@ -550,11 +537,11 @@ void scan() {
 			// ...
 		*/
 		return;
-	
+
 	case 0x0c0901fe:
 		report("MySQL FORM");
 		return;
-	
+
 	case 0xff743064: // '\377t0c'
 		scan_idx();
 		return;
@@ -639,10 +626,6 @@ void scan() {
 		} // 3 Byte signatures
 	} // 4 Byte signatures
 } // scan
-
-/*
- * For Windows platforms, it used to be _wprintf_p
- */
 
 /**
  * Report to stdout the filetype with a newline
