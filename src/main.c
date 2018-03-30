@@ -104,7 +104,7 @@ MAIN {
 #ifdef _WIN32
 		uint32_t a = GetFileAttributesW(_currf);
 		if (a == 0xFFFFFFFF) { // INVALID_FILE_ATTRIBUTES
-EWFO:		_wprintf_p(
+EWFO:		_fwprintf_p(stderr, //TODO: GetLastError (Windows)
 				L"#E Could not open file: %s\n",
 				_currf
 			);
@@ -119,8 +119,19 @@ EWFO:		_wprintf_p(
 _fo:		f = CreateFileW(_currf,
 				GENERIC_READ, FILE_SHARE_READ, NULL,
 				OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-			if (!f) //TODO: GetLastError (Windows)
+			if (!f)
 				goto EWFO;
+			switch (GetFileType(f)) {
+			case 0x0001: // FILE_TYPE_DISK
+				report("Disk/block device");
+				return 0;
+			case 0x0002: // FILE_TYPE_CHAR
+				report("Character device");
+				return 0;
+			case 0x0003: // FILE_TYPE_PIPE
+				report("Pipe");
+				return 0;
+			}
 			scan();
 			CloseHandle(f);
 		}
