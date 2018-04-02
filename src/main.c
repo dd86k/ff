@@ -93,14 +93,15 @@ MAIN {
 		return 0;
 	}
 	while (--argc >= 1) {
+		++argv;
 		if (_args) {
-			if (argv[argc][1] == '-') { // long arguments
-				sb(argv[argc] + 2); continue;
-			} else if (argv[argc][0] == '-') { // short arguments
-				sa(argv[argc]); continue;
+			if ((*argv)[1] == '-') { // long arguments
+				sb(*argv + 2); continue;
+			} else if ((*argv)[0] == '-') { // short arguments
+				sa(*argv); continue;
 			}
 		}
-		_currf = argv[argc];
+		_currf = *argv;
 #ifdef _WIN32
 		uint32_t a = GetFileAttributesW(_currf);
 		if (a == 0xFFFFFFFF) { // INVALID_FILE_ATTRIBUTES

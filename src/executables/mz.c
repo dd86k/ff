@@ -40,9 +40,7 @@ _MZ:
     _ddread(&h, sizeof(h));
 
     reportn("MZ executable for MS-DOS");
-    if (h.e_ovno)
-        printf(" (Overlay: %d)", h.e_ovno);
-    puts("");
+    printf(" (Overlay: %d)\n", h.e_ovno);
 
     if (More) {
         printf(
