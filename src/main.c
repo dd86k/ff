@@ -8,7 +8,7 @@
 #include "settings.h"
 #include "utils.h"
 
-#define VERSION "0.2.0-0"
+#define VERSION "0.3.0-0"
 
 void help() {
 	puts(
@@ -57,7 +57,7 @@ void sa(char *a) {
 		case 'c': ++Continue; break;
 		case '-': --_args; return;
 		default:
-			fprintf(stderr, "E: -%c: Unknown argument\n", *a);
+			fprintf(stderr, "Unknown argument: -%c\n", *a);
 			exit(1);
 		}
 	}
@@ -73,7 +73,7 @@ void sb(wchar_t *a) {
 		help();
 	if (_strcmpw_l(a, O_VERSION, 6) == 0)
 		version();
-	_fwprintf_p(stderr, L"E: --%s: Unknown argument\n", a);
+	_fwprintf_p(stderr, L"Unknown argument: --%s\n", a);
 #else
 #define O_HELP "help"
 #define O_VERSION "version"
@@ -82,7 +82,7 @@ void sb(char *a) {
 		help();
 	if (_strcmp_l(a, O_VERSION, 6) == 0)
 		version();
-	fprintf(stderr, "E: --%s: Unknown argument\n", a);
+	fprintf(stderr, "Unknown argument: --%s\n", a);
 #endif
 	exit(1);
 }
