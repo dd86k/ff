@@ -1,7 +1,7 @@
 ." Hi! This manual (man page) was written by dd86k.
 ." Please read man-pages(7) and groff_man(7) about the manual page format.
 ."
-.TH ff 1 "March 2018" dd86k "User manual"
+.TH ff 1 "April 2018" dd86k "User manual"
 .SH NAME
 .B ff
 - Determine the file type via pre-determined magic.
@@ -9,8 +9,7 @@
 .SH SYNOPSIS
 .SY ff
 .OP -cmsvh
-.I file
-.I ...
+.IR file " ..."
 .YS
 .SY ff
 .OP --help
@@ -19,13 +18,13 @@
 
 .SH DESCRIPTION
 .B ff
-is a fast and simple binary file scanner that is very similar to and inspired by the UNIX/BSD file(1) utility. It is mostly intended for most of the binary formats.
+is a simple binary file scanner that is very similar to and inspired by the UNIX/BSD file(1) utility and is mostly aimed for binary formats.
 
 It works by scanning an internal switch case (against signatures) in order: 4-bytes, 3-bytes, 2-bytes, then offsets.
 
 If ff can't find the file format could not be found, it reports
 .B data
-to stdout.
+to stdout and returns 0.
 
 .SH OPTIONS
 
@@ -47,8 +46,8 @@ Show help screen and exit.
 .SH EXAMPLES
 .EX
 $ ff ff ff.exe
-PE32+ Windows Console Executable for x86-64 machines, LARGE_ADDRESS_AWARE
 ELF64 LE System V Shared object for x86-64 machines
+PE32+ Windows Console Executable for x86-64 machines, LARGE_ADDRESS_AWARE
 
 $ ff ff.exe -m
 PE32+ Windows Console Executable for x86-64 machines, LARGE_ADDRESS_AWARE
@@ -60,19 +59,19 @@ Size of Optional Header: F0h
 Characteristics        : 22h
 
 $ ff t/*.png -sm
-t/mspaint.png: Portable Network Graphics image, 281 x 198 pixels, 24-bit RGB
+t/8bit.png: Portable Network Graphics image, 201 x 192 pixels, 8-bit PLTE Palette
 Default compression, Default filtering, No interlacing
 t/asciifull.png: Portable Network Graphics image, 715 x 823 pixels, 32-bit RGBA
 Default compression, Default filtering, No interlacing
-t/8bit.png: Portable Network Graphics image, 201 x 192 pixels, 8-bit PLTE Palette
+t/mspaint.png: Portable Network Graphics image, 281 x 198 pixels, 24-bit RGB
 Default compression, Default filtering, No interlacing
 .EE
 
 .SH WARNINGS
-ff is still a work in progress and may be incorrect on certain things.
+ff is still a work in progress and may give incorrect results.
 
 .SH NOTES
-ff starts taking command arguments at its most right first.
+None.
 
 .SH BUGS
 None.
