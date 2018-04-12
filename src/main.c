@@ -5,15 +5,16 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "settings.h"
 #include "utils.h"
 
-#define VERSION "0.3.0-0"
+#define VERSION "0.3.0"
 
 void help() {
 	puts(
 		"Simple binary file scanner\n"
-		"  Usage: ff FILE [OPTIONS]\n"
+		"  Usage: ff [OPTIONS] FILE\n"
 		"         ff [OPTIONS]\n"
 		"\nOPTIONS\n"
 		" -c   Continue on soft symbolic link\n"
@@ -69,18 +70,18 @@ void sa(char *a) {
 #define O_HELP L"help"
 #define O_VERSION L"version"
 void sb(wchar_t *a) {
-	if (_strcmpw_l(a, O_HELP, 4) == 0)
+	if (wcscmp(a, O_HELP) == 0)
 		help();
-	if (_strcmpw_l(a, O_VERSION, 6) == 0)
+	if (wcscmp(a, O_VERSION) == 0)
 		version();
 	_fwprintf_p(stderr, L"Unknown argument: --%s\n", a);
 #else
 #define O_HELP "help"
 #define O_VERSION "version"
 void sb(char *a) {
-	if (_strcmp_l(a, O_HELP, 4) == 0)
+	if (strcmp(a, O_HELP) == 0)
 		help();
-	if (_strcmp_l(a, O_VERSION, 6) == 0)
+	if (strcmp(a, O_VERSION) == 0)
 		version();
 	fprintf(stderr, "Unknown argument: --%s\n", a);
 #endif
