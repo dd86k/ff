@@ -17,6 +17,8 @@
 .YS
 
 .SH DESCRIPTION
+This document describes ff version 0.3.0.
+
 .B ff
 is a simple binary file scanner that is very similar to and inspired by the UNIX/BSD file(1) utility and is mostly aimed for binary formats.
 
@@ -32,7 +34,7 @@ to stdout and returns 0.
 Continue on symlink.
 
 .IP -m
-Show more information if available.
+Show more information, if available.
 
 .IP -s
 Prepend filename to result, useful while globbing.
@@ -74,7 +76,7 @@ ff is still a work in progress and may give incorrect results.
 None.
 
 .SH BUGS
-None.
+ISO9660 buffers are not cleared on globbing, which will 
 
 .SH AUTHOR
 Program and man-gage written by dd86k
