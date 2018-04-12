@@ -22,7 +22,7 @@ char ctime[23];
 char mtime[23];
 char etime[23];
 char eftime[23];
-unsigned long long volume_size;
+uint64_t volume_size;
 
 void scan_block(char *buf) {
 	switch (*buf) {
@@ -36,7 +36,7 @@ void scan_block(char *buf) {
 	case PRIMARY_VOL_DESC:
 		isoslice(buf + 40, label, 31); // 40..71
 		volume_size = // size * blocksize
-			*(unsigned long int*)(&buf[80]) * *(uint16_t*)(&buf[128]);
+			*(uint32_t*)(buf + 80) * *(uint16_t*)(buf + 128);
 		if (More) {
 			isoslice(buf + 8, _system, sizeof(_system));
 			isoslice(buf + 190, voliden, sizeof(voliden)); // 190..318
@@ -51,7 +51,6 @@ void scan_block(char *buf) {
 			isoslice(buf + 864, eftime, sizeof(eftime)); // 864..881
 		}
 		break;
-	default: break;
 	}
 }
 
@@ -91,11 +90,10 @@ void scan_iso() {
 	if (check_seek(0x9000, buf)) goto ISO_DONE;
 
 ISO_DONE:
-	reportn("ISO-9660 CD/DVD disc");
+	reportn("ISO-9660 disc");
 	printf(" \"%s\", ", label);
 	_printfd(volume_size);
 	if (bootable) printf(", Bootable");
-
 	puts("");
 
 	if (More) {
@@ -123,4 +121,6 @@ ISO_DONE:
 			ctime, mtime, etime, eftime
 		);
 	}
+
+	bootable = 0; // in-case of glob
 }
