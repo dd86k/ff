@@ -162,7 +162,7 @@ MMAX_XPC
 	case TYPE_I386:
 		switch (cpu_subtype) {
 		default: printf("any x86"); break;
-		case i386: printf("i386"); break;
+		case _i386: printf("i386"); break;
 		case i486: printf("i486"); break;
 		case i486SX: printf("i486SX"); break;
 		case i586: printf("i586"); break;

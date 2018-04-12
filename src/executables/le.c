@@ -35,7 +35,7 @@ void scan_le(int is_le) {
     switch (h.e32_cpu) {
     default: printf("?"); break;
     case i286: printf("i286"); break;
-    case i386: printf("i386"); break;
+    case _i386: printf("i386"); break;
     case i486: printf("i486"); break;
     }
 

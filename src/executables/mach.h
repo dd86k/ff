@@ -100,7 +100,7 @@ enum { // SUBTYPE_32032
 enum { // SUBTYPE_I386
 	I386_ALL = 3,
 	X86_64_ALL = I386_ALL,
-	i386 = 3,
+	_i386 = 3,
 	i486 = 4,
 	i486SX = 132, // "4 + 128"
 	i586 = 5, // same as PENT
