@@ -63,13 +63,6 @@ int check_seek(unsigned long int pos, char *buf) {
 	return 0;
 }
 
-/*string isodate(string stamp) {
-	import std.format : format;
-	return format("%s-%s-%s %s:%s:%s.%s+%d",
-		stamp[0..4], stamp[4..6], stamp[6..8], stamp[8..10],
-		stamp[10..12], stamp[12..14], stamp[14..16], stamp[16] * 15);
-}*/
-
 void isodate(char *s) {
 	//0         10        20
 	//2017011318204400# <- #*15
@@ -100,7 +93,6 @@ void scan_iso() {
 ISO_DONE:
 	reportn("ISO-9660 CD/DVD disc");
 	printf(" \"%s\", ", label);
-	memset(label, 0, sizeof(label)); // Important while globbing
 	_printfd(volume_size);
 	if (bootable) printf(", Bootable");
 

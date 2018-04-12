@@ -88,6 +88,7 @@ void isoslice(char *buffer, char *target, size_t max) {
 	if (max) {
 		memcpy(target, buffer, ++max);
 	}
+	*(target + max + 1) = '\0';
 }
 
 /**
