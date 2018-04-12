@@ -15,7 +15,7 @@ struct deb_hdr {
 	char ctl_gid[6];
 	char ctl_filemode[8];
 	char ctl_filesize[10];
-	//char CTL_END[2];
+	char CTL_END[2];
 };
 struct deb_data_hdr {
 	char file_ident[16];
@@ -24,7 +24,7 @@ struct deb_data_hdr {
 	char gid[6];
 	char filemode[8];
 	char filesize[10];
-	//char END[2];
+	char END[2];
 };
 
 #define DEBIANBIN "debian-binary   "
