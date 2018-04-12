@@ -23,15 +23,13 @@ int _ddread(void *buffer, size_t size) {
  * mode: File mode
  * Returns: Returns 0 if successful
  */
-int _ddseek(long int position, int mode) {
+int _ddseek(int position, int mode) {
 #ifdef _WIN32
 	return SetFilePointer(f, position, NULL, mode) == 0xFFFFFFFF;
 #else
 	return fseek(f, position, mode);
 #endif
 }
-
-#define _ddrewind(); _ddseek(0, SEEK_SET);
 
 /**
  * Prints a line to stdout.
@@ -73,9 +71,6 @@ int _strcmpw_l(wchar_t *s1, wchar_t *s2, size_t l) {
 }
 #endif
 
-// slice and copy string
-//void strslice(char *buffer, int length)
-
 /**
  * Slice an ISO9660-like string (space-padded)
  * buffer: Entry buffer
@@ -98,8 +93,7 @@ void isoslice(char *buffer, char *target, size_t max) {
  */
 void _printfd(unsigned long long l) {
 	float f = l;
-	// Lazy code, sorry
-	if (f >= GB) {
+	if (f >= GB) { // Lazy code, sorry
 		printf("%.2fG", f / GB);
 	} else if (f >= MB) {
 		printf("%.2fM", f / MB);
@@ -121,9 +115,9 @@ uint32_t bswap32(uint32_t s) {
 		(s & 0xff000000) >> 24;
 }
 
-unsigned long long bswap64(unsigned long long s) {
-	unsigned long int* pi = (unsigned long int*)&s;
-	unsigned long int a = // Hopefully it uses bswap (or XOR for clang?)
+uint64_t bswap64(uint64_t s) {
+	uint64_t* pi = (uint64_t*)&s;
+	uint64_t a = // Hopefully it uses bswap (or XOR for clang?)
 		(pi[0] & 0x000000ff) << 24 |
 		(pi[0] & 0x0000ff00) << 8 |
 		(pi[0] & 0x00ff0000) >> 8 |

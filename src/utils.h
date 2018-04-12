@@ -7,7 +7,7 @@
 #endif
 
 int _ddread(void *, size_t);
-int _ddseek(long int, int);
+int _ddseek(int, int);
 void _printfd(unsigned long long);
 void printl(char *);
 int _strcmp_l(char *, char *, size_t);
@@ -20,8 +20,8 @@ void print_array(uint8_t *, size_t);
 
 uint16_t bswap16(uint16_t);
 uint32_t bswap32(uint32_t);
-unsigned long long bswap64(unsigned long long);
+uint64_t bswap64(uint64_t);
 
-#define GB 1073741824
-#define MB 1048576
-#define KB 1024
+#define GB 0x40000000
+#define MB 0x100000
+#define KB 0x400
