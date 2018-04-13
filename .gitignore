@@ -6,3 +6,4 @@ ff
 *.tar.xz
 *.tar.gz
 bin/
+.vscode
