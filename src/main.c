@@ -15,7 +15,7 @@ void help() {
 	puts(
 		"Simple binary file scanner\n"
 		"  Usage: ff [OPTIONS] FILE\n"
-		"         ff [OPTIONS]\n"
+		"         ff {-v|--version|-h|--help}\n"
 		"\nOPTIONS\n"
 		" -c   Continue on soft symbolic link\n"
 		" -m   Print even more information if available\n"
