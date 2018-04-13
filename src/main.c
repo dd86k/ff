@@ -123,12 +123,12 @@ _fo:		f = CreateFileW(_currf,
 				OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 			if (!f) goto EWFO;
 			switch (GetFileType(f)) {
-			//case 0x0001: // FILE_TYPE_DISK
-			//	return 0; // Normal files fall here, because they're on disk
-			case 0x0002: // FILE_TYPE_CHAR
+			//case FILE_TYPE_DISK:
+			//	return 0; // Normal files fall here, because they're on disk?
+			case FILE_TYPE_CHAR:
 				report("Character device");
 				return 0;
-			case 0x0003: // FILE_TYPE_PIPE
+			case FILE_TYPE_PIPE:
 				report("Pipe");
 				return 0;
 			}

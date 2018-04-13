@@ -6,8 +6,8 @@
 #include "iso.h"
 
 // BOOT
-char bootsysiden[32];
-char bootiden[32];
+char bootsysiden[33];
+char bootiden[33];
 char bootable;
 // PRIMARY_VOL_DESC
 char label[31];
@@ -32,9 +32,9 @@ void scan_block(char *buf) {
 			isoslice(buf + 7, bootsysiden, sizeof(bootsysiden)); // 7..39
 			isoslice(buf + 39, bootiden, sizeof(bootiden)); // 39..71
 		}
-		break;
+		return;
 	case PRIMARY_VOL_DESC:
-		isoslice(buf + 40, label, 31); // 40..71
+		isoslice(buf + 40, label, sizeof(label)); // 40..71
 		volume_size = // size * blocksize
 			*(uint32_t*)(buf + 80) * *(uint16_t*)(buf + 128);
 		if (More) {
@@ -50,12 +50,12 @@ void scan_block(char *buf) {
 			isoslice(buf + 847, etime, sizeof(etime)); // 847..864
 			isoslice(buf + 864, eftime, sizeof(eftime)); // 864..881
 		}
-		break;
+		return;
 	}
 }
 
-// Returns: Returns "true" to stop.
-int check_seek(unsigned long int pos, char *buf) {
+// Returns a set value if we can't seek, therefore stopping.
+int check_seek(int pos, char *buf) {
 	if (_ddseek(pos, SEEK_SET)) return 1;
 	_ddread(buf, BLOCK_SIZE);
 	if (_strcmp_l(buf + 1, ISO, 5) == 0) scan_block(buf);

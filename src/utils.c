@@ -78,12 +78,11 @@ int _strcmpw_l(wchar_t *s1, wchar_t *s2, size_t l) {
  * max   : Slice end (excluded)
  */
 void isoslice(char *buffer, char *target, size_t max) {
-	if (buffer[0] == ' ') return;
 	while (buffer[--max] == ' ' && max > 0);
-	if (max) {
+	if (max > 0) {
 		memcpy(target, buffer, ++max);
-	}
-	*(target + max + 1) = '\0';
+		*(target + max) = '\0';
+	} else *target = '\0';
 }
 
 /**
