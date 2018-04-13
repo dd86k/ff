@@ -10,10 +10,6 @@ int _ddread(void *, size_t);
 int _ddseek(int, int);
 void _printfd(unsigned long long);
 void printl(char *);
-int _strcmp_l(char *, char *, size_t);
-#ifdef _WIN32
-int _strcmpw_l(wchar_t *, wchar_t *, size_t);
-#endif
 void isoslice(char *, char *, size_t);
 
 void print_array(uint8_t *, size_t);

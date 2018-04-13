@@ -40,38 +40,6 @@ void printl(char *s) {
 }
 
 /**
- * Simple string compare with a defined length
- * s1: String 1
- * s2: String 2, usually a constant
- * l : Maximum length before giving up
- * Returns 0 if same, otherwise 1
- */
-int _strcmp_l(char *s1, char *s2, size_t l) {
-	while (--l) {
-		if (*s1 != *s2) return 1;
-		++s1; ++s2;
-	}
-	return 0;
-}
-#ifdef _WIN32
-/**
- * Simple wide string compare with a defined length,
- * usually only used within CLI to compare arguments
- * s1: String 1
- * s2: String 2, usually a constant
- * l : Maximum length before giving up (DIVIDE BY 2 OR SUFFER)
- * Returns 0 if same, otherwise 1
- */
-int _strcmpw_l(wchar_t *s1, wchar_t *s2, size_t l) {
-	while (--l) {
-		if (*s1 != *s2) return 1;
-		++s1; ++s2;
-	}
-	return 0;
-}
-#endif
-
-/**
  * Slice an ISO9660-like string (space-padded)
  * buffer: Entry buffer
  * target: Target string

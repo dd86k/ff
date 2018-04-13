@@ -135,8 +135,8 @@ void scan_etc() {
 	if (_ddseek(0x101, SEEK_SET) == 0) { // Tar files
 		char b[sizeof(TAR)];
 		_ddread(&b, sizeof(TAR));
-		if (_strcmp_l(b, TAR, sizeof(TAR)) == 0 ||
-			_strcmp_l(b, GNUTAR, sizeof(GNUTAR)) == 0) {
+		if (strncmp(b, TAR, sizeof(TAR)) == 0 ||
+			strncmp(b, GNUTAR, sizeof(GNUTAR)) == 0) {
 			scan_tar();
 			return;
 		}
@@ -145,19 +145,19 @@ void scan_etc() {
 	if (_ddseek(0x8001, SEEK_SET) == 0) { // ISO files
 		char b[5];
 		_ddread(&b, 5);
-		if (_strcmp_l(b, ISO, 5) == 0) {
+		if (strncmp(b, ISO, 5) == 0) {
 			scan_iso(); return;
 		}
 
 		if (_ddseek(0x8801, SEEK_SET)) goto _END;
 		_ddread(&b, 5);
-		if (_strcmp_l(b, ISO, 5) == 0) {
+		if (strncmp(b, ISO, 5) == 0) {
 			scan_iso(); return;
 		}
 
 		if (_ddseek(0x9001, SEEK_SET)) goto _END;
 		_ddread(&b, 5);
-		if (_strcmp_l(b, ISO, 5) == 0) {
+		if (strncmp(b, ISO, 5) == 0) {
 			scan_iso(); return;
 		}
 	} //else goto _END;

@@ -58,7 +58,7 @@ void scan_block(char *buf) {
 int check_seek(int pos, char *buf) {
 	if (_ddseek(pos, SEEK_SET)) return 1;
 	_ddread(buf, BLOCK_SIZE);
-	if (_strcmp_l(buf + 1, ISO, 5) == 0) scan_block(buf);
+	if (strncmp(buf + 1, ISO, 5) == 0) scan_block(buf);
 	return 0;
 }
 

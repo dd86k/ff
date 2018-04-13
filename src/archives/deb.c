@@ -16,7 +16,7 @@ void _debslice(char *in, char *out, size_t max) {
 void scan_deb() {
 	struct deb_hdr h;
 	_ddread(&h, sizeof(h));
-	if (_strcmp_l(h.file_iden, DEBIANBIN, sizeof(DEBIANBIN))) {
+	if (strncmp(h.file_iden, DEBIANBIN, sizeof(DEBIANBIN))) {
 		report_text();
 		return;
 	}
