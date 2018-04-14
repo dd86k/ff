@@ -1,13 +1,16 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include "../utils.h"
 #include "../settings.h"
 #include "../ff.h"
 #include "tar.h"
-#include <stdio.h>
 
 void scan_tar() {
 	struct tar_hdr h;
 	_ddseek(0, SEEK_SET);
 	_ddread(&h, sizeof(h));
+
+	long s = strtol(h.size, NULL, sizeof(h.size));
 
 	switch (h.linkflag) {
 	case 0:
@@ -19,10 +22,12 @@ void scan_tar() {
 	case '5': reportn("Directory"); break;
 	case '6': reportn("FIFO special"); break;
 	case '7': reportn("Contiguous"); break;
-	default: puts(""); return;
+	default: report("Unknown Tar archive"); return;
 	}
 
-	printf(" Tar archive of %s bytes\n", h.size);
+	printl(" Tar archive of ");
+	_printfd(s);
+	puts("");
 
 	if (More) {
 		printf(
