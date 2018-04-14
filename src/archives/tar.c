@@ -10,16 +10,16 @@ void scan_tar() {
 	_ddread(&h, sizeof(h));
 
 	switch (h.linkflag) {
-		case 0:
-		case '0': reportn("Normal"); break;
-		case '1': reportn("Link"); break;
-		case '2': reportn("Syslink"); break;
-		case '3': reportn("Character special"); break;
-		case '4': reportn("Block special"); break;
-		case '5': reportn("Directory"); break;
-		case '6': reportn("FIFO special"); break;
-		case '7': reportn("Contiguous"); break;
-		default: puts(""); return;
+	case 0:
+	case '0': reportn("Normal"); break;
+	case '1': reportn("Link"); break;
+	case '2': reportn("Syslink"); break;
+	case '3': reportn("Character special"); break;
+	case '4': reportn("Block special"); break;
+	case '5': reportn("Directory"); break;
+	case '6': reportn("FIFO special"); break;
+	case '7': reportn("Contiguous"); break;
+	default: puts(""); return;
 	}
 
 	printf(" Tar archive of %s bytes\n", h.size);

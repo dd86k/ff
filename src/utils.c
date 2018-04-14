@@ -63,9 +63,9 @@ void _printfd(unsigned long long l) {
 	if (f >= GB) { // Lazy code, sorry
 		printf("%.2fG", f / GB);
 	} else if (f >= MB) {
-		printf("%.2fM", f / MB);
+		printf("%.1fM", f / MB);
 	} else if (f >= KB) {
-		printf("%.2fK", f / KB);
+		printf("%.1fK", f / KB);
 	} else
 		printf("%lldB", l);
 }
