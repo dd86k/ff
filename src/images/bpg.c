@@ -27,7 +27,7 @@ void scan_bpg(void) {
     if (h.color & EXTENSION)
         printf(", data extension");
 
-    puts("");
+    printl("\n");
 
     if (More) {
         switch (h.color >> 4) {

@@ -12,30 +12,30 @@ void scan_zip() {
 	reportn("PKWare ZIP ");
 
 	switch (h.compression) {
-	case 0: printf("Uncompressed"); break;
-	case 1: printf("Shrunk"); break;
+	case 0: printl("Uncompressed"); break;
+	case 1: printl("Shrunk"); break;
 	case 2: case 3: case 4: case 5:
 		printf("Reduced by %d", h.compression - 1); break;
-	case 6: printf("Imploded"); break;
-	case 8: printf("Deflated"); break;
-	case 9: printf("Enhanced Deflated"); break;
-	case 10: printf("DCL Imploded"); break;
-	case 12: printf("BZIP2"); break;
-	case 14: printf("LZMA"); break;
-	case 18: printf("IBM TERSE"); break;
-	case 19: printf("IBM LZ77 z"); break;
-	case 98: printf("PPMd Version I, Rev 1"); break;
-	default: printf("archive?"); return;
+	case 6: printl("Imploded"); break;
+	case 8: printl("Deflated"); break;
+	case 9: printl("Enhanced Deflated"); break;
+	case 10: printl("DCL Imploded"); break;
+	case 12: printl("BZIP2"); break;
+	case 14: printl("LZMA"); break;
+	case 18: printl("IBM TERSE"); break;
+	case 19: printl("IBM LZ77 z"); break;
+	case 98: printl("PPMd Version I, Rev 1"); break;
+	default: printl("archive?"); return;
 	}
 
 	printf(" archive v%d.%d, ", h.version / 10, h.version % 10);
 
 	if (h.fnlength) {
-		char *file = malloc(h.fnlength + 1);
-		_ddread(file, h.fnlength);
-		file[h.fnlength] = '\0';
-		printf("\"%s\", ", file);
-		free(file);
+		char *fn = malloc(h.fnlength + 1);
+		_ddread(fn, h.fnlength);
+		*(fn + h.fnlength) = '\0';
+		printf("\"%s\", ", fn);
+		free(fn);
 	}
 
 	_printfd(h.csize);
@@ -51,7 +51,7 @@ void scan_zip() {
 	if (h.flag & ENHANCED_DEFLATION)
 		printf(", enhanced deflation");
 
-	puts("");
+	printl("\n");
 
 	if (More) {
 		printf(

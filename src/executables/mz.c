@@ -10,8 +10,8 @@ void scan_mz() {
     struct mz_hdr h;
 
 	if (_ddseek(0x3c, SEEK_SET)) {
-        printf("Partial ");
-        goto _MZ;
+        report_unknown();
+        return;
     }
 
 	uint32_t p;

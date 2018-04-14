@@ -19,12 +19,11 @@ void scan_deb() {
 	struct deb_hdr h;
 	struct deb_data_hdr dh;
 
-	_ddread(&h, sizeof(h));
-	if (strcmp(h.file_iden, DEBIANBIN) {
+	_ddread(&h, sizeof(h) + sizeof(dh));
+	if (strcmp(h.file_iden, DEBIANBIN)) {
 		report_text();
 		return;
 	}
-	_ddread(&dh, sizeof(dh));
 
 	long deb_fsize = strtol(h.ctl_filesize, NULL, sizeof(h.ctl_filesize));
 	long ctl_fsize = strtol(dh.filesize, NULL, sizeof(dh.filesize));

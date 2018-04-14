@@ -16,8 +16,7 @@ void scan_ne() {
 	else
 		printf("Executable");
 
-	if (h.ne_expver[0])
-		printf(", Windows %d.%d expected", h.ne_expver[1], h.ne_expver[0]);
+	printf(", Windows %d.%d expected", h.ne_expver[1], h.ne_expver[0]);
 
 	if (h.ne_flags) {
 		if (h.ne_flags & NENONC)
@@ -34,7 +33,7 @@ void scan_ne() {
 			printf(", solo data");
 	}
 
-	puts("");
+	printl("\n");
 
 	if (More) {
 		//printf("ne_magic       : %s\n", &h.ne_magic[0]);

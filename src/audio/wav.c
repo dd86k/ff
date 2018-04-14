@@ -17,17 +17,18 @@ void scan_wav() {
 			}
 			_ddread(&s, 4);
 		} while (s != FMT_CHUNK);
+
 	struct fmt_chunk h;
 	_ddread(&h, sizeof(h));
 	reportn("WAVE audio (");
 	switch (h.format) {
-	case PCM: printf("PCM"); break;
-	case IEEE_FLOAT: printf("IEEE Float"); break;
-	case ALAW: printf("8-bit ITU G.711 A-law"); break;
+	case PCM: printl("PCM"); break;
+	case IEEE_FLOAT: printl("IEEE Float"); break;
+	case ALAW: printl("8-bit ITU G.711 A-law"); break;
 	case MULAW: printf("8-bit ITU G.711 u-law"); break;
-	case EXTENSIBLE: printf("EXTENDED"); break;
-	case _MP2: printf("MPEG-1 Audio Layer II"); break;
-	default: puts("type?)"); return; // Ends here pal
+	case EXTENSIBLE: printl("EXTENDED"); break;
+	case _MP2: printl("MPEG-1 Audio Layer II"); break;
+	default: puts("?)"); return; // Ends here pal
 	}
 	printf(") %d Hz, %d kbps, %d-bit, ",
 		h.samplerate, h.datarate / 1024 * 8, h.samplebits);
@@ -39,8 +40,9 @@ void scan_wav() {
 	if (More) {
 		uint8_t guid[16];
 		_ddseek(8, SEEK_CUR);
-		_ddread(&guid, sizeof(guid));
+		_ddread(guid, sizeof(guid));
 		printf("EXTENDED:");
 		print_array(guid, sizeof(guid));
+		printl("\n");
 	}
 }

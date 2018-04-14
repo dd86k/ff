@@ -19,11 +19,11 @@ void scan_qed() {
 		_ddread(&buffer, 256);
 		printf(", backing file: %s", buffer);
 		if (h.features & QED_F_BACKING_FORMAT_NO_PROBE)
-			printf(" (raw)");
+			printl(" (raw)");
 	}
 
 	if (h.features & QED_F_NEED_CHECK)
-		printf(", check needed");
+		printl(", check needed");
 
-	puts("");
+	printl("\n");
 }

@@ -13,170 +13,170 @@ void scan_pe() {
 	if (peh.SizeOfOptionalHeader) { // PE Optional Header
 		_ddread(&peoh, sizeof(peoh));
 		if (peoh.magic == HDR64) // PE_FORMAT
-			_ddseek(16, SEEK_CUR); //fseek(fp, 16, SEEK_CUR);
+			_ddseek(16, SEEK_CUR);
 		_ddread(&dirs, sizeof(dirs));
 	}
 
 	reportn("PE32");
 
 	switch (peoh.magic) {
-	case ROM: printf("-ROM "); break;
-	case HDR32: printf(" "); break;
-	case HDR64: printf("+ "); break;
-	default: printf("? "); break;
+	case ROM: printl("-ROM "); break;
+	case HDR32: printl(" "); break;
+	case HDR64: printl("+ "); break;
+	default: printl("? "); break;
 	}
 
 	switch (peoh.Subsystem) {
 	case NATIVE:
-		printf("Windows Native");
+		printl("Windows Native");
 		break;
 	case WINDOWS_GUI:
-		printf("Windows GUI");
+		printl("Windows GUI");
 		break;
 	case WINDOWS_CUI:
-		printf("Windows Console");
+		printl("Windows Console");
 		break;
 	case POSIX_CUI:
-		printf("Posix Console");
+		printl("Posix Console");
 		break;
 	case WINDOWS_CE_GUI:
-		printf("Windows CE GUI");
+		printl("Windows CE GUI");
 		break;
 	case EFI_APPLICATION :
-		printf("EFI");
+		printl("EFI");
 		break;
 	case EFI_BOOT_SERVICE_DRIVER :
-		printf("EFI Boot Service driver");
+		printl("EFI Boot Service driver");
 		break;
 	case EFI_RUNTIME_DRIVER:
-		printf("EFI Runtime driver");
+		printl("EFI Runtime driver");
 		break;
 	case EFI_ROM:
-		printf("EFI ROM");
+		printl("EFI ROM");
 		break;
 	case XBOX:
-		printf("XBOX");
+		printl("XBOX");
 		break;
 	case WINDOWS_BOOT_APPLICATION:
-		printf("Windows Boot Application");
+		printl("Windows Boot Application");
 		break;
 	default:
-		printf("?");
+		printl("?");
 		break;
 	}
 
 	if (dirs.CLRHeader)
-		printf(" .NET");
+		printl(" .NET");
 
 	if (peh.Characteristics & DLL)
-		printf(" Library");
+		printl(" Library");
 	else if (peh.Characteristics & EXECUTABLE_IMAGE)
-		printf(" Executable");
+		printl(" Executable");
 	else
-		printf(" ?");
+		printl(" ?");
 
-	printf(" for ");
+	printl(" for ");
 
 	switch (peh.Machine) {
 	default: // UNKNOWN
-		printf("?");
+		printl("?");
 		break;
 	case I386:
-		printf("x86");
+		printl("x86");
 		break;
 	case AMD64:
-		printf("x86-64");
+		printl("x86-64");
 		break;
 	case IA64:
-		printf("IA64");
+		printl("IA64");
 		break;
 	case EBC:
-		printf("EFI (Byte Code)");
+		printl("EFI (Byte Code)");
 		break;
 	case CLR:
-		printf("Common Language Runtime");
+		printl("Common Language Runtime");
 		break;
 	case ARM:
-		printf("ARM (Little Endian)");
+		printl("ARM (Little Endian)");
 		break;
 	case ARMNT:
-		printf("ARMv7+ (Thumb)");
+		printl("ARMv7+ (Thumb)");
 		break;
 	case ARM64:
-		printf("ARMv8 (64-bit)");
+		printl("ARMv8 (64-bit)");
 		break;
 	case M32R:
-		printf("Mitsubishi M32R (Little endian)");
+		printl("Mitsubishi M32R (Little endian)");
 		break;
 	case AM33:
-		printf("Matsushita AM33");
+		printl("Matsushita AM33");
 		break;
 	case MIPS16:
-		printf("MIPS16");
+		printl("MIPS16");
 		break;
 	case MIPSFPU:
-		printf("MIPS (w/FPU)");
+		printl("MIPS (w/FPU)");
 		break;
 	case MIPSFPU16:
-		printf("MIPS16 (w/FPU)");
+		printl("MIPS16 (w/FPU)");
 		break;
 	case POWERPC:
-		printf("PowerPC");
+		printl("PowerPC");
 		break;
 	case POWERPCFP:
-		printf("PowerPC (w/FPU)");
+		printl("PowerPC (w/FPU)");
 		break;
 	case R4000:
-		printf("MIPS (Little endian)");
+		printl("MIPS (Little endian)");
 		break;
 	case SH3:
-		printf("Hitachi SH3");
+		printl("Hitachi SH3");
 		break;
 	case SH3DSP:
-		printf("Hitachi SH3 DSP");
+		printl("Hitachi SH3 DSP");
 		break;
 	case SH4:
-		printf("Hitachi SH4");
+		printl("Hitachi SH4");
 		break;
 	case SH5:
-		printf("Hitachi SH5");
+		printl("Hitachi SH5");
 		break;
 	case THUMB:
-		printf("ARM or Thumb (\"Interworking\")");
+		printl("ARM or Thumb (\"Interworking\")");
 		break;
 	case WCEMIPSV2:
-		printf("MIPS WCE v2 (Little Endian)");
+		printl("MIPS WCE v2 (Little Endian)");
 		break;
 	}
 
-	printf(" machines");
+	printl(" machines");
 
 	if (peh.Characteristics) {
 		if (peh.Characteristics & RELOCS_STRIPPED)
-			printf(", RELOCS_STRIPPED");
+			printl(", RELOCS_STRIPPED");
 		if (peh.Characteristics & LINE_NUMS_STRIPPED)
-			printf(", LINE_NUMS_STRIPPED");
+			printl(", LINE_NUMS_STRIPPED");
 		if (peh.Characteristics & LOCAL_SYMS_STRIPPED)
-			printf(", LOCAL_SYMS_STRIPPED");
+			printl(", LOCAL_SYMS_STRIPPED");
 		if (peh.Characteristics & LARGE_ADDRESS_AWARE)
-			printf(", LARGE_ADDRESS_AWARE");
+			printl(", LARGE_ADDRESS_AWARE");
 		if (peh.Characteristics & _16BIT_MACHINE)
-			printf(", 16BIT_MACHINE");
+			printl(", 16BIT_MACHINE");
 		if (peh.Characteristics & _32BIT_MACHINE)
-			printf(", 32BIT_MACHINE");
+			printl(", 32BIT_MACHINE");
 		if (peh.Characteristics & DEBUG_STRIPPED)
-			printf(", DEBUG_STRIPPED");
+			printl(", DEBUG_STRIPPED");
 		if (peh.Characteristics & REMOVABLE_RUN_FROM_SWAP)
-			printf(", REMOVABLE_RUN_FROM_SWAP");
+			printl(", REMOVABLE_RUN_FROM_SWAP");
 		if (peh.Characteristics & NET_RUN_FROM_SWAP)
-			printf(", NET_RUN_FROM_SWAP");
+			printl(", NET_RUN_FROM_SWAP");
 		if (peh.Characteristics & SYSTEM)
-			printf(", SYSTEM");
+			printl(", SYSTEM");
 		if (peh.Characteristics & UP_SYSTEM_ONLY)
-			printf(", UP_SYSTEM_ONLY");
+			printl(", UP_SYSTEM_ONLY");
 	}
 
-	puts("");
+	printl("\n");
 
 	if (More) {
 		printf(

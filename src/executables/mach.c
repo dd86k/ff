@@ -17,25 +17,25 @@ void scan_mach(uint32_t s) {
 
 	switch (s) {
 	case MH_MAGIC:
-		printf("32-bit LE ");
+		printl("32-bit LE ");
 		break;
 	case MH_MAGIC_64:
-		printf("64-bit LE ");
+		printl("64-bit LE ");
 		break;
 	case MH_CIGAM:
-		printf("32-bit BE ");
+		printl("32-bit BE ");
 		reversed = 1;
 		break;
 	case MH_CIGAM_64:
-		printf("64-bit BE ");
+		printl("64-bit BE ");
 		reversed = 1;
 		break;
 	case FAT_MAGIC:
-		printf("Fat LE ");
+		printl("Fat LE ");
 		fat = 1;
 		break;
 	case FAT_CIGAM:
-		printf("Fat BE ");
+		printl("Fat BE ");
 		reversed = 1; fat = 1;
 		break;
 	}
@@ -77,80 +77,80 @@ void scan_mach(uint32_t s) {
 
 	switch (filetype) {
 	default: // Fat files have no "filetypes".
-		printf("?");
+		printl("?");
 		break;
 	case MH_OBJECT:
-		printf("Object");
+		printl("Object");
 		break;
 	case MH_EXECUTE:
-		printf("Executable");
+		printl("Executable");
 		break;
 	case MH_FVMLIB:
-		printf("Fixed VM Library");
+		printl("Fixed VM Library");
 		break;
 	case MH_CORE:
-		printf("Core");
+		printl("Core");
 		break;
 	case MH_PRELOAD:
-		printf("Preload");
+		printl("Preload");
 		break;
 	case MH_DYLIB:
-		printf("Dynamic library");
+		printl("Dynamic library");
 		break;
 	case MH_DYLINKER:
-		printf("Dynamic linker");
+		printl("Dynamic linker");
 		break;
 	case MH_BUNDLE:
-		printf("Bundle");
+		printl("Bundle");
 		break;
 	case MH_DYLIB_STUB:
-		printf("Dynamic library stub");
+		printl("Dynamic library stub");
 		break;
 	case MH_DSYM:
-		printf("Companion file (debug)");
+		printl("Companion file (debug)");
 		break;
 	case MH_KEXT_BUNDLE:
-		printf("Kext bundle");
+		printl("Kext bundle");
 		break;
 	}
 
-	printf(" for ");
+	printl(" for ");
 
 	switch (cpu_type) {
-	default: printf("?"); break;
+	default: printl("?"); break;
 	case TYPE_VAX:
 		switch (cpu_subtype) {
-		default: printf("VAX"); break;
-		case VAX780: printf("VAX780"); break;
-		case VAX785: printf("VAX785"); break;
-		case VAX750: printf("VAX750"); break;
-		case VAX730: printf("VAX730"); break;
-		case UVAXI: printf("UVAXI"); break;
-		case UVAXII: printf("UVAXII"); break;
-		case VAX8200: printf("VAX8200"); break;
-		case VAX8500: printf("VAX8500"); break;
-		case VAX8600: printf("VAX8600"); break;
-		case VAX8650: printf("VAX8650"); break;
-		case VAX8800: printf("VAX8800"); break;
-		case UVAXIII: printf("UVAXIII"); break;
+		default: printl("VAX"); break;
+		case VAX780: printl("VAX780"); break;
+		case VAX785: printl("VAX785"); break;
+		case VAX750: printl("VAX750"); break;
+		case VAX730: printl("VAX730"); break;
+		case UVAXI: printl("UVAXI"); break;
+		case UVAXII: printl("UVAXII"); break;
+		case VAX8200: printl("VAX8200"); break;
+		case VAX8500: printl("VAX8500"); break;
+		case VAX8600: printl("VAX8600"); break;
+		case VAX8650: printl("VAX8650"); break;
+		case VAX8800: printl("VAX8800"); break;
+		case UVAXIII: printl("UVAXIII"); break;
 		}
 		break;
 	case TYPE_ROMP:
 		switch (cpu_subtype) {
-		default: printf("ROMP"); break;
-		case RT_PC: printf("RT_PC"); break;
-		case RT_APC: printf("RT_APC"); break;
-		case RT_135: printf("RT_135"); break;
+		default: printl("ROMP"); break;
+		case RT_PC: printl("RT_PC"); break;
+		case RT_APC: printl("RT_APC"); break;
+		case RT_135: printl("RT_135"); break;
 		}
 		break;
 	case TYPE_NS32032:
-		printf("NS32032");
+		printl("NS32032");
 		break;
 	case TYPE_NS32332:
-		printf("NS32332");
+		printl("NS32332");
 		break;
 	case TYPE_NS32532:
-		printf("NS32532");
+		printl("NS32532");
 		/*switch (cpu_subtype) { aaaand don't feel like it
 MMAX_DPC
 SQT
@@ -161,164 +161,164 @@ MMAX_XPC
 		break;
 	case TYPE_I386:
 		switch (cpu_subtype) {
-		default: printf("any x86"); break;
-		case _i386: printf("i386"); break;
-		case i486: printf("i486"); break;
-		case i486SX: printf("i486SX"); break;
-		case i586: printf("i586"); break;
-		case PENPRO: printf("Pentium Pro"); break;
-		case PENTII_M3: printf("Pentium III (M3)"); break;
-		case PENTII_M5: printf("Pentium III (M5)"); break;
-		case PENTIUM_4: printf("Pentium 4"); break;
+		default: printl("any x86"); break;
+		case _i386: printl("i386"); break;
+		case i486: printl("i486"); break;
+		case i486SX: printl("i486SX"); break;
+		case i586: printl("i586"); break;
+		case PENPRO: printl("Pentium Pro"); break;
+		case PENTII_M3: printl("Pentium III (M3)"); break;
+		case PENTII_M5: printl("Pentium III (M5)"); break;
+		case PENTIUM_4: printl("Pentium 4"); break;
 		}
 		break;
 	case TYPE_X86_64:
-		printf("any x86-64");
+		printl("any x86-64");
 		break;
 	case TYPE_MIPS:
 		switch (cpu_subtype) {
-		default: printf("any MIPS"); break;
-		case R2300: printf("R2300"); break;
-		case R2600: printf("R2600"); break;
-		case R2800: printf("R2800"); break;
-		case R2800a: printf("R2800a"); break;
+		default: printl("any MIPS"); break;
+		case R2300: printl("R2300"); break;
+		case R2600: printl("R2600"); break;
+		case R2800: printl("R2800"); break;
+		case R2800a: printl("R2800a"); break;
 		}
 		break;
 	case TYPE_MC680x0:
 		switch (cpu_subtype) {
-		default: printf("any Motorola 68000"); break;
-		case MC68030: printf("MC68030"); break;
-		case MC68040: printf("MC68040"); break;
-		case MC68030_ONLY: printf("MC68030 (only)"); break;
+		default: printl("any Motorola 68000"); break;
+		case MC68030: printl("MC68030"); break;
+		case MC68040: printl("MC68040"); break;
+		case MC68030_ONLY: printl("MC68030 (only)"); break;
 		}
 		break;
 	case TYPE_HPPA:
 		switch (cpu_subtype) {
-		default: printf("HPPA7100"); break;
-		case HPPA7100LC: printf("HPPA7100LC"); break;
+		default: printl("HPPA7100"); break;
+		case HPPA7100LC: printl("HPPA7100LC"); break;
 		}
 		break;
 	case TYPE_ARM:
 		if (cpu_subtype) {
-			printf("ARM ");
+			printl("ARM ");
 			switch (cpu_subtype) {
-			case A500_ARCH: printf("A500 Arch"); break;
-			case A500: printf("A500"); break;
-			case A440: printf("A440"); break;
-			case M4: printf("M4"); break;
-			case V4T: printf("V4T"); break;
-			case V6: printf("V6"); break;
-			case V5TEJ: printf("V5TEJ"); break;
-			case XSCALE: printf("XSCALE"); break;
-			case V7: printf("V7"); break;
+			case A500_ARCH: printl("A500 Arch"); break;
+			case A500: printl("A500"); break;
+			case A440: printl("A440"); break;
+			case M4: printl("M4"); break;
+			case V4T: printl("V4T"); break;
+			case V6: printl("V6"); break;
+			case V5TEJ: printl("V5TEJ"); break;
+			case XSCALE: printl("XSCALE"); break;
+			case V7: printl("V7"); break;
 			}
-		} else printf("any ARM");
+		} else printl("any ARM");
 		break;
 	case TYPE_MC88000:
 		switch (cpu_subtype) {
-		default: printf("any Motorola 88000"); break;
-		case MC88100: printf("MC88100"); break;
-		case MC88110: printf("MC88110"); break;
+		default: printl("any Motorola 88000"); break;
+		case MC88100: printl("MC88100"); break;
+		case MC88110: printl("MC88110"); break;
 		}
 		break;
 	case TYPE_MC98000:
 		if (cpu_subtype)
-			printf("MC98601");
+			printl("MC98601");
 		else
-			printf("MC98000");
+			printl("MC98000");
 		break;
 	case TYPE_I860:
-		if (cpu_subtype) printf("any i860 (MSB)");
-		else printf("any i860 (MSB)");
+		if (cpu_subtype) printl("any i860 (MSB)");
+		else printl("any i860 (MSB)");
 		break;
 	case TYPE_I860_LITTLE:
-		if (cpu_subtype) printf("any i860 (LSB)");
-		else printf("any i860 (LSB)");
+		if (cpu_subtype) printl("any i860 (LSB)");
+		else printl("any i860 (LSB)");
 		break;
 	case TYPE_RS6000:
-		printf("RS6000");
+		printl("RS6000");
 		break;
 	case TYPE_POWERPC64:
 	case TYPE_POWERPC:
-		printf("PowerPC");
-		if (TYPE_POWERPC64) printf("64");
+		printl("PowerPC");
+		if (TYPE_POWERPC64) printl("64");
 		switch (cpu_subtype) {
-		case POWERPC_601: printf(" 601"); break;
-		case POWERPC_602: printf(" 602"); break;
-		case POWERPC_603: printf(" 603"); break;
-		case POWERPC_603e: printf(" 603e"); break;
-		case POWERPC_603ev: printf(" 603ev"); break;
-		case POWERPC_604: printf(" 604"); break;
-		case POWERPC_604e: printf(" 604e"); break;
-		case POWERPC_620: printf(" 620"); break;
-		case POWERPC_750: printf(" 750"); break;
-		case POWERPC_7400: printf(" 7400"); break;
-		case POWERPC_7450: printf(" 7450"); break;
-		case POWERPC_970: printf(" 970"); break;
+		case POWERPC_601: printl(" 601"); break;
+		case POWERPC_602: printl(" 602"); break;
+		case POWERPC_603: printl(" 603"); break;
+		case POWERPC_603e: printl(" 603e"); break;
+		case POWERPC_603ev: printl(" 603ev"); break;
+		case POWERPC_604: printl(" 604"); break;
+		case POWERPC_604e: printl(" 604e"); break;
+		case POWERPC_620: printl(" 620"); break;
+		case POWERPC_750: printl(" 750"); break;
+		case POWERPC_7400: printl(" 7400"); break;
+		case POWERPC_7450: printl(" 7450"); break;
+		case POWERPC_970: printl(" 970"); break;
 		default: break;
 		}
 		break;
 	case TYPE_VEO:
-		printf("any VEO");
+		printl("any VEO");
 		break;
 	}
 
-	printf(" processors");
+	printl(" processors");
 
 	if (flags) {
 		if (flags & MH_NOUNDEFS)
-			printf(", MH_NOUNDEFS");
+			printl(", MH_NOUNDEFS");
 		if (flags & MH_INCRLINK)
-			printf(", MH_INCRLINK");
+			printl(", MH_INCRLINK");
 		if (flags & MH_DYLDLINK)
-			printf(", MH_DYLDLINK");
+			printl(", MH_DYLDLINK");
 		if (flags & MH_BINDATLOAD)
-			printf(", MH_BINDATLOAD");
+			printl(", MH_BINDATLOAD");
 		if (flags & MH_PREBOUND)
-			printf(", MH_PREBOUND");
+			printl(", MH_PREBOUND");
 		if (flags & MH_SPLIT_SEGS)
-			printf(", MH_SPLIT_SEGS");
+			printl(", MH_SPLIT_SEGS");
 		if (flags & MH_LAZY_INIT)
-			printf(", MH_LAZY_INIT");
+			printl(", MH_LAZY_INIT");
 		if (flags & MH_TWOLEVEL)
-			printf(", MH_TWOLEVEL");
+			printl(", MH_TWOLEVEL");
 		if (flags & MH_FORCE_FLAT)
-			printf(", MH_FORCE_FLAT");
+			printl(", MH_FORCE_FLAT");
 		if (flags & MH_NOMULTIDEFS)
-			printf(", MH_NOMULTIDEFS");
+			printl(", MH_NOMULTIDEFS");
 		if (flags & MH_NOFIXPREBINDING)
-			printf(", MH_NOFIXPREBINDING");
+			printl(", MH_NOFIXPREBINDING");
 		if (flags & MH_PREBINDABLE)
-			printf(", MH_PREBINDABLE");
+			printl(", MH_PREBINDABLE");
 		if (flags & MH_ALLMODSBOUND)
-			printf(", MH_ALLMODSBOUND");
+			printl(", MH_ALLMODSBOUND");
 		if (flags & MH_SUBSECTIONS_VIA_SYMBOLS)
-			printf(", MH_SUBSECTIONS_VIA_SYMBOLS");
+			printl(", MH_SUBSECTIONS_VIA_SYMBOLS");
 		if (flags & MH_CANONICAL)
-			printf(", MH_CANONICAL");
+			printl(", MH_CANONICAL");
 		if (flags & MH_WEAK_DEFINES)
-			printf(", MH_WEAK_DEFINES");
+			printl(", MH_WEAK_DEFINES");
 		if (flags & MH_BINDS_TO_WEAK)
-			printf(", MH_BINDS_TO_WEAK");
+			printl(", MH_BINDS_TO_WEAK");
 		if (flags & MH_ALLOW_STACK_EXECUTION)
-			printf(", MH_ALLOW_STACK_EXECUTION");
+			printl(", MH_ALLOW_STACK_EXECUTION");
 		if (flags & MH_ROOT_SAFE)
-			printf(", MH_ROOT_SAFE");
+			printl(", MH_ROOT_SAFE");
 		if (flags & MH_SETUID_SAFE)
-			printf(", MH_SETUID_SAFE");
+			printl(", MH_SETUID_SAFE");
 		if (flags & MH_NO_REEXPORTED_DYLIBS)
-			printf(", MH_NO_REEXPORTED_DYLIBS");
+			printl(", MH_NO_REEXPORTED_DYLIBS");
 		if (flags & MH_PIE)
-			printf(", MH_PIE");
+			printl(", MH_PIE");
 		if (flags & MH_DEAD_STRIPPABLE_DYLIB)
-			printf(", MH_DEAD_STRIPPABLE_DYLIB");
+			printl(", MH_DEAD_STRIPPABLE_DYLIB");
 		if (flags & MH_HAS_TLV_DESCRIPTORS)
-			printf(", MH_HAS_TLV_DESCRIPTORS");
+			printl(", MH_HAS_TLV_DESCRIPTORS");
 		if (flags & MH_NO_HEAP_EXECUTION)
-			printf(", MH_NO_HEAP_EXECUTION");
+			printl(", MH_NO_HEAP_EXECUTION");
 		if (flags & MH_APP_EXTENSION_SAFE)
-			printf(", MH_APP_EXTENSION_SAFE");
+			printl(", MH_APP_EXTENSION_SAFE");
 	}
 
-	puts("");
+	printl("\n");
 }

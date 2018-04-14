@@ -27,7 +27,7 @@ void scan_tar() {
 
 	printl(" Tar archive of ");
 	_printfd(s);
-	puts("");
+	printl("\n");
 
 	if (More) {
 		printf(

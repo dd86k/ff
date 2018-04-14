@@ -29,7 +29,7 @@ void scan_nesm() {
 	if (h.chip & 0x20)
 		printf("Sunsoft FME-07, ");
 
-	printf("\"%s - %s\", (c) %s\n",
+	printf("\"%.32s - %.32s\", (c) %.32s\n",
 		h.song_artist,
 		h.song_name,
 		h.song_copyright);

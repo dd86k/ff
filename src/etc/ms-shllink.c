@@ -4,7 +4,7 @@
 #include "../ff.h"
 #include "ms-shllink.h"
 
-// See [MS-SHLLINK].pdf from Microsoft.
+// See [MS-SHLLINK].pdf, Microsoft
 void scan_lnk() {
 	struct ShellLinkHeader h;
 	_ddread(&h, sizeof(h));
@@ -52,7 +52,7 @@ void scan_lnk() {
 		printf(", to %s", t);
 	}*/
 
-	puts("");
+	printl("\n");
 
 	if (More) {
 		printf("LinkCLSID:");

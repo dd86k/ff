@@ -12,9 +12,9 @@ void scan_gif() {
 	reportn("GIF");
 
 	switch (h.version_[1]) { // 87a, 89a, lazy switch
-		case '7': printl("87a"); break;
-		case '9': printl("89a"); break;
-		default: printl(" image, non-supported version\n"); return;
+	case '7': printl("87a"); break;
+	case '9': printl("89a"); break;
+	default: printl(" image, non-supported version\n"); return;
 	}
 
 	printf(" image, %d x %d pixels, %d-bit",
@@ -35,5 +35,5 @@ void scan_gif() {
 			printf(", %f pixel ratio (reported)", ((float)h.aspect + 15) / 64);
 	}
 
-	puts("");
+	printl("\n");
 }

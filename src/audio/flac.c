@@ -22,5 +22,5 @@ void scan_flac() {
 			print_array(h.md5, sizeof(h.md5));
 		}
 	}
-	puts("");
+	printl("\n");
 }

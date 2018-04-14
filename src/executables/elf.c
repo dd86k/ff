@@ -13,11 +13,11 @@ void scan_elf() {
     elf_print_class(h.e_ident[EI_CLASS-4]);
     elf_print_data(h.e_ident[EI_DATA-4]);
     elf_print_osabi(h.e_ident[EI_OSABI-4]);
-    printf(" ");
+    printl(" ");
     elf_print_type(h.e_type);
-    printf(" for ");
+    printl(" for ");
     elf_print_machine(h.e_machine);
-    printf(" machines\n");
+    puts(" machines");
 }
 
 // These functions below are also used by FATELF!
@@ -28,9 +28,9 @@ void scan_elf() {
  */
 void elf_print_class(uint8_t c) {
     switch (c) {
-    case 1: printf("32 "); break;
-    case 2: printf("64 "); break;
-    default: printf("? ");  break;
+    case 1: printl("32 "); break;
+    case 2: printl("64 "); break;
+    default: printl("? ");  break;
     }
 }
 
@@ -40,9 +40,9 @@ void elf_print_class(uint8_t c) {
  */
 void elf_print_data(uint8_t c) {
     switch (c) {
-    case 1: printf("LE "); break;
-    case 2: printf("BE "); break;
-    default: printf("? ");  break;
+    case 1: printl("LE "); break;
+    case 2: printl("BE "); break;
+    default: printl("? ");  break;
     }
 }
 
@@ -52,22 +52,22 @@ void elf_print_data(uint8_t c) {
  */
 void elf_print_osabi(uint8_t c) {
     switch (c) {
-    default:   printf("DECL?"); break;
-    case 0x00: printf("System V"); break;
-    case 0x01: printf("HP-UX"); break;
-    case 0x02: printf("NetBSD"); break;
-    case 0x03: printf("Linux"); break;
-    case 0x06: printf("Solaris"); break; 
-    case 0x07: printf("AIX"); break;
-    case 0x08: printf("IRIX"); break;
-    case 0x09: printf("FreeBSD"); break;
-    case 0x0C: printf("OpenBSD"); break;
-    case 0x0D: printf("OpenVMS"); break;
-    case 0x0E: printf("NonStop Kernel"); break;
-    case 0x0F: printf("AROS"); break;
-    case 0x10: printf("Fenix OS"); break;
-    case 0x11: printf("CloudABI"); break;
-    case 0x53: printf("Sortix"); break;
+    default:   printl("DECL?"); break;
+    case 0x00: printl("System V"); break;
+    case 0x01: printl("HP-UX"); break;
+    case 0x02: printl("NetBSD"); break;
+    case 0x03: printl("Linux"); break;
+    case 0x06: printl("Solaris"); break; 
+    case 0x07: printl("AIX"); break;
+    case 0x08: printl("IRIX"); break;
+    case 0x09: printl("FreeBSD"); break;
+    case 0x0C: printl("OpenBSD"); break;
+    case 0x0D: printl("OpenVMS"); break;
+    case 0x0E: printl("NonStop Kernel"); break;
+    case 0x0F: printl("AROS"); break;
+    case 0x10: printl("Fenix OS"); break;
+    case 0x11: printl("CloudABI"); break;
+    case 0x53: printl("Sortix"); break;
     }
 }
 
@@ -77,14 +77,14 @@ void elf_print_osabi(uint8_t c) {
  */
 void elf_print_type(uint16_t c) {
     switch (c) {
-    default:        printf("?"); break;
-    case ET_NONE:   printf("(No file type)"); break;
-    case ET_REL:    printf("Relocatable"); break;
-    case ET_EXEC:   printf("Executable"); break;
-    case ET_DYN:    printf("Shared object"); break;
-    case ET_CORE:   printf("Core"); break;
-    case ET_LOPROC: printf("Professor-specific (LO)"); break;
-    case ET_HIPROC: printf("Professor-specific (HI)"); break;
+    default:        printl("?"); break;
+    case ET_NONE:   printl("(No file type)"); break;
+    case ET_REL:    printl("Relocatable"); break;
+    case ET_EXEC:   printl("Executable"); break;
+    case ET_DYN:    printl("Shared object"); break;
+    case ET_CORE:   printl("Core"); break;
+    case ET_LOPROC: printl("Professor-specific (LO)"); break;
+    case ET_HIPROC: printl("Professor-specific (HI)"); break;
     }
 }
 
@@ -94,20 +94,20 @@ void elf_print_type(uint16_t c) {
  */
 void elf_print_machine(uint16_t c) {
     switch (c) {
-    case EM_NONE:    printf("no"); break;
-    case EM_M32:     printf("AT&T WE 32100 (M32)"); break;
-    case EM_SPARC:   printf("SPARC"); break;
-    case EM_860:     printf("Intel 80860"); break;
-    case EM_386:     printf("x86"); break;
-    case EM_IA64:    printf("IA64"); break;
-    case EM_AMD64:   printf("x86-64"); break;
-    case EM_68K:     printf("Motorola 68000"); break;
-    case EM_88K:     printf("Motorola 88000"); break;
-    case EM_MIPS:    printf("MIPS RS3000"); break;
-    case EM_POWERPC: printf("PowerPC"); break;
-    case EM_ARM:     printf("ARM"); break;
-    case EM_SUPERH:  printf("SuperH"); break;
-    case EM_AARCH64: printf("ARM (64-bit)"); break;
-    default:         printf("machine?"); break;
+    case EM_NONE:    printl("no"); break;
+    case EM_M32:     printl("AT&T WE 32100 (M32)"); break;
+    case EM_SPARC:   printl("SPARC"); break;
+    case EM_860:     printl("Intel 80860"); break;
+    case EM_386:     printl("x86"); break;
+    case EM_IA64:    printl("IA64"); break;
+    case EM_AMD64:   printl("x86-64"); break;
+    case EM_68K:     printl("Motorola 68000"); break;
+    case EM_88K:     printl("Motorola 88000"); break;
+    case EM_MIPS:    printl("MIPS RS3000"); break;
+    case EM_POWERPC: printl("PowerPC"); break;
+    case EM_ARM:     printl("ARM"); break;
+    case EM_SUPERH:  printl("SuperH"); break;
+    case EM_AARCH64: printl("ARM (64-bit)"); break;
+    default:         printl("machine?"); break;
     }
 }

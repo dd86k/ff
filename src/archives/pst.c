@@ -1,8 +1,8 @@
+#include <stdio.h>
 #include "../utils.h"
 #include "../settings.h"
 #include "../ff.h"
 #include "pst.h"
-#include <stdio.h>
 
 void scan_pst() {
     struct pst_header h;
@@ -29,13 +29,11 @@ void scan_pst() {
 		printl("Unicode, ");
 
 	switch (uh.crypt) {
-	case 0x01: printl("encrypted (Permutation algorithm)"); break;
-	case 0x02: printl("encrypted (Cyclic algorithm)"); break;
-	case 0x10: printl("encrypted (Windows Information Protection)"); break;
-	default: printl("unencrypted");
+	case 0x01: puts("encrypted (Permutation algorithm)"); break;
+	case 0x02: puts("encrypted (Cyclic algorithm)"); break;
+	case 0x10: puts("encrypted (Windows Information Protection)"); break;
+	default: puts("unencrypted");
 	}
-
-	puts("");
 
 	if (More) {
 		printf(

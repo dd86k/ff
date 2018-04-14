@@ -1,4 +1,5 @@
 #include <stdio.h> // Mostly for *nix
+#include <string.h>
 #include "utils.h"
 #include "ff.h"
 #include "etc.h"
@@ -135,8 +136,8 @@ void scan_etc() {
 	if (_ddseek(0x101, SEEK_SET) == 0) { // Tar files
 		char b[sizeof(TAR)];
 		_ddread(&b, sizeof(TAR));
-		if (strncmp(b, TAR, sizeof(TAR)) == 0 ||
-			strncmp(b, GNUTAR, sizeof(GNUTAR)) == 0) {
+		if (strcmp(b, TAR) == 0 ||
+			strcmp(b, GNUTAR) == 0) {
 			scan_tar();
 			return;
 		}
@@ -145,19 +146,19 @@ void scan_etc() {
 	if (_ddseek(0x8001, SEEK_SET) == 0) { // ISO files
 		char b[5];
 		_ddread(&b, 5);
-		if (strncmp(b, ISO, 5) == 0) {
+		if (strcmp(b, ISO) == 0) {
 			scan_iso(); return;
 		}
 
 		if (_ddseek(0x8801, SEEK_SET)) goto _END;
 		_ddread(&b, 5);
-		if (strncmp(b, ISO, 5) == 0) {
+		if (strcmp(b, ISO) == 0) {
 			scan_iso(); return;
 		}
 
 		if (_ddseek(0x9001, SEEK_SET)) goto _END;
 		_ddread(&b, 5);
-		if (strncmp(b, ISO, 5) == 0) {
+		if (strcmp(b, ISO) == 0) {
 			scan_iso(); return;
 		}
 	} //else goto _END;

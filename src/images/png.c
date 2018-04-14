@@ -17,72 +17,72 @@ void scan_png() {
 		case 1: case 2: case 4: case 8: case 16:
 			printf("%d", h.depth);
 			break;
-		default: printf("?"); break;
+		default: printl("?"); break;
 		}
-		printf("-bit Grayscale");
+		printl("-bit Grayscale");
 		break;
 	case 2:
 		switch (h.depth) {
 		case 8: case 16:
 			printf("%d", h.depth*3);
 			break;
-		default: printf("?"); break;
+		default: printl("?"); break;
 		}
-		printf("-bit RGB");
+		printl("-bit RGB");
 		break;
 	case 3:
 		switch (h.depth) {
 		case 1: case 2: case 4: case 8:
-			printf("8");
+			printl("8");
 			break;
-		default: printf("?"); break;
+		default: printl("?"); break;
 		}
-		printf("-bit PLTE Palette");
+		printl("-bit PLTE Palette");
 		break;
 	case 4:
 		switch (h.depth) {
 		case 8: case 16:
 			printf("%d", h.depth);
 			break;
-		default: printf("?"); break;
+		default: printl("?"); break;
 		}
-		printf("-bit Grayscale+Alpha");
+		printl("-bit Grayscale+Alpha");
 		break;
 	case 6:
 		switch (h.depth) {
 		case 8: case 16:
-			printf("32");
+			printl("32");
 			break;
-		default: printf("?"); break;
+		default: printl("?"); break;
 		}
-		printf("-bit RGBA");
+		printl("-bit RGBA");
 		break;
-	default: printf("?"); break;
+	default: printl("?"); break;
 	}
 
-	puts("");
+	printl("\n");
 
 	if (More) {
 		switch (h.compression) {
-		case 0: printf("Default compression"); break;
-		default: printf("? compression"); break;
+		case 0: printl("Default compression"); break;
+		default: printl("? compression"); break;
 		}
 
-		printf(", ");
+		printl(", ");
 
 		switch (h.filter) {
-		case 0: printf("Default filtering"); break;
-		default: printf("? filtering"); break;
+		case 0: printl("Default filtering"); break;
+		default: printl("? filtering"); break;
 		}
 
-		printf(", ");
+		printl(", ");
 
 		switch (h.interlace) {
-		case 0: printf("No interlacing"); break;
-		case 1: printf("Adam7 interlacing"); break;
-		default: printf("? interlacing"); break;
+		case 0: printl("No interlacing"); break;
+		case 1: printl("Adam7 interlacing"); break;
+		default: printl("? interlacing"); break;
 		}
 
-		puts("");
+		printl("\n");
 	}
 }

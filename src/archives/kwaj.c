@@ -11,18 +11,18 @@ void scan_kwaj() {
 	reportn("MS-DOS KWAJ archive, ");
 
 	switch (h.method) {
-	case 0: printl("non-compressed"); break;
+	case 0: printl("uncompressed"); break;
 	case 1: printl("FFh-XOR'd data"); break;
 	case 2: printl("regular compression"); break;
 	case 3: printl("LZ + Huffman \"Jeff Johnson\" compressed"); break;
 	case 4: printl("MS-ZIP compressed"); break;
-	default: printf("?");
+	default: printf("?"); return;
 	}
 
 	if (h.offset)
 		printf(", offset: %Xh", h.offset);
 
-	if (h.header & NAME || h.header & EXT) {
+	if (h.header & (NAME | EXT)) {
 		int offset = 0;
 		if (h.header & ULENGHT) offset += 4;
 		if (h.header & UNKNOWN) offset += 2;
@@ -31,10 +31,11 @@ void scan_kwaj() {
 		if (offset)
 			_ddseek(offset, SEEK_CUR);
 
-		char s[12] = { 0 }; // 8.3 limit + \0
-		_ddread(&s, sizeof(s));
+		char s[13]; // 8.3 limit + \0
+		_ddread(s, sizeof(s));
+		*(s + 12) = '\0';
 		printf(", \"%s\"", s);
 	}
 
-	puts("");
+	printl("\n");
 }

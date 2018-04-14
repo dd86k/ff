@@ -23,7 +23,7 @@ void scan_vhd() { // big-endian
 		if (h.disk_type < 7)
 			printl("reserved (deprecated)");
 		else {
-			printl("Invalid type");
+			printl("?");
 			return;
 		}
 	}
@@ -37,8 +37,10 @@ void scan_vhd() { // big-endian
 	default: printl("OS?"); break;
 	}
 
-	printl(", "); _printfd(bswap64(h.size_current));
-	printl("/"); _printfd(bswap64(h.size_original));
+	printl(", ");
+	_printfd(bswap64(h.size_current));
+	printl("/");
+	_printfd(bswap64(h.size_original));
 	printl(" used");
 
 	if (h.features & F_TEMPORARY)
@@ -47,7 +49,7 @@ void scan_vhd() { // big-endian
 	if (h.savedState)
 		printl(", saved state");
 
-	puts("");
+	printl("\n");
 
 	if (More) {
 		printl("UUID: ");
