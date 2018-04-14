@@ -19,22 +19,27 @@ void scan_deb() {
 	struct deb_hdr h;
 	struct deb_data_hdr dh;
 
-	_ddread(&h, sizeof(h) + sizeof(dh));
-	if (strcmp(h.file_iden, DEBIANBIN)) {
+	_ddread(&h, sizeof(h));
+	if (strncmp(h.file_iden, DEBIANBIN, sizeof(DEBIANBIN) - 1)) {
 		report_text();
 		return;
 	}
 
-	long deb_fsize = strtol(h.ctl_filesize, NULL, sizeof(h.ctl_filesize));
-	long ctl_fsize = strtol(dh.filesize, NULL, sizeof(dh.filesize));
+	long dfsize = strtol(h.ctl_filesize, NULL, sizeof(h.ctl_filesize));
+	if (dfsize) {
+		_ddseek(dfsize, SEEK_CUR);
+		_ddread(&dh, sizeof(dh));
+	}
+
+	long cfsize = strtol(dh.filesize, NULL, sizeof(dh.filesize));
 	_debslice(h.ctl_file_ident, sizeof(h.ctl_file_ident));
-	//_debslice(dh.file_ident, sizeof(dh.file_ident));
+	_debslice(dh.file_ident, sizeof(dh.file_ident));
 
 	reportn("Debian package v");
 	printf("%.3s", h.version);
 	printf(", %s (", h.ctl_file_ident);
-	_printfd(deb_fsize);
+	_printfd(dfsize);
 	printf("), %s (", dh.file_ident);
-	_printfd(ctl_fsize);
+	_printfd(cfsize);
 	puts(")");
 }
