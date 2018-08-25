@@ -23,7 +23,7 @@ void scan_flif() {
 	case 1: printl(", Grayscale"); break;
 	case 3: printl(", RGB"); break;
 	case 4: printl(", RGBA"); break;
-	default: printl(", %d channels", h.type & 0xF);
+	default: printf(", %d channels", h.type & 0xF);
 	}
 
 	switch (h.type >> 4) {

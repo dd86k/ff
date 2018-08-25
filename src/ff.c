@@ -183,8 +183,7 @@ void scan() {
 		case 0x70797466: // "ftyp"
 			switch (*(b + 1)) {
 			case 0x6D6F7369: // "isom"
-			//TODO: WARNING -- m4a is based on this
-				report("ISO Base Media (MPEG-4) v1 video");
+				report("ISO Base Media (MPEG-4) v1 video container");
 				return;
 			case 0x20207471: // "qt  "
 				report("QuickTime video");

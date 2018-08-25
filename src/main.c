@@ -14,7 +14,7 @@
 void help() {
 	puts(
 		"Simple binary file scanner\n"
-		"  Usage: ff [OPTIONS] FILE\n"
+		"  Usage: ff FILE [OPTIONS]\n"
 		"         ff {-v|--version|-h|--help}\n"
 		"\nOPTIONS\n"
 		" -c   Continue on soft symbolic link\n"
@@ -94,15 +94,15 @@ MAIN {
 		return 0;
 	}
 	while (--argc >= 1) {
-		++argv;
 		if (_args) {
-			if ((*argv)[1] == '-') { // long arguments
-				sb(*argv + 2); continue;
-			} else if ((*argv)[0] == '-') { // short arguments
-				sa(*argv); continue;
+			if (argv[argc][1] == '-') { // long arguments
+				sb(argv[argc] + 2); continue;
+			} else if (argv[argc][0] == '-') { // short arguments
+				sa(argv[argc]); continue;
 			}
 		}
-		_currf = *argv;
+		_currf = argv[argc];
+	// -- Windows --
 #ifdef _WIN32
 		uint32_t a = GetFileAttributesW(_currf);
 		if (a == 0xFFFFFFFF) { // INVALID_FILE_ATTRIBUTES
@@ -135,7 +135,7 @@ _fo:		f = CreateFileW(_currf,
 			scan();
 			CloseHandle(f);
 		}
-#else // POSIX
+#else // -- POSIX --
 		struct stat s;
 		if (lstat(_currf, &s) == 0) {
 			switch (s.st_mode & S_IFMT) { // stat(2)
