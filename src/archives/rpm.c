@@ -9,9 +9,9 @@ void scan_rpm() {
 	_ddread(&h, sizeof(h));
 	reportn("RPM ");
 	switch (h.type) {
-	case 0: printf("binary"); break;
-	case 0x100: printf("source"); break;
-	default: printf("?");
+	case 0: printl("binary"); break;
+	case 0x100: printl("source"); break;
+	default: putchar('?');
 	}
 	printf(" package v%d.%d, \"%.66s\" for ",
 		h.major, h.minor, h.name);

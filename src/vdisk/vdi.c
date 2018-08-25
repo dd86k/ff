@@ -36,23 +36,23 @@ void scan_vdi() {
 	reportn("VirtualBox VDI vdisk v");
 	printf("%d.%d, ", h.majorv, h.minorv);
 	switch (sh.u32Type) {
-	case 1: printf("dynamic"); break;
-	case 2: printf("static"); break;
-	default: printf("type?"); break;
+	case 1: printl("dynamic"); break;
+	case 2: printl("static"); break;
+	default: printl("type?"); break;
 	}
-	printf(", ");
+	printl(", ");
 	_printfd(sh.cbDisk);
 	putchar('\n');
 
 	if (More) {
-		printf("Create UUID:");
+		printl("Create UUID:");
 		print_array(sh.uuidCreate, 16);
-		printf("Modify UUID:");
+		printl("Modify UUID:");
 		print_array(sh.uuidModify, 16);
-		printf("Link UUID  :");
+		printl("Link UUID  :");
 		print_array(sh.uuidLinkage, 16);
 		if (h.majorv >= 1) {
-			printf("ParentModify UUID:");
+			printl("ParentModify UUID:");
 			print_array(sh.uuidParentModify, 16);
 		}
 		printf(

@@ -12,25 +12,25 @@ void scan_ne() {
 	reportn("NE ");
 
 	if (h.ne_flags & NENOTP)
-		printf("Library");
+		printl("Library");
 	else
-		printf("Executable");
+		printl("Executable");
 
 	printf(", Windows %d.%d expected", h.ne_expver[1], h.ne_expver[0]);
 
 	if (h.ne_flags) {
 		if (h.ne_flags & NENONC)
-			printf(", non-conform program");
+			printl(", non-conform program");
 		if (h.ne_flags & NEIERR)
-			printf(", errors in image");
+			printl(", errors in image");
 		if (h.ne_flags & NEPROT)
-			printf(", runs in protected mode");
+			printl(", runs in protected mode");
 		if (h.ne_flags & NEREAL)
-			printf(", runs in real mode");
+			printl(", runs in real mode");
 		if (h.ne_flags & NEINST)
-			printf(", instance data");
+			printl(", instance data");
 		if (h.ne_flags & NESOLO)
-			printf(", solo data");
+			printl(", solo data");
 	}
 
 	putchar('\n');

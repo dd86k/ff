@@ -39,17 +39,17 @@ void scan_zip() {
 	}
 
 	_printfd(h.csize);
-	printf("/");
+	putchar('/');
 	_printfd(h.usize);
 
 	if (h.flag & ENCRYPTED)
-		printf(", encrypted");
+		printl(", encrypted");
 	if (h.flag & STRONG_ENCRYPTION)
-		printf(", strong encryption");
+		printl(", strong encryption");
 	if (h.flag & COMPRESSED_PATCH)
-		printf(", compression patch");
+		printl(", compression patch");
 	if (h.flag & ENHANCED_DEFLATION)
-		printf(", enhanced deflation");
+		printl(", enhanced deflation");
 
 	putchar('\n');
 

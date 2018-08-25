@@ -5,10 +5,10 @@
 #include "pst.h"
 
 void scan_pst() {
-    struct pst_header h;
-    struct pst_unicode uh;
-    _ddread(&h, sizeof(h));
-    char ansi = 0;
+	struct pst_header h;
+	struct pst_unicode uh;
+	_ddread(&h, sizeof(h));
+	char ansi = 0;
 	char unicode = 0;
 
 	if (h.version_ == 14 || h.version_ == 15) {

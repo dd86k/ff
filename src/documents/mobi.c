@@ -23,60 +23,60 @@ void scan_mobi() { // Big-endian
 	switch (mh.Type) {
 	case 0xE8000000: // 232
 	case 0x02000000: // 2
-		printf("ebook");
+		printl("ebook");
 		break;
 	case 0x03000000: // 3
-		printf("PalmDoc ebook");
+		printl("PalmDoc ebook");
 		break;
 	case 0x04000000: // 4
-		printf("audio");
+		printl("audio");
 		break;
 	case 0xF8000000: // 248
-		printf("KF8");
+		printl("KF8");
 		break;
 	case 0x01010000: // 257
-		printf("News");
+		printl("News");
 		break;
 	case 0x02010000: // 258
-		printf("News feed");
+		printl("News feed");
 		break;
 	case 0x03010000: // 259
-		printf("News magazine");
+		printl("News magazine");
 		break;
 	case 0x01020000: // 513
-		printf("PICS");
+		printl("PICS");
 		break;
 	case 0x02020000: // 514
-		printf("WORD");
+		printl("WORD");
 		break;
 	case 0x03020000: // 515
-		printf("XLS");
+		printl("XLS");
 		break;
 	case 0x04020000: // 516
-		printf("PPT");
+		printl("PPT");
 		break;
 	case 0x05020000: // 517
-		printf("TEXT");
+		printl("TEXT");
 		break;
 	case 0x06020000: // 518
-		printf("HTML");
+		printl("HTML");
 		break;
 	default:
-		printf("?");
+		printl("?");
 		break;
 	}
 
-	printf(" document");
+	printl(" document");
 
 	if (h.Compression == 0x0100)
-		printf(", PalmDOC compressed");
+		printl(", PalmDOC compressed");
 	else if (h.Compression == 0x4844)
-		printf(", HUFF/CDIC compressed");
+		printl(", HUFF/CDIC compressed");
 
 	if (h.Encryption == 0x0100)
-		printf(", Legacy Mobipocket encryption");
+		printl(", Legacy Mobipocket encryption");
 	else if (h.Encryption == 0x0200)
-		printf(", Mobipocket encryption");
+		printl(", Mobipocket encryption");
 
 	palmdb_name();
 }
@@ -88,9 +88,9 @@ void scan_palmdoc() {
     reportn("Palm document");
 
     if (h.Compression == 0x0100) // Big Endian
-        printf(", PalmDOC compressed");
+        printl(", PalmDOC compressed");
     else if (h.Compression == 0x4844) // 17480
-        printf(", HUFF/CDIC compressed");
+        printl(", HUFF/CDIC compressed");
 
     palmdb_name();
 }

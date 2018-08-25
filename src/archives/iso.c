@@ -93,7 +93,7 @@ ISO_DONE:
 	reportn("ISO-9660 disc");
 	printf(" \"%s\", ", label);
 	_printfd(volume_size);
-	if (bootable) printf(", Bootable");
+	if (bootable) printl(", Bootable");
 	putchar('\n');
 
 	if (More) {

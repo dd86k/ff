@@ -3,17 +3,17 @@
 #include "../utils.h"
 #include "midi.h"
 
-void scan_midi() { // Bigendian
+void scan_midi() { // Big-endian
 	struct midi_hdr h;
 	_ddread(&h, sizeof(h));
 
 	reportn("MIDI: ");
 
 	switch (h.format) {
-	case 0: printf("Single track"); break;
-	case 0x0100: printf("Multiple tracks"); break;
-	case 0x0200: printf("Multiple songs"); break;
-	default: printf("?"); return;
+	case 0: printl("Single track"); break;
+	case 0x0100: printl("Multiple tracks"); break;
+	case 0x0200: printl("Multiple songs"); break;
+	default: putchar('?'); return;
 	}
 
 	uint16_t div = bswap16(h.division);

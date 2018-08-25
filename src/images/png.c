@@ -5,10 +5,10 @@
 #include "png.h"
 
 void scan_png() {
-    struct ihdr_chunk_full h;
-    _ddseek(16, SEEK_SET); // Magic!
-    _ddread(&h, sizeof(h));
-    reportn("Portable Network Graphics image, ");
+	struct ihdr_chunk_full h;
+	_ddseek(16, SEEK_SET); // Magic!
+	_ddread(&h, sizeof(h));
+	reportn("Portable Network Graphics image, ");
 
 	printf("%d x %d pixels, ", bswap32(h.width), bswap32(h.height));
 	switch (h.color) {
@@ -17,7 +17,7 @@ void scan_png() {
 		case 1: case 2: case 4: case 8: case 16:
 			printf("%d", h.depth);
 			break;
-		default: printl("?"); break;
+		default: putchar('?'); break;
 		}
 		printl("-bit Grayscale");
 		break;
@@ -26,7 +26,7 @@ void scan_png() {
 		case 8: case 16:
 			printf("%d", h.depth*3);
 			break;
-		default: printl("?"); break;
+		default: putchar('?'); break;
 		}
 		printl("-bit RGB");
 		break;
@@ -35,7 +35,7 @@ void scan_png() {
 		case 1: case 2: case 4: case 8:
 			printl("8");
 			break;
-		default: printl("?"); break;
+		default: putchar('?'); break;
 		}
 		printl("-bit PLTE Palette");
 		break;
@@ -44,7 +44,7 @@ void scan_png() {
 		case 8: case 16:
 			printf("%d", h.depth);
 			break;
-		default: printl("?"); break;
+		default: putchar('?'); break;
 		}
 		printl("-bit Grayscale+Alpha");
 		break;
@@ -53,34 +53,30 @@ void scan_png() {
 		case 8: case 16:
 			printl("32");
 			break;
-		default: printl("?"); break;
+		default: putchar('?'); break;
 		}
 		printl("-bit RGBA");
 		break;
-	default: printl("?"); break;
+	default: putchar('?'); break;
 	}
 
 	putchar('\n');
 
 	if (More) {
 		switch (h.compression) {
-		case 0: printl("Default compression"); break;
-		default: printl("? compression"); break;
+		case 0: printl("Default compression, "); break;
+		default: printl("compression?, "); break;
 		}
-
-		printl(", ");
 
 		switch (h.filter) {
-		case 0: printl("Default filtering"); break;
-		default: printl("? filtering"); break;
+		case 0: printl("Default filtering, "); break;
+		default: printl("filtering?, "); break;
 		}
-
-		printl(", ");
 
 		switch (h.interlace) {
 		case 0: printl("No interlacing"); break;
 		case 1: printl("Adam7 interlacing"); break;
-		default: printl("? interlacing"); break;
+		default: printl("interlacing?"); break;
 		}
 
 		putchar('\n');

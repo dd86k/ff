@@ -21,7 +21,7 @@ void scan_pe() {
 
 	switch (peoh.magic) {
 	case ROM: printl("-ROM "); break;
-	case HDR32: printl(" "); break;
+	case HDR32: putchar(' '); break;
 	case HDR64: printl("+ "); break;
 	default: printl("? "); break;
 	}
@@ -61,7 +61,7 @@ void scan_pe() {
 		printl("Windows Boot Application");
 		break;
 	default:
-		printl("?");
+		putchar('?');
 		break;
 	}
 

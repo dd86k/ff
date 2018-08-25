@@ -150,12 +150,12 @@ void scan() {
 	case 0x4A4C4247: // "GBLJ"
 		reportn("GTA Text (GTA2+) in ");
 		switch (s) {
-		case 0x454C4247: printf("English\n");  break; // 'E'
-		case 0x464C4247: printf("French\n");   break; // 'F'
-		case 0x474C4247: printf("German\n");   break; // 'G'
-		case 0x494C4247: printf("Italian\n");  break; // 'I'
-		case 0x534C4247: printf("Spanish\n");  break; // 'S'
-		case 0x4A4C4247: printf("Japanese\n"); break; // 'J'
+		case 0x454C4247: puts("English");  return; // 'E'
+		case 0x464C4247: puts("French");   return; // 'F'
+		case 0x474C4247: puts("German");   return; // 'G'
+		case 0x494C4247: puts("Italian");  return; // 'I'
+		case 0x534C4247: puts("Spanish");  return; // 'S'
+		case 0x4A4C4247: puts("Japanese"); return; // 'J'
 		}
 		return;
 

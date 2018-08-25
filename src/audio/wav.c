@@ -25,7 +25,7 @@ void scan_wav() {
 	case PCM: printl("PCM"); break;
 	case IEEE_FLOAT: printl("IEEE Float"); break;
 	case ALAW: printl("8-bit ITU G.711 A-law"); break;
-	case MULAW: printf("8-bit ITU G.711 u-law"); break;
+	case MULAW: printl("8-bit ITU G.711 u-law"); break;
 	case EXTENSIBLE: printl("EXTENDED"); break;
 	case _MP2: printl("MPEG-1 Audio Layer II"); break;
 	default: puts("?)"); return; // Ends here pal

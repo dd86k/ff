@@ -17,17 +17,17 @@ void scan_nesm() {
 	printf(" Nintendo Sound audio, %d songs, ", h.total_song);
 
 	if (h.chip & 1)
-		printf("VRCVI, ");
+		printl("VRCVI, ");
 	if (h.chip & 2)
-		printf("VRCVII, ");
+		printl("VRCVII, ");
 	if (h.chip & 4)
-		printf("FDS, ");
+		printl("FDS, ");
 	if (h.chip & 8)
-		printf("MMC5, ");
+		printl("MMC5, ");
 	if (h.chip & 0x10)
-		printf("Namco 106, ");
+		printl("Namco 106, ");
 	if (h.chip & 0x20)
-		printf("Sunsoft FME-07, ");
+		printl("Sunsoft FME-07, ");
 
 	printf("\"%.32s - %.32s\", (c) %.32s\n",
 		h.song_artist,

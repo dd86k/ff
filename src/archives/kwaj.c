@@ -16,7 +16,7 @@ void scan_kwaj() {
 	case 2: printl("regular compression"); break;
 	case 3: printl("LZ + Huffman \"Jeff Johnson\" compressed"); break;
 	case 4: printl("MS-ZIP compressed"); break;
-	default: printf("?"); return;
+	default: putchar('?'); return;
 	}
 
 	if (h.offset)

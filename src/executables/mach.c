@@ -117,7 +117,7 @@ void scan_mach(uint32_t s) {
 	printl(" for ");
 
 	switch (cpu_type) {
-	default: printl("?"); break;
+	default: putchar('?'); break;
 	case TYPE_VAX:
 		switch (cpu_subtype) {
 		default: printl("VAX"); break;

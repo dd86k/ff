@@ -39,7 +39,7 @@ void scan_vhd() { // big-endian
 
 	printl(", ");
 	_printfd(bswap64(h.size_current));
-	printl("/");
+	putchar('/');
 	_printfd(bswap64(h.size_original));
 	printl(" used");
 

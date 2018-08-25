@@ -13,15 +13,15 @@ void scan_ps() { // big-endian
 		bswap16(h.version), bswap32(h.width),
 		bswap32(h.height), bswap16(h.depth));
 	switch (bswap16(h.colormode)) {
-	case 0: printf("Bitmap"); break;
-	case 1: printf("Grayscale"); break;
-	case 2: printf("Indexed"); break;
-	case 3: printf("RGB"); break;
-	case 4: printf("CMYK"); break;
-	case 7: printf("Multichannel"); break;
-	case 8: printf("Duotone"); break;
-	case 9: printf("Lab"); break;
-	default: printf("type?"); break;
+	case 0: printl("Bitmap"); break;
+	case 1: printl("Grayscale"); break;
+	case 2: printl("Indexed"); break;
+	case 3: printl("RGB"); break;
+	case 4: printl("CMYK"); break;
+	case 7: printl("Multichannel"); break;
+	case 8: printl("Duotone"); break;
+	case 9: printl("Lab"); break;
+	default: printl("type?"); break;
 	}
 	printf(", %d channel(s)\n", bswap16(h.channels));
 }

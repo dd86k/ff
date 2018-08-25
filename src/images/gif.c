@@ -22,17 +22,17 @@ void scan_gif() {
 
 	if (More) {
 		if (h.packed & GLOBAL_COLOR_TABLE) {
-			printf(", Global Color Table");
+			printl(", Global Color Table");
 			if (h.packed & 3)
-				printf(" of %lf bytes", pow(2, ((h.packed & 3) + 1)));
+				printl(" of %lf bytes", pow(2, ((h.packed & 3) + 1)));
 			if (h.packed & SORT_FLAG)
-				printf(", Sorted");
+				printl(", Sorted");
 			if (h.bgcolor)
-				printf(", BG Index of %X", h.bgcolor);
+				printl(", BG Index of %X", h.bgcolor);
 		}
 
 		if (h.aspect)
-			printf(", %f pixel ratio (reported)", ((float)h.aspect + 15) / 64);
+			printl(", %f pixel ratio (reported)", ((float)h.aspect + 15) / 64);
 	}
 
 	putchar('\n');
