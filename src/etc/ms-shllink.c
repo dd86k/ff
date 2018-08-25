@@ -3,6 +3,7 @@
 #include "../settings.h"
 #include "../ff.h"
 #include "ms-shllink.h"
+#include <inttypes.h>
 
 // See [MS-SHLLINK].pdf, Microsoft
 void scan_lnk() {
@@ -38,7 +39,7 @@ void scan_lnk() {
 				case 0x91: printl("scroll lock"); break;
 			}
 		}
-		putchar(")"); // from "hotkey ("
+		putchar(')'); // from "hotkey ("
 	}
 
 	/*if (h.flags & HasLinkTargetIDList &&
@@ -60,16 +61,16 @@ void scan_lnk() {
 		printf(
 			"LinkFlags: %Xh\n"
 			"FileAttributes: %Xh\n"
-			"CreationTime: %llXh\n"
-			"AccessTime: %llXh\n"
-			"WriteTime: %llXh\n"
+			"CreationTime: %"PRIX64"\n"
+			"AccessTime: %"PRIX64"\n"
+			"WriteTime: %"PRIX64"\n"
 			"FileSize: %Xh\n"
 			"IconIndex: %Xh\n"
 			"ShowCommand: %Xh\n"
 			"HotKey: %Xh\n",
-			h.flags, h.attrs, h.creation_time,
-			h.access_time, h.write_time, h.filesize,
-			h.icon_index, h.show_command, h.hotkey
+			h.flags, h.attrs,
+			h.creation_time, h.access_time, h.write_time,
+			h.filesize, h.icon_index, h.show_command, h.hotkey
 		);
 	}
 }
