@@ -43,6 +43,6 @@ void scan_wav() {
 		_ddread(guid, sizeof(guid));
 		printf("EXTENDED:");
 		print_array(guid, sizeof(guid));
-		printl("\n");
+		putchar('\n');
 	}
 }

@@ -37,5 +37,5 @@ void scan_kwaj() {
 		printf(", \"%s\"", s);
 	}
 
-	printl("\n");
+	putchar('\n');
 }

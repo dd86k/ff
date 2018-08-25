@@ -94,7 +94,7 @@ ISO_DONE:
 	printf(" \"%s\", ", label);
 	_printfd(volume_size);
 	if (bootable) printf(", Bootable");
-	printl("\n");
+	putchar('\n');
 
 	if (More) {
 		isodate(ctime);

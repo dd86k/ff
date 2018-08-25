@@ -13,7 +13,7 @@ void scan_elf() {
     elf_print_class(h.e_ident[EI_CLASS-4]);
     elf_print_data(h.e_ident[EI_DATA-4]);
     elf_print_osabi(h.e_ident[EI_OSABI-4]);
-    printl(" ");
+    putchar(' ');
     elf_print_type(h.e_type);
     printl(" for ");
     elf_print_machine(h.e_machine);

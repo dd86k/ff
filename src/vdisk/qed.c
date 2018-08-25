@@ -25,5 +25,5 @@ void scan_qed() {
 	if (h.features & QED_F_NEED_CHECK)
 		printl(", check needed");
 
-	printl("\n");
+	putchar('\n');
 }

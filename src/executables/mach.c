@@ -320,5 +320,5 @@ MMAX_XPC
 			printl(", MH_APP_EXTENSION_SAFE");
 	}
 
-	printl("\n");
+	putchar('\n');
 }

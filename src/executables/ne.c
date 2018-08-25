@@ -33,7 +33,7 @@ void scan_ne() {
 			printf(", solo data");
 	}
 
-	printl("\n");
+	putchar('\n');
 
 	if (More) {
 		//printf("ne_magic       : %s\n", &h.ne_magic[0]);

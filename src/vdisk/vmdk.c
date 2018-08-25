@@ -24,7 +24,7 @@ void scan_vmdk() {
 	if (h.uncleanShutdown)
 		printl(", unclean shutdown");
 
-	printl("\n");
+	putchar('\n');
 
 	if (More) {
 		printf(

@@ -102,5 +102,5 @@ void print_array(uint8_t *a, size_t s) {
 	while (--s) {
 		printf(" %02X", *a); ++a;
 	}
-	printl("\n");
+	putchar('\n');
 }

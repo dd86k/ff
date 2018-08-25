@@ -35,5 +35,5 @@ void scan_gif() {
 			printf(", %f pixel ratio (reported)", ((float)h.aspect + 15) / 64);
 	}
 
-	printl("\n");
+	putchar('\n');
 }

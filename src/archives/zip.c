@@ -51,7 +51,7 @@ void scan_zip() {
 	if (h.flag & ENHANCED_DEFLATION)
 		printf(", enhanced deflation");
 
-	printl("\n");
+	putchar('\n');
 
 	if (More) {
 		printf(

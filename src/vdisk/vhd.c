@@ -49,7 +49,7 @@ void scan_vhd() { // big-endian
 	if (h.savedState)
 		printl(", saved state");
 
-	printl("\n");
+	putchar('\n');
 
 	if (More) {
 		printl("UUID: ");

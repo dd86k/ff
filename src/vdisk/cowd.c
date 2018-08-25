@@ -15,7 +15,7 @@ void scan_cowd() {
 	reportn("ESXi COW vdisk v");
 	printf("%d, \"%s\", ", h.version, h.name);
 	_printfd(size);
-	printl("\n");
+	putchar('\n');
 
 	if (More) {
 		printf(

@@ -38,7 +38,7 @@ void scan_lnk() {
 				case 0x91: printl("scroll lock"); break;
 			}
 		}
-		printl(")"); // from "hotkey ("
+		putchar(")"); // from "hotkey ("
 	}
 
 	/*if (h.flags & HasLinkTargetIDList &&
@@ -52,7 +52,7 @@ void scan_lnk() {
 		printf(", to %s", t);
 	}*/
 
-	printl("\n");
+	putchar('\n');
 
 	if (More) {
 		printf("LinkCLSID:");

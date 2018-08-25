@@ -17,7 +17,7 @@ void scan_qcow2(void) {
 
 	switch (bswap32(h.crypt_method)) {
 	case C_AES: printl(", AES encrypted\n"); break;
-	default: printl("\n");
+	default: putchar('\n');
 	}
 
 	if (More) {

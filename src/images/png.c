@@ -60,7 +60,7 @@ void scan_png() {
 	default: printl("?"); break;
 	}
 
-	printl("\n");
+	putchar('\n');
 
 	if (More) {
 		switch (h.compression) {
@@ -83,6 +83,6 @@ void scan_png() {
 		default: printl("? interlacing"); break;
 		}
 
-		printl("\n");
+		putchar('\n');
 	}
 }

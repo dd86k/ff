@@ -176,7 +176,7 @@ void scan_pe() {
 			printl(", UP_SYSTEM_ONLY");
 	}
 
-	printl("\n");
+	putchar('\n');
 
 	if (More) {
 		printf(

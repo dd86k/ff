@@ -42,7 +42,7 @@ void scan_vdi() {
 	}
 	printf(", ");
 	_printfd(sh.cbDisk);
-	printl("\n");
+	putchar('\n');
 
 	if (More) {
 		printf("Create UUID:");
