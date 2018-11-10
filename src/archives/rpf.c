@@ -7,16 +7,20 @@
 void scan_rpf(uint32_t s) {
 	struct rpf_hdr h;
 	_ddread(&h, sizeof(h));
-	reportn("RPF ");
-	if (h.encrypted) printl("encrypted ");
-	printf("archive v%c (", (s >> 24) + 0x30);
+
+	char *e, *g;
+
+	e = h.encrypted ? "encrypted" : "unencrypted";
+
 	switch (s) {
-	case 0x30465052: printl("Table Tennis"); break;
-	case 0x32465052: printl("GTA IV"); break;
-	case 0x33465052: printl("GTA IV:A&MC:LA"); break;
-	case 0x34465052: printl("Max Payne 3"); break;
-	case 0x36465052: printl("Red Dead Redemption"); break;
-	case 0x37465052: printl("GTA V"); break;
+	case 0x30465052: g = "Table Tennis"; break;
+	case 0x32465052: g = "GTA IV"; break;
+	case 0x33465052: g = "GTA IV:A&MC:LA"; break;
+	case 0x34465052: g = "Max Payne 3"; break;
+	case 0x36465052: g = "Red Dead Redemption"; break;
+	case 0x37465052: g = "GTA V"; break;
 	}
-	printf("), %d entries\n", h.numentries);
+
+	reportf("RPF %s archive v%d for %s, %d entries",
+		e, s >> 24, g, h.numentries);
 }

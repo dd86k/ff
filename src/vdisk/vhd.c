@@ -7,36 +7,35 @@
 void scan_vhd() { // big-endian
 	struct vhd_hdr h;
 	_ddread(&h, sizeof(h));
+
 	h.features = bswap32(h.features);
 	if ((h.features & F_RES) == 0) {
 		report_text();
 		return;
 	}
-	h.disk_type = bswap32(h.disk_type);
-	reportf("Microsoft VHD vdisk v%d.%d, ", bswap16(h.major), bswap16(h.minor));
-	switch(h.disk_type) {
-	case D_FIXED: printl("fixed"); break;
-	case D_DYNAMIC: printl("dynamic"); break;
-	case D_DIFF: printl("differencing"); break;
-	default:
-		if (h.disk_type < 7)
-			printl("reserved (deprecated)");
-		else {
-			printl("?");
-			return;
-		}
-	}
 
-	printf(", %s v%d.%d on ",
-		h.creator_app, bswap16(h.creator_major), bswap16(h.creator_minor));
+	h.disk_type = bswap32(h.disk_type);
+
+	char *d, *os;
+
+	switch(h.disk_type) {
+	case D_FIXED:   d = "fixed"; break;
+	case D_DYNAMIC: d = "dynamic"; break;
+	case D_DIFF:    d = "differencing"; break;
+	default: d = h.disk_type < 7 ? "reserved (deprecated)" : "?";
+	}
 
 	switch (h.creator_os) {
-	case OS_WINDOWS: printl("Windows"); break;
-	case OS_MAC:     printl("macOS"); break;
-	default: printl("OS?"); break;
+	case OS_WINDOWS: os = "Windows"; break;
+	case OS_MAC:     os = "macOS"; break;
+	default:         os = "OS?"; break;
 	}
 
-	printl(", ");
+	reportf("Microsoft VHD vdisk v%d.%d, %s, %s v%d.%d on %s, ",
+		bswap16(h.major), bswap16(h.minor), d,
+		h.creator_app, bswap16(h.creator_major), bswap16(h.creator_minor),
+		os);
+
 	_printfd(bswap64(h.size_current));
 	putchar('/');
 	_printfd(bswap64(h.size_original));

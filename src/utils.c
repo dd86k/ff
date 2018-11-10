@@ -104,3 +104,7 @@ void print_array(uint8_t *a, size_t s) {
 	}
 	putchar('\n');
 }
+
+void ddstrncpy(char *d, char *s, int c) {
+	memcpy(d, s, c + 1);
+}

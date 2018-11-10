@@ -11,6 +11,7 @@ int _ddseek(int, int);
 void _printfd(unsigned long long);
 void printl(char *);
 void isoslice(char *, char *, size_t);
+void ddstrncpy(char *, char *, int);
 
 void print_array(uint8_t *, size_t);
 

@@ -7,17 +7,19 @@ void scan_midi() { // Big-endian
 	struct midi_hdr h;
 	_ddread(&h, sizeof(h));
 
-	reportn("MIDI ");
+	char *f;
 
 	switch (h.format) {
-	case 0: printl("Single track"); break;
-	case 0x0100: printl("Multiple tracks"); break;
-	case 0x0200: printl("Multiple songs"); break;
-	default: putchar('?'); return;
+	case 0: f = "single track"; break;
+	case 0x0100: f = "multiple tracks"; break;
+	case 0x0200: f = "multiple songs"; break;
+	default: report("MIDI?"); return;
 	}
 
 	uint16_t div = bswap16(h.division);
-	printf(", %d tracks at ", bswap16(h.number));
+
+	reportf("MIDI, %s, %d tracks at ", f, bswap16(h.tracks));
+
 	if (div & 0x8000) // Negative, SMPTE units
 		printf("%d ticks/frame (SMPTE: %d)\n", div & 0xFF, div >> 8 & 0xFF);
 	else // Ticks per beat

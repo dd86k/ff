@@ -11,6 +11,7 @@ struct fmt_chunk {
 	uint16_t nbvalidbits;
 	uint32_t speakmask; // Speaker position mask
 };
+
 #define FMT_CHUNK 0x20746D66 // "fmt "
 // Types
 #define PCM 1

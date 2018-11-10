@@ -7,7 +7,7 @@ void scan_nesm() {
 	struct nesm_hdr h;
 	_ddread(&h, sizeof(h));
 
-	char *r;
+	char *r, *c = "?";
 
 	if (h.flag & 0b10)
 		r = "Dual NTSC/PAL";
@@ -16,22 +16,22 @@ void scan_nesm() {
 	else
 		r = "PAL";
 
-	reportf("%s Nintendo Sound audio, %d songs, ", r, h.total_song);
-
 	if (h.chip & 1)
-		printl("VRCVI, ");
+		c = "VRCVI, ";
 	if (h.chip & 2)
-		printl("VRCVII, ");
+		c = "VRCVII, ";
 	if (h.chip & 4)
-		printl("FDS, ");
+		c = "FDS, ";
 	if (h.chip & 8)
-		printl("MMC5, ");
+		c = "MMC5, ";
 	if (h.chip & 0x10)
-		printl("Namco 106, ");
+		c = "Namco 106, ";
 	if (h.chip & 0x20)
-		printl("Sunsoft FME-07, ");
+		c = "Sunsoft FME-07, ";
 
-	printf("\"%.32s - %.32s\", (c) %.32s\n",
+	reportf("%s Nintendo Sound audio, %d songs, using %s, "
+		"\"%.32s - %.32s\", (c) %.32s\n",
+		r, h.total_song, c,
 		h.song_artist,
 		h.song_name,
 		h.song_copyright);

@@ -5,6 +5,7 @@
 #include <stdio.h>
 
 // Print name from PalmDB-like file
+//TODO: pass a pointer and copy the string directly for reportf usage
 void palmdb_name() {
 	char name[32];
 	_ddseek(0, SEEK_SET);
@@ -66,17 +67,22 @@ void scan_mobi() { // Big-endian
 		break;
 	}
 
-	reportf("Mobipocket %s document", r);
+	char *c, *e;
 
-	if (h.Compression == 0x0100)
-		printl(", PalmDOC compressed");
-	else if (h.Compression == 0x4844)
-		printl(", HUFF/CDIC compressed");
+	switch (h.Compression) {
+	case 0x0100: c = "PalmDOC"; break;
+	case 0x4844: c = "HUFF/CDIC"; break;
+	default: c = "no";
+	}
 
-	if (h.Encryption == 0x0100)
-		printl(", Legacy Mobipocket encryption");
-	else if (h.Encryption == 0x0200)
-		printl(", Mobipocket encryption");
+	switch (h.Compression) { // Looks like encryption version
+	case 0x0100: e = "Legacy Mobipocket"; break;
+	case 0x0200: e = "Mobipocket"; break;
+	default: e = "no";
+	}
+
+	reportf("Mobipocket %s document, %s compression, %s encryption",
+		r, c, e);
 
 	palmdb_name();
 }

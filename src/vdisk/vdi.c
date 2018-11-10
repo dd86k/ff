@@ -9,11 +9,14 @@ void scan_vdi() {
 	_ddseek(64, SEEK_SET); // Skip description, char[64]
 	struct vdi_hdr h;
 	_ddread(&h, sizeof(h));
+
 	if (h.magic != VDIMAGIC) {
 		report_text(); // Coincidence
 		return;
 	}
+
 	struct VDIHEADER1 sh;
+
 	switch (h.majorv) { // Use latest major version natively
 	case 1:
 		_ddread(&sh, sizeof(sh));
@@ -30,16 +33,19 @@ void scan_vdi() {
 		break;
 	}
 	default:
-		puts("VirtualBox VDI vdisk, unsupported major version");
+		report("VirtualBox VDI vdisk?");
 		return;
 	}
-	reportf("VirtualBox VDI vdisk v%d.%d, ", h.majorv, h.minorv);
+
+	char *t;
+
 	switch (sh.u32Type) {
-	case 1: printl("dynamic"); break;
-	case 2: printl("static"); break;
-	default: printl("type?"); break;
+	case 1:  t = "dynamic"; break;
+	case 2:  t = "static"; break;
+	default: t = "type?"; break;
 	}
-	printl(", ");
+
+	reportf("VirtualBox VDI vdisk v%d.%d, %s, ", h.majorv, h.minorv, t);
 	_printfd(sh.cbDisk);
 	putchar('\n');
 

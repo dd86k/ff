@@ -4,19 +4,18 @@
 #include "../ff.h"
 #include "ne.h"
 
-/// Scan a NE executable
 void scan_ne() {
 	struct ne_hdr h;
 	_ddread(&h, sizeof(h));
 
-	reportn("NE ");
+	char *t;
 
 	if (h.ne_flags & NENOTP)
-		printl("Library");
+		t = "Library";
 	else
-		printl("Executable");
+		t = "Executable";
 
-	printf(", Windows %d.%d expected", h.ne_expver[1], h.ne_expver[0]);
+	reportf("NE %s, for Windows %d.%d", t, h.ne_expver[1], h.ne_expver[0]);
 
 	if (h.ne_flags) {
 		if (h.ne_flags & NENONC)
@@ -36,7 +35,6 @@ void scan_ne() {
 	putchar('\n');
 
 	if (More) {
-		//printf("ne_magic       : %s\n", &h.ne_magic[0]);
 		printf(
 			"ne_ver         : %Xh\n"
 			"ne_rev         : %Xh\n"

@@ -9,17 +9,20 @@
 void scan_lnk() {
 	struct ShellLinkHeader h;
 	_ddread(&h, sizeof(h));
-	reportn("Microsoft Shortcut link (MS-SHLLINK)");
+
+	char *sc;
 
 	switch (h.show_command) {
-	case SW_SHOWNORMAL: printl(", normal window"); break;
-	case SW_SHOWMAXIMIZED: printl(", maximized"); break;
-	case SW_SHOWMINNOACTIVE: printl(", minimized"); break;
+	case SW_SHOWNORMAL: sc = "normal window"; break;
+	case SW_SHOWMAXIMIZED: sc = "maximized"; break;
+	case SW_SHOWMINNOACTIVE: sc = "minimized"; break;
 	}
 
+	reportf("Microsoft Shortcut link (MS-SHLLINK), %s", sc);
+
 	if (h.hotkey) {
-		printl(", hotkey (");
 		int high = h.hotkey & 0xFF00;
+		printl(", hotkey (");
 		if (high) {
 			if (high & 0x0100)
 				printl("shift+");

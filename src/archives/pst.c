@@ -21,19 +21,22 @@ void scan_pst() {
 		_ddread(&uh, sizeof(uh));
 	}
 
-	reportf("PST archive, v%d (client v%d), ", h.version_, h.client_version);
+	char *a, *c;
 
 	if (ansi)
-		printl("ANSI, ");
+		a = "ANSI, ";
 	else if (unicode)
-		printl("Unicode, ");
+		a = "Unicode, ";
 
 	switch (uh.crypt) {
-	case 0x01: puts("encrypted (Permutation algorithm)"); break;
-	case 0x02: puts("encrypted (Cyclic algorithm)"); break;
-	case 0x10: puts("encrypted (Windows Information Protection)"); break;
-	default: puts("unencrypted");
+	case 0x01: c = "encrypted (Permutation algorithm)"; break;
+	case 0x02: c = "encrypted (Cyclic algorithm)"; break;
+	case 0x10: c = "encrypted (Windows Information Protection)"; break;
+	default:   c = "unencrypted";
 	}
+
+	reportf("PST archive, v%d (client v%d), %s, %s\n",
+		h.version_, h.client_version, a, c);
 
 	if (More) {
 		printf(

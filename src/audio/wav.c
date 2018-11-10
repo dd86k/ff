@@ -20,24 +20,29 @@ void scan_wav() {
 
 	struct fmt_chunk h;
 	_ddread(&h, sizeof(h));
-	reportn("WAVE audio (");
+
+	char *f, c[11];
+
 	switch (h.format) {
-	case PCM: printl("PCM"); break;
-	case IEEE_FLOAT: printl("IEEE Float"); break;
-	case ALAW: printl("8-bit ITU G.711 A-law"); break;
-	case MULAW: printl("8-bit ITU G.711 u-law"); break;
-	case EXTENSIBLE: printl("EXTENDED"); break;
-	case _MP2: printl("MPEG-1 Audio Layer II"); break;
-	case _G729: printl("G.729"); break;
-	default: puts("?)"); return; // Ends here pal
+	case PCM:        f = "PCM"; break;
+	case IEEE_FLOAT: f = "IEEE Float"; break;
+	case ALAW:       f = "8-bit ITU G.711 A-law"; break;
+	case MULAW:      f = "8-bit ITU G.711 u-law"; break;
+	case EXTENSIBLE: f = "EXTENDED"; break;
+	case _MP2:       f = "MPEG-1 Audio Layer II"; break;
+	case _G729:      f = "G.729"; break;
+	default:         report("WAVE?"); return; // Ends here pal
 	}
-	printf(") %d Hz, %d kbps, %d-bit, ",
-		h.samplerate, h.datarate / 1024 * 8, h.samplebits);
+
 	switch (h.channels) {
-	case 1: puts("Mono"); break;
-	case 2: puts("Stereo"); break;
-	default: printf("%d channels\n", h.channels); break;
+	case 1: ddstrncpy(c, "Mono", 4); break;
+	case 2: ddstrncpy(c, "Stereo", 6); break;
+	default: snprintf(c, 11, "%d channels", h.channels); break;
 	}
+
+	reportf("WAVE audio (%s) %d Hz, %d kbps, %d-bit, %s\n",
+		f, h.samplerate, h.datarate / 1024 * 8, h.samplebits, c);
+
 	if (More) {
 		uint8_t guid[16];
 		_ddseek(8, SEEK_CUR);

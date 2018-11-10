@@ -9,6 +9,7 @@ void scan_gif() {
 	struct gif_header h;
 	_ddseek(0, SEEK_SET);
 	_ddread(&h, sizeof(h));
+
 	reportn("GIF");
 
 	switch (h.version_[1]) { // 87a, 89a, lazy switch

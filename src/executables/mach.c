@@ -5,37 +5,25 @@
 #include <stdio.h>
 
 void scan_mach(uint32_t s) {
-	char reversed = 0;
-	char fat = 0;
+	char reversed = 0, fat = 0;
 
-	uint32_t filetype;
-	uint32_t cpu_type;
-	uint32_t cpu_subtype;
-	uint32_t flags;
+	uint32_t filetype, cpu_type, cpu_subtype, flags;
 
-	reportn("Mach-O ");
+	char *m, *f, *a;
 
 	switch (s) {
-	case MH_MAGIC:
-		printl("32-bit LE ");
-		break;
-	case MH_MAGIC_64:
-		printl("64-bit LE ");
-		break;
-	case MH_CIGAM:
-		printl("32-bit BE ");
+	case MH_MAGIC: m = "32-bit LE "; break;
+	case MH_MAGIC_64: m = "64-bit LE "; break;
+	case MH_CIGAM: m = "32-bit BE ";
 		reversed = 1;
 		break;
-	case MH_CIGAM_64:
-		printl("64-bit BE ");
+	case MH_CIGAM_64: m = "64-bit BE ";
 		reversed = 1;
 		break;
-	case FAT_MAGIC:
-		printl("Fat LE ");
+	case FAT_MAGIC: m = "Fat LE ";
 		fat = 1;
 		break;
-	case FAT_CIGAM:
-		printl("Fat BE ");
+	case FAT_CIGAM: m = "Fat BE ";
 		reversed = 1; fat = 1;
 		break;
 	}
@@ -56,7 +44,7 @@ void scan_mach(uint32_t s) {
 				cpu_subtype = fa.cpusubtype;
 			}
 		} else {
-			puts("binary file");
+			reportf("Mach-O %s binary file\n", m);
 			return;
 		}
 	} else {
@@ -76,81 +64,52 @@ void scan_mach(uint32_t s) {
 	}
 
 	switch (filetype) {
-	default: // Fat files have no "filetypes".
-		printl("?");
-		break;
-	case MH_OBJECT:
-		printl("Object");
-		break;
-	case MH_EXECUTE:
-		printl("Executable");
-		break;
-	case MH_FVMLIB:
-		printl("Fixed VM Library");
-		break;
-	case MH_CORE:
-		printl("Core");
-		break;
-	case MH_PRELOAD:
-		printl("Preload");
-		break;
-	case MH_DYLIB:
-		printl("Dynamic library");
-		break;
-	case MH_DYLINKER:
-		printl("Dynamic linker");
-		break;
-	case MH_BUNDLE:
-		printl("Bundle");
-		break;
-	case MH_DYLIB_STUB:
-		printl("Dynamic library stub");
-		break;
-	case MH_DSYM:
-		printl("Companion file (debug)");
-		break;
-	case MH_KEXT_BUNDLE:
-		printl("Kext bundle");
-		break;
+	case MH_OBJECT:      f = "Object"; break;
+	case MH_EXECUTE:     f = "Executable"; break;
+	case MH_FVMLIB:      f = "Fixed VM Library"; break;
+	case MH_CORE:        f = "Core"; break;
+	case MH_PRELOAD:     f = "Preload"; break;
+	case MH_DYLIB:       f = "Dynamic library"; break;
+	case MH_DYLINKER:    f = "Dynamic linker"; break;
+	case MH_BUNDLE:      f = "Bundle"; break;
+	case MH_DYLIB_STUB:  f = "Dynamic library stub"; break;
+	case MH_DSYM:        f = "Companion file (debug)"; break;
+	case MH_KEXT_BUNDLE: f = "Kext bundle"; break;
+	// Fat files have no "filetypes", thus why handled earlier
+	default:             f = "?"; break;
 	}
 
-	printl(" for ");
-
 	switch (cpu_type) {
-	default: putchar('?'); break;
+	default: a = "?"; break;
 	case TYPE_VAX:
 		switch (cpu_subtype) {
-		default: printl("VAX"); break;
-		case VAX780: printl("VAX780"); break;
-		case VAX785: printl("VAX785"); break;
-		case VAX750: printl("VAX750"); break;
-		case VAX730: printl("VAX730"); break;
-		case UVAXI: printl("UVAXI"); break;
-		case UVAXII: printl("UVAXII"); break;
-		case VAX8200: printl("VAX8200"); break;
-		case VAX8500: printl("VAX8500"); break;
-		case VAX8600: printl("VAX8600"); break;
-		case VAX8650: printl("VAX8650"); break;
-		case VAX8800: printl("VAX8800"); break;
-		case UVAXIII: printl("UVAXIII"); break;
+		case VAX780:  a = "VAX780"; break;
+		case VAX785:  a = "VAX785"; break;
+		case VAX750:  a = "VAX750"; break;
+		case VAX730:  a = "VAX730"; break;
+		case UVAXI:   a = "UVAXI"; break;
+		case UVAXII:  a = "UVAXII"; break;
+		case VAX8200: a = "VAX8200"; break;
+		case VAX8500: a = "VAX8500"; break;
+		case VAX8600: a = "VAX8600"; break;
+		case VAX8650: a = "VAX8650"; break;
+		case VAX8800: a = "VAX8800"; break;
+		case UVAXIII: a = "UVAXIII"; break;
+		default:      a = "VAX"; break;
 		}
 		break;
 	case TYPE_ROMP:
 		switch (cpu_subtype) {
-		default: printl("ROMP"); break;
-		case RT_PC: printl("RT_PC"); break;
-		case RT_APC: printl("RT_APC"); break;
-		case RT_135: printl("RT_135"); break;
+		default:     a = "ROMP"; break;
+		case RT_PC:  a = "RT_PC"; break;
+		case RT_APC: a = "RT_APC"; break;
+		case RT_135: a = "RT_135"; break;
 		}
 		break;
-	case TYPE_NS32032:
-		printl("NS32032");
-		break;
-	case TYPE_NS32332:
-		printl("NS32332");
-		break;
+	case TYPE_NS32032: a = "NS32032"; break;
+	case TYPE_NS32332: a = "NS32332"; break;
 	case TYPE_NS32532:
-		printl("NS32532");
+		a = "NS32532";
 		/*switch (cpu_subtype) { aaaand don't feel like it
 MMAX_DPC
 SQT
@@ -161,109 +120,107 @@ MMAX_XPC
 		break;
 	case TYPE_I386:
 		switch (cpu_subtype) {
-		default: printl("any x86"); break;
-		case _i386: printl("i386"); break;
-		case i486: printl("i486"); break;
-		case i486SX: printl("i486SX"); break;
-		case i586: printl("i586"); break;
-		case PENPRO: printl("Pentium Pro"); break;
-		case PENTII_M3: printl("Pentium III (M3)"); break;
-		case PENTII_M5: printl("Pentium III (M5)"); break;
-		case PENTIUM_4: printl("Pentium 4"); break;
+		case _i386:     a = "i386"; break;
+		case i486:      a = "i486"; break;
+		case i486SX:    a = "i486SX"; break;
+		case i586:      a = "i586"; break;
+		case PENPRO:    a = "Pentium Pro"; break;
+		case PENTII_M3: a = "Pentium III (M3)"; break;
+		case PENTII_M5: a = "Pentium III (M5)"; break;
+		case PENTIUM_4: a = "Pentium 4"; break;
+		default:        a = "x86"; break;
 		}
 		break;
 	case TYPE_X86_64:
-		printl("any x86-64");
+		printl("x86-64");
 		break;
 	case TYPE_MIPS:
 		switch (cpu_subtype) {
-		default: printl("any MIPS"); break;
-		case R2300: printl("R2300"); break;
-		case R2600: printl("R2600"); break;
-		case R2800: printl("R2800"); break;
-		case R2800a: printl("R2800a"); break;
+		case R2300:  a = "R2300"; break;
+		case R2600:  a = "R2600"; break;
+		case R2800:  a = "R2800"; break;
+		case R2800a: a = "R2800a"; break;
+		default:     a = "MIPS"; break;
 		}
 		break;
 	case TYPE_MC680x0:
 		switch (cpu_subtype) {
-		default: printl("any Motorola 68000"); break;
-		case MC68030: printl("MC68030"); break;
-		case MC68040: printl("MC68040"); break;
-		case MC68030_ONLY: printl("MC68030 (only)"); break;
+		case MC68030:      a = "MC68030"; break;
+		case MC68040:      a = "MC68040"; break;
+		case MC68030_ONLY: a = "MC68030 (only)"; break;
+		default:           a = "any Motorola 68000"; break;
 		}
 		break;
 	case TYPE_HPPA:
 		switch (cpu_subtype) {
-		default: printl("HPPA7100"); break;
-		case HPPA7100LC: printl("HPPA7100LC"); break;
+		case HPPA7100LC: a = "HPPA7100LC"; break;
+		default:         a = "HPPA7100"; break;
 		}
 		break;
 	case TYPE_ARM:
-		if (cpu_subtype) {
-			printl("ARM ");
-			switch (cpu_subtype) {
-			case A500_ARCH: printl("A500 Arch"); break;
-			case A500: printl("A500"); break;
-			case A440: printl("A440"); break;
-			case M4: printl("M4"); break;
-			case V4T: printl("V4T"); break;
-			case V6: printl("V6"); break;
-			case V5TEJ: printl("V5TEJ"); break;
-			case XSCALE: printl("XSCALE"); break;
-			case V7: printl("V7"); break;
-			}
-		} else printl("any ARM");
+		switch (cpu_subtype) {
+		case A500_ARCH: a = "ARM A500"; break;
+		case A500:      a = "ARM A500"; break;
+		case A440:      a = "ARM A440"; break;
+		case M4:        a = "ARM M4"; break;
+		case V4T:       a = "ARM V4T"; break;
+		case V6:        a = "ARM V6"; break;
+		case V5TEJ:     a = "ARM V5TEJ"; break;
+		case XSCALE:    a = "ARM XSCALE"; break;
+		case V7:        a = "ARM V7"; break;
+		default:        a = "ARM"; break;
+		}
 		break;
 	case TYPE_MC88000:
 		switch (cpu_subtype) {
-		default: printl("any Motorola 88000"); break;
-		case MC88100: printl("MC88100"); break;
-		case MC88110: printl("MC88110"); break;
+		case MC88100: a = "MC88100"; break;
+		case MC88110: a = "MC88110"; break;
+		default:      a = "M88000"; break;
 		}
 		break;
 	case TYPE_MC98000:
-		if (cpu_subtype)
-			printl("MC98601");
-		else
-			printl("MC98000");
+		a = cpu_subtype ? "MC98601" : "MC98000";
 		break;
-	case TYPE_I860:
-		if (cpu_subtype) printl("any i860 (MSB)");
-		else printl("any i860 (MSB)");
-		break;
-	case TYPE_I860_LITTLE:
-		if (cpu_subtype) printl("any i860 (LSB)");
-		else printl("any i860 (LSB)");
-		break;
-	case TYPE_RS6000:
-		printl("RS6000");
-		break;
+	case TYPE_I860: a = "i860 (MSB)"; break;
+	case TYPE_I860_LITTLE: a = "i860 (LSB)"; break;
+	case TYPE_RS6000: a = "RS6000"; break;
 	case TYPE_POWERPC64:
-	case TYPE_POWERPC:
-		printl("PowerPC");
-		if (TYPE_POWERPC64) printl("64");
 		switch (cpu_subtype) {
-		case POWERPC_601: printl(" 601"); break;
-		case POWERPC_602: printl(" 602"); break;
-		case POWERPC_603: printl(" 603"); break;
-		case POWERPC_603e: printl(" 603e"); break;
-		case POWERPC_603ev: printl(" 603ev"); break;
-		case POWERPC_604: printl(" 604"); break;
-		case POWERPC_604e: printl(" 604e"); break;
-		case POWERPC_620: printl(" 620"); break;
-		case POWERPC_750: printl(" 750"); break;
-		case POWERPC_7400: printl(" 7400"); break;
-		case POWERPC_7450: printl(" 7450"); break;
-		case POWERPC_970: printl(" 970"); break;
-		default: break;
+		case POWERPC_601:   a = "PowerPC64 601"; break;
+		case POWERPC_602:   a = "PowerPC64 602"; break;
+		case POWERPC_603:   a = "PowerPC64 603"; break;
+		case POWERPC_603e:  a = "PowerPC64 603e"; break;
+		case POWERPC_603ev: a = "PowerPC64 603ev"; break;
+		case POWERPC_604:   a = "PowerPC64 604"; break;
+		case POWERPC_604e:  a = "PowerPC64 604e"; break;
+		case POWERPC_620:   a = "PowerPC64 620"; break;
+		case POWERPC_750:   a = "PowerPC64 750"; break;
+		case POWERPC_7400:  a = "PowerPC64 7400"; break;
+		case POWERPC_7450:  a = "PowerPC64 7450"; break;
+		case POWERPC_970:   a = "PowerPC64 970"; break;
+		default:            a = "PowerPC64"; break;
+		}
+	case TYPE_POWERPC:
+		switch (cpu_subtype) {
+		case POWERPC_601:   a = "PowerPC 601"; break;
+		case POWERPC_602:   a = "PowerPC 602"; break;
+		case POWERPC_603:   a = "PowerPC 603"; break;
+		case POWERPC_603e:  a = "PowerPC 603e"; break;
+		case POWERPC_603ev: a = "PowerPC 603ev"; break;
+		case POWERPC_604:   a = "PowerPC 604"; break;
+		case POWERPC_604e:  a = "PowerPC 604e"; break;
+		case POWERPC_620:   a = "PowerPC 620"; break;
+		case POWERPC_750:   a = "PowerPC 750"; break;
+		case POWERPC_7400:  a = "PowerPC 7400"; break;
+		case POWERPC_7450:  a = "PowerPC 7450"; break;
+		case POWERPC_970:   a = "PowerPC 970"; break;
+		default:            a = "PowerPC"; break;
 		}
 		break;
-	case TYPE_VEO:
-		printl("any VEO");
-		break;
+	case TYPE_VEO: a = "VEO"; break;
 	}
 
-	printl(" processors");
+	reportf("Mach-O %s %s for %s", m, f, a);
 
 	if (flags) {
 		if (flags & MH_NOUNDEFS)
