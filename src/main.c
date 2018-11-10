@@ -99,7 +99,7 @@ int main(int argc, char **argv) {
 #ifdef _WIN32 // -- Windows --
 		uint32_t a = GetFileAttributesW(_currf);
 		if (a == 0xFFFFFFFF) { // INVALID_FILE_ATTRIBUTES
-EWFO:		_fwprintf_p(stderr, //TODO: GetLastError (Windows)
+EWFO:			_fwprintf_p(stderr, //TODO: GetLastError (Windows)
 				L"E: Could not open file: %s\n",
 				_currf
 			);
@@ -111,7 +111,7 @@ EWFO:		_fwprintf_p(stderr, //TODO: GetLastError (Windows)
 			if (Continue) goto _fo;
 			report("Symbolic link");
 		} else { // Not invalid at this point
-_fo:		f = CreateFileW(_currf,
+_fo:			f = CreateFileW(_currf,
 				GENERIC_READ, FILE_SHARE_READ, NULL,
 				OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 			if (!f) goto EWFO;

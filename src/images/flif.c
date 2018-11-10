@@ -15,9 +15,7 @@ void scan_flif() {
 	//_ddread(&animf, 1);
 	//const int animf = fread_l + 1; // animation frames
 
-	reportn("Free Lossless Image Format image");
-
-	printf(", %d x %d", width, height);
+	reportf("Free Lossless Image Format image, %d x %d", width, height);
 
 	switch (h.type & 0xF) {
 	case 1: printl(", Grayscale"); break;

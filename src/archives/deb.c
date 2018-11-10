@@ -35,9 +35,7 @@ void scan_deb() {
 	_debslice(h.ctl_file_ident, sizeof(h.ctl_file_ident));
 	_debslice(dh.file_ident, sizeof(dh.file_ident));
 
-	reportn("Debian package v");
-	printf("%.3s", h.version);
-	printf(", %s (", h.ctl_file_ident);
+	reportf("Debian package v%.3s, %s (", h.version, h.ctl_file_ident);
 	_printfd(dfsize);
 	printf("), %s (", dh.file_ident);
 	_printfd(cfsize);

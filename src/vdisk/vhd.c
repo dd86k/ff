@@ -13,8 +13,7 @@ void scan_vhd() { // big-endian
 		return;
 	}
 	h.disk_type = bswap32(h.disk_type);
-	reportn("Microsoft VHD vdisk v");
-	printf("%d.%d, ", bswap16(h.major), bswap16(h.minor));
+	reportf("Microsoft VHD vdisk v%d.%d, ", bswap16(h.major), bswap16(h.minor));
 	switch(h.disk_type) {
 	case D_FIXED: printl("fixed"); break;
 	case D_DYNAMIC: printl("dynamic"); break;

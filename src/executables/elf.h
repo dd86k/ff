@@ -35,7 +35,7 @@ struct Elf32_Ehdr {
     uint16_t e_type;
     uint16_t e_machine;
     uint32_t e_version;
-    /*uint32_t e_entry; // Don't need the rest
+    /*uint32_t e_entry; // Don't need the rest, variable
     uint32_t e_phoff;
     uint32_t e_shoff;
     uint32_t e_flags;
@@ -48,8 +48,8 @@ struct Elf32_Ehdr {
 };
 
 void scan_elf(void);
-void elf_print_class(uint8_t);
-void elf_print_data(uint8_t);
-void elf_print_osabi(uint8_t);
-void elf_print_type(uint16_t);
-void elf_print_machine(uint16_t);
+char* elf_class(uint8_t);
+char* elf_data(uint8_t);
+char* elf_osabi(uint8_t);
+char* elf_type(uint16_t);
+char* elf_machine(uint16_t);

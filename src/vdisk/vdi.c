@@ -33,8 +33,7 @@ void scan_vdi() {
 		puts("VirtualBox VDI vdisk, unsupported major version");
 		return;
 	}
-	reportn("VirtualBox VDI vdisk v");
-	printf("%d.%d, ", h.majorv, h.minorv);
+	reportf("VirtualBox VDI vdisk v%d.%d, ", h.majorv, h.minorv);
 	switch (sh.u32Type) {
 	case 1: printl("dynamic"); break;
 	case 2: printl("static"); break;

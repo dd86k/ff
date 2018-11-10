@@ -21,8 +21,8 @@ void scan_pst() {
 		_ddread(&uh, sizeof(uh));
 	}
 
-	reportn("PST archive, v");
-	printf("%d (client v%d), ", h.version_, h.client_version);
+	reportf("PST archive, v%d (client v%d), ", h.version_, h.client_version);
+
 	if (ansi)
 		printl("ANSI, ");
 	else if (unicode)

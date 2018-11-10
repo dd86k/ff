@@ -7,8 +7,7 @@
 void scan_ogg() {
 	struct ogg_hdr h;
 	_ddread(&h, sizeof(h));
-	reportn("Ogg audio v");
-	printf("%d with %d segments\n", h.version, h.pages);
+	reportf("Ogg audio v%d with %d segments\n", h.version, h.pages);
 	if (More) {
 		printf("CRC32: %08X\n", h.crc32);
 	}

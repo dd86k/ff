@@ -9,7 +9,7 @@ void palmdb_name() {
 	char name[32];
 	_ddseek(0, SEEK_SET);
 	_ddread(name, sizeof(name));
-	printf(" \"%s\"\n", name);
+	printf(", \"%s\"\n", name);
 }
 
 void scan_mobi() { // Big-endian
@@ -18,55 +18,55 @@ void scan_mobi() { // Big-endian
 	_ddseek(STARTPOS, SEEK_SET);
 	_ddread(&h, sizeof(h) + sizeof(mh));
 
-	reportn("Mobipocket ");
+	char *r;
 
 	switch (mh.Type) {
 	case 0xE8000000: // 232
 	case 0x02000000: // 2
-		printl("ebook");
+		r = "ebook";
 		break;
 	case 0x03000000: // 3
-		printl("PalmDoc ebook");
+		r = "PalmDoc ebook";
 		break;
 	case 0x04000000: // 4
-		printl("audio");
+		r = "audio";
 		break;
 	case 0xF8000000: // 248
-		printl("KF8");
+		r = "KF8";
 		break;
 	case 0x01010000: // 257
-		printl("News");
+		r = "News";
 		break;
 	case 0x02010000: // 258
-		printl("News feed");
+		r = "News feed";
 		break;
 	case 0x03010000: // 259
-		printl("News magazine");
+		r = "News magazine";
 		break;
 	case 0x01020000: // 513
-		printl("PICS");
+		r = "PICS";
 		break;
 	case 0x02020000: // 514
-		printl("WORD");
+		r = "WORD";
 		break;
 	case 0x03020000: // 515
-		printl("XLS");
+		r = "XLS";
 		break;
 	case 0x04020000: // 516
-		printl("PPT");
+		r = "PPT";
 		break;
 	case 0x05020000: // 517
-		printl("TEXT");
+		r = "TEXT";
 		break;
 	case 0x06020000: // 518
-		printl("HTML");
+		r = "HTML";
 		break;
 	default:
-		printl("?");
+		r = "?";
 		break;
 	}
 
-	printl(" document");
+	reportf("Mobipocket %s document", r);
 
 	if (h.Compression == 0x0100)
 		printl(", PalmDOC compressed");

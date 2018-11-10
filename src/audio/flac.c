@@ -7,7 +7,7 @@
 // https://xiph.org/flac/format.html
 // https://xiph.org/flac/api/format_8h_source.html
 
-void scan_flac() { // Haha stupid format
+void scan_flac() { // Silly format
 	struct flac_hdr h;
 	_ddread(&h, sizeof(h));
 	reportn("FLAC audio");

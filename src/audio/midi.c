@@ -7,7 +7,7 @@ void scan_midi() { // Big-endian
 	struct midi_hdr h;
 	_ddread(&h, sizeof(h));
 
-	reportn("MIDI: ");
+	reportn("MIDI ");
 
 	switch (h.format) {
 	case 0: printl("Single track"); break;

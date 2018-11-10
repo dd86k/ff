@@ -90,8 +90,7 @@ void scan_iso() {
 	if (check_seek(0x9000, buf)) goto ISO_DONE;
 
 ISO_DONE:
-	reportn("ISO-9660 disc");
-	printf(" \"%s\", ", label);
+	reportf("ISO-9660 disc \"%s\", ", label);
 	_printfd(volume_size);
 	if (bootable) printl(", Bootable");
 	putchar('\n');

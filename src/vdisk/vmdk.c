@@ -8,8 +8,7 @@ void scan_vmdk() {
 	struct SparseExtentHeader h;
 	_ddread(&h, sizeof(h));
 
-	reportn("VMware vdisk v");
-	printf("%d, ", h.version);
+	reportf("VMware vdisk v%d, ", h.version);
 
 	//if (h.flags & COMPRESSED)
 	switch (h.compressAlgorithm) {

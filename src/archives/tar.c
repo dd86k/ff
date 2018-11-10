@@ -12,20 +12,21 @@ void scan_tar() {
 
 	long s = strtol(h.size, NULL, sizeof(h.size));
 
+	reportn("Tar archive, ");
+
 	switch (h.linkflag) {
 	case 0:
-	case '0': reportn("Normal"); break;
-	case '1': reportn("Link"); break;
-	case '2': reportn("Syslink"); break;
-	case '3': reportn("Character special"); break;
-	case '4': reportn("Block special"); break;
-	case '5': reportn("Directory"); break;
-	case '6': reportn("FIFO special"); break;
-	case '7': reportn("Contiguous"); break;
-	default: report("Unknown Tar archive"); return;
+	case '0': printl("normal, "); break;
+	case '1': printl("link, "); break;
+	case '2': printl("syslink, "); break;
+	case '3': printl("character special, "); break;
+	case '4': printl("block special, "); break;
+	case '5': printl("directory, "); break;
+	case '6': printl("FIFO, "); break;
+	case '7': printl("contiguous, "); break;
+	default: puts("unknown"); return;
 	}
 
-	printl(" Tar archive of ");
 	_printfd(s);
 	putchar('\n');
 

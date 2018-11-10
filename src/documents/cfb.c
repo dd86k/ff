@@ -7,8 +7,8 @@
 void scan_cfb() { //TODO: Detect DOC files
 	struct cfb_header h;
 	_ddread(&h, sizeof(h));
-	reportn("Compound File Binary document v");
-	printf("%d.%d, %d FAT sectors\n", h.major, h.minor, h.fat_sectors);
+	reportf("Compound File Binary document v%d.%d, %d FAT sectors\n",
+		h.major, h.minor, h.fat_sectors);
 	if (More) {
 		printf("%d directory sectors at %Xh\n",
 			h.dir_sectors, h.first_dir_sector);

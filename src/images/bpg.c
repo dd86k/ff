@@ -12,9 +12,7 @@ void scan_bpg(void) {
 	uint32_t width = fread_l(4);
 	uint32_t height = fread_l(4);
 
-	reportn("Better Portable Graphics image, ");
-
-	printf("%d x %d", width, height);
+	reportf("Better Portable Graphics image, %d x %d", width, height);
 
 	if (h.format & ALPHA)
 		printl(", alpha1");

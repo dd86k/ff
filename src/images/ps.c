@@ -8,8 +8,7 @@
 void scan_ps() { // big-endian
 	struct psd_hdr h;
 	_ddread(&h, sizeof(h));
-	reportn("Photoshop image v");
-	printf("%d, %d x %d, %d-bit ",
+	reportf("Photoshop image v%d, %d x %d, %d-bit ",
 		bswap16(h.version), bswap32(h.width),
 		bswap32(h.height), bswap16(h.depth));
 	switch (bswap16(h.colormode)) {
