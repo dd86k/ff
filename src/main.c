@@ -43,52 +43,10 @@ char _args = 1;
 char Continue = 0; // on symbolic link
 
 #ifdef _WIN32
-#define MAIN int wmain(int argc, wchar_t **argv)
-void sa(wchar_t *a) {
+int wmain(int argc, wchar_t **argv) {
 #else
-#define MAIN int main(int argc, char **argv)
-void sa(char *a) {
+int main(int argc, char **argv) {
 #endif
-	while (*++a != 0) {
-		switch (*a) {
-		case 'h': case '?': help(); return;
-		case 'v': version(); return;
-		case 'm': ++More; break;
-		case 's': ++ShowName; break;
-		case 'c': ++Continue; break;
-		case '-': --_args; return;
-		default:
-			fprintf(stderr, "Unknown argument: -%c\n", *a);
-			exit(1);
-		}
-	}
-}
-
-// CLI Options
-
-#ifdef _WIN32
-#define O_HELP L"help"
-#define O_VERSION L"version"
-void sb(wchar_t *a) {
-	if (wcscmp(a, O_HELP) == 0)
-		help();
-	if (wcscmp(a, O_VERSION) == 0)
-		version();
-	_fwprintf_p(stderr, L"Unknown argument: --%s\n", a);
-#else
-#define O_HELP "help"
-#define O_VERSION "version"
-void sb(char *a) {
-	if (strcmp(a, O_HELP) == 0)
-		help();
-	if (strcmp(a, O_VERSION) == 0)
-		version();
-	fprintf(stderr, "Unknown argument: --%s\n", a);
-#endif
-	exit(1);
-}
-
-MAIN {
 	if (argc <= 1) {
 		help();
 		return 0;
@@ -97,14 +55,48 @@ MAIN {
 	while (--argc >= 1) {
 		if (_args) {
 			if (argv[argc][1] == '-') { // long arguments
-				sb(argv[argc] + 2); continue;
+#ifdef _WIN32
+#define O_HELP L"help"
+#define O_VERSION L"version"
+				wchar_t *a = argv[argc] + 2;
+				if (wcscmp(a, O_HELP) == 0)
+					help();
+				if (wcscmp(a, O_VERSION) == 0)
+					version();
+				_fwprintf_p(stderr, L"Unknown argument: --%s\n", a);
+#else
+#define O_HELP "help"
+#define O_VERSION "version"
+				char *a = argv[argc] + 2;
+				if (strcmp(a, O_HELP) == 0)
+					help();
+				if (strcmp(a, O_VERSION) == 0)
+					version();
+				fprintf(stderr, "Unknown argument: --%s\n", a);
+#endif
+				exit(1);
 			} else if (argv[argc][0] == '-') { // short arguments
-				sa(argv[argc]); continue;
+#ifdef _WIN32
+				wchar_t *a = argv[argc];
+#else
+				char *a = argv[argc];
+#endif
+				while (*++a) switch (*a) {
+				case 'h': case '?': help(); break;
+				case 'v': version(); break;
+				case 'm': ++More; break;
+				case 's': ++ShowName; break;
+				case 'c': ++Continue; break;
+				case '-': --_args; continue;
+				default:
+					fprintf(stderr, "Unknown argument: -%c\n", *a);
+					exit(1);
+				}
+				continue;
 			}
 		}
 		_currf = argv[argc];
-	// -- Windows --
-#ifdef _WIN32
+#ifdef _WIN32 // -- Windows --
 		uint32_t a = GetFileAttributesW(_currf);
 		if (a == 0xFFFFFFFF) { // INVALID_FILE_ATTRIBUTES
 EWFO:		_fwprintf_p(stderr, //TODO: GetLastError (Windows)
@@ -132,39 +124,42 @@ _fo:		f = CreateFileW(_currf,
 			case FILE_TYPE_PIPE:
 				report("Pipe");
 				return 0;
+			case FILE_TYPE_UNKNOWN: // Better be safe than sorry
+				report("Unknown");
+				return 0;
 			}
 			scan(&error);
 			CloseHandle(f);
 		}
 #else // -- POSIX --
 		struct stat s;
-		if (lstat(_currf, &s) == 0) {
-			switch (s.st_mode & S_IFMT) { // stat(2)
-			case S_IFBLK: report("Block device\n"); break;
-			case S_IFCHR: report("Character device\n"); break;
-			case S_IFDIR: report("Directory"); break;
-			case S_IFIFO: report("FIFO/pipe\n"); break;
-			case S_IFLNK:
-				if (Continue) goto _fo;
-				reportn("Symbolic link to ");
-				char p[512];
-				realpath(_currf, p);
-				printf("\"%s\"\n", p);
-				break;
-			case S_IFREG:
-_fo:			f = fopen(_currf, "rb"); // maybe use _s?
-				if (!f) {
-					fprintf(stderr, "E: Could not open file: %s\n", _currf);
-					return 2;
-				}
-				scan(&error);
-				fclose(f);
-				break;
-			case S_IFSOCK: printf("Socket\n"); break;
-			default: report_unknown(); break;
-			}
-		} else {
+		if (lstat(_currf, &s)) {
 			perror("E:");
+			return 1;
+		}
+
+		switch (s.st_mode & S_IFMT) { // stat(2)
+		case S_IFREG:
+_fo:			f = fopen(_currf, "rb"); // maybe use _s?
+			if (!f) {
+				fprintf(stderr, "E: Could not open file: %s\n", _currf);
+				return 2;
+			}
+			scan(&error);
+			fclose(f);
+			break;
+		case S_IFLNK:
+			if (Continue) goto _fo;
+			char p[4096];
+			realpath(_currf, p); // + null terminator
+			reportf("Symbolic link to \"%s\"\n", p);
+			break;
+		case S_IFBLK: report("Block device"); break;
+		case S_IFCHR: report("Character device"); break;
+		case S_IFDIR: report("Directory"); break;
+		case S_IFIFO: report("FIFO/pipe"); break;
+		case S_IFSOCK: report("Socket"); break;
+		default: report_unknown(); break;
 		}
 #endif
 	} // while

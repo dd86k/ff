@@ -157,7 +157,7 @@ void scan(int *error) {
 		case 0x534C4247: r = "Spanish";  break; // 'S'
 		case 0x4A4C4247: r = "Japanese"; break; // 'J'
 		}
-		reportnf("GTA Text (GTA2+) in %s\n", r);
+		reportf("GTA Text (GTA2+) in %s\n", r);
 		return;
 	}
 
@@ -453,7 +453,7 @@ void scan(int *error) {
 			r = "PWAD";
 		else
 			r = "IWAD";
-		reportn("%s, %d entries at %Xh\n", r, b[0], b[1]);
+		reportf("%s, %d entries at %Xh\n", r, b[0], b[1]);
 		return;
 	}
 
