@@ -18,6 +18,7 @@ struct fmt_chunk {
 #define ALAW 6
 #define MULAW 7
 #define _MP2 0x55 // Undocumented
+#define _G729 0x83 // Unofficial
 #define EXTENSIBLE 0xFFFE
 
 void scan_wav(void);

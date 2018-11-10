@@ -28,6 +28,7 @@ void scan_wav() {
 	case MULAW: printl("8-bit ITU G.711 u-law"); break;
 	case EXTENSIBLE: printl("EXTENDED"); break;
 	case _MP2: printl("MPEG-1 Audio Layer II"); break;
+	case _G729: printl("G.729"); break;
 	default: puts("?)"); return; // Ends here pal
 	}
 	printf(") %d Hz, %d kbps, %d-bit, ",
