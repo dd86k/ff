@@ -15,8 +15,9 @@ wchar_t *_currf;
 char *_currf;
 #endif
 
-void scan(void);
+void scan(int *);
 void report(char *);
 void reportn(char *);
+void reportf(char *, ...);
 void report_unknown();
 void report_text();

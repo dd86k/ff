@@ -39,16 +39,17 @@
 #include "vdisk/qcow2.h"
 #include "vdisk/qed.h"
 
-void scan() {
+void scan(int *error) {
 	uint32_t s;
 	if (_ddread(&s, 4)) {
 		puts("E: Could not read file.");
+		*error = 4;
 		return;
 	}
 
 	switch (s) {
 	case 0x00000100: {
-		char b[12];
+		uint8_t b[12];
 		_ddread(&b, sizeof(b));
 		uint32_t *p = (uint32_t *)&b;
 		switch (*p) { // b[0..4]
@@ -118,8 +119,7 @@ void scan() {
 		return;
 
 	case 0x01434E52: case 0x02434E52: // RNC\x01 or \x02
-		reportn("Rob Northen Compressed archive v");
-		printf("%d\n", s >> 24);
+		reportf("Rob Northen Compressed archive v%d\n", s >> 24);
 		return;
 
 	case 0x58504453: case 0x53445058: // "SDPX", "XPDS"
@@ -147,22 +147,23 @@ void scan() {
 	case 0x474C4247: // "GBLG"
 	case 0x494C4247: // "GBLI"
 	case 0x534C4247: // "GBLS"
-	case 0x4A4C4247: // "GBLJ"
-		reportn("GTA Text (GTA2+) in ");
+	case 0x4A4C4247: { // "GBLJ"
+		char *r;
 		switch (s) {
-		case 0x454C4247: puts("English");  return; // 'E'
-		case 0x464C4247: puts("French");   return; // 'F'
-		case 0x474C4247: puts("German");   return; // 'G'
-		case 0x494C4247: puts("Italian");  return; // 'I'
-		case 0x534C4247: puts("Spanish");  return; // 'S'
-		case 0x4A4C4247: puts("Japanese"); return; // 'J'
+		case 0x454C4247: r = "English";  break; // 'E'
+		case 0x464C4247: r = "French";   break; // 'F'
+		case 0x474C4247: r = "German";   break; // 'G'
+		case 0x494C4247: r = "Italian";  break; // 'I'
+		case 0x534C4247: r = "Spanish";  break; // 'S'
+		case 0x4A4C4247: r = "Japanese"; break; // 'J'
 		}
+		reportnf("GTA Text (GTA2+) in %s\n", r);
 		return;
+	}
 
 	case 0x47585432: { // "2TXG", big endian
 		_ddread(&s, 4);
-		reportn("GTA Text 2 with ");
-		printf("%u entries\n", bswap32(s)); // Byte swapped
+		reportf("GTA Text 2 with %u entries\n", bswap32(s));
 		return;
 	}
 
@@ -221,7 +222,7 @@ void scan() {
 		// "ILBM"
 		case 0x4D424C49: report("IFF Interleaved Bitmap image"); return;
 		// "8SVX"
-		case 0x58565338: report("IFF 8-Bit voice"); return;
+		case 0x58565338: report("IFF 8-Bit voice audio"); return;
 		// "ACBM"
 		case 0x4D424341: report("Amiga Contiguous image"); return;
 		// "ANBM"
@@ -299,10 +300,9 @@ void scan() {
 		return;
 
 	case 0x46445025: { // "%PDF"
-		char b[5] = { 0 };
+		uint8_t b[5] = { 0 };
 		_ddread(&b, 4);
-		reportn("PDF");
-		printf("%s document\n", (char*)&b); // e.g. "-1.1"
+		reportf("PDF%s document\n", b);
 		return;
 	}
 
@@ -376,7 +376,7 @@ void scan() {
 		_ddread(&s, 4);
 		switch (s) {
 		case 0x434F4D43: // "CMOC"
-			report("USMT, Windows Files And Settings Transfer Repository");
+			report("Windows Files And Settings Transfer Repository (USMT)");
 			return;
 		default:
 			report_unknown();
@@ -446,19 +446,22 @@ void scan() {
 		return;
 
 	case 0x44415749: case 0x44415750: { // "IWAD", "PWAD"
+		char *r;
 		int b[2]; // Reads as ints.
 		_ddread(&b, sizeof(b));
-		reportn(s == 0x44415750 ? "PWAD" : "IWAD");
-		printf(", %d entries at %Xh\n", b[0], b[1]);
+		if (s == 0x44415750)
+			r = "PWAD";
+		else
+			r = "IWAD";
+		reportn("%s, %d entries at %Xh\n", r, b[0], b[1]);
 		return;
 	}
 
 	case 0x6D736100: { // "\0asm", WebAssembly binary
 		// http://webassembly.org/docs/binary-encoding/
-		char ver;
-		_ddread(&ver, 1);
-		reportn("WebAssembly v");
-		printf("%d binary (wasm)\n", ver);
+		uint8_t v;
+		_ddread(&v, 1);
+		reportf("WebAssembly v%d binary (wasm)\n", v);
 		return;
 	}
 
@@ -662,10 +665,26 @@ void reportn(char *s) {
 		printl(s);
 }
 
+void reportf(char *s, ...) {
+	if (ShowName) {
+		printf( // Might want to add _currf to arg list in the future
+#ifdef _WIN32
+			"%ls: ",
+#else
+			"%s: ",
+#endif
+			_currf
+		);
+	}
+	va_list a;
+	va_start(a, s);
+	vprintf(s, a);
+}
+
 void report_unknown() {
-	report("data");
+	report("Data");
 }
 
 void report_text() {
-	report("text");
+	report("Text");
 }

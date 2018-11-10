@@ -9,7 +9,7 @@
 #include "settings.h"
 #include "utils.h"
 
-#define VERSION "0.3.1"
+#define VERSION "0.4.0"
 
 void help() {
 	puts(
@@ -93,6 +93,7 @@ MAIN {
 		help();
 		return 0;
 	}
+	int error = 0;
 	while (--argc >= 1) {
 		if (_args) {
 			if (argv[argc][1] == '-') { // long arguments
@@ -132,7 +133,7 @@ _fo:		f = CreateFileW(_currf,
 				report("Pipe");
 				return 0;
 			}
-			scan();
+			scan(&error);
 			CloseHandle(f);
 		}
 #else // -- POSIX --
@@ -156,7 +157,7 @@ _fo:			f = fopen(_currf, "rb"); // maybe use _s?
 					fprintf(stderr, "E: Could not open file: %s\n", _currf);
 					return 2;
 				}
-				scan();
+				scan(&error);
 				fclose(f);
 				break;
 			case S_IFSOCK: printf("Socket\n"); break;
@@ -168,5 +169,5 @@ _fo:			f = fopen(_currf, "rb"); // maybe use _s?
 #endif
 	} // while
 
-	return 0;
+	return error;
 }
