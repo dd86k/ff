@@ -1,15 +1,15 @@
 ." Hi! This manual (man page) was written by dd86k.
 ." Please read man-pages(7) and groff_man(7) about the manual page format.
 ."
-.TH ff 1 "April 2018" dd86k "User manual"
+.TH ff 1 "November 2018" dd86k "User manual"
 .SH NAME
 .B ff
 - Determine the file type via pre-determined magic.
 
 .SH SYNOPSIS
 .SY ff
+.IR FILE
 .OP -cmsvh
-.IR file " ..."
 .YS
 .SY ff
 .OP --help
@@ -17,16 +17,12 @@
 .YS
 
 .SH DESCRIPTION
-This document describes ff version 0.3.0.
+This document describes ff version 0.4.x.
 
 .B ff
-is a simple binary file scanner that is very similar to and inspired by the UNIX/BSD file(1) utility and is mostly aimed for binary formats.
+is a simple, dumb, binary file scanner that is very similar to and inspired by the UNIX/BSD file(1) utility and is mostly aimed for binary formats.
 
-It works by scanning an internal switch case (against signatures) in order: 4-bytes, 3-bytes, 2-bytes, then offsets.
 
-If ff can't find the file format could not be found, it reports
-.B data
-to stdout and returns 0.
 
 .SH OPTIONS
 
@@ -47,9 +43,9 @@ Show help screen and exit.
 
 .SH EXAMPLES
 .EX
-$ ff ff ff.exe
-ELF64 LE System V Shared object for x86-64 machines
-PE32+ Windows Console Executable for x86-64 machines, LARGE_ADDRESS_AWARE
+$ ff ff ff.exe -s
+ff: ELF64 LE System V Shared object for x86-64 machines
+ff.exe: PE32+ Windows Console Executable for x86-64 machines, LARGE_ADDRESS_AWARE
 
 $ ff ff.exe -m
 PE32+ Windows Console Executable for x86-64 machines, LARGE_ADDRESS_AWARE
@@ -61,11 +57,11 @@ Size of Optional Header: F0h
 Characteristics        : 22h
 
 $ ff t/*.png -sm
-t/8bit.png: Portable Network Graphics image, 201 x 192 pixels, 8-bit PLTE Palette
+t/a.png: Portable Network Graphics image, 201 x 192 pixels, 8-bit PLTE Palette
 Default compression, Default filtering, No interlacing
-t/asciifull.png: Portable Network Graphics image, 715 x 823 pixels, 32-bit RGBA
+t/b.png: Portable Network Graphics image, 715 x 823 pixels, 32-bit RGBA
 Default compression, Default filtering, No interlacing
-t/mspaint.png: Portable Network Graphics image, 281 x 198 pixels, 24-bit RGB
+t/c.png: Portable Network Graphics image, 281 x 198 pixels, 24-bit RGB
 Default compression, Default filtering, No interlacing
 .EE
 
@@ -73,16 +69,16 @@ Default compression, Default filtering, No interlacing
 ff is still a work in progress and may give incorrect results.
 
 .SH NOTES
-None.
+I started this project because I felt like having my own.
 
 .SH BUGS
-ISO9660 buffers are not cleared on globbing, which will 
+None at the moment of writing.
 
 .SH AUTHOR
 Program and man-gage written by dd86k
 .MT devddstuff@gmail.com
 .ME .
 
-.UR https://github.com/dd86k/ff
+.UR https://git.dd86k.space/dd86k/ff
 Homepage:
 .UE

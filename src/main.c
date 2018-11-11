@@ -39,7 +39,6 @@ void version() {
 	exit(0);
 }
 
-
 #ifdef _WIN32
 int wmain(int argc, wchar_t **argv) {
 #else
@@ -80,12 +79,12 @@ int main(int argc, char **argv) {
 				char *a = argv[argc];
 #endif
 				while (*++a) switch (*a) {
-				case 'h': case '?': help(); break;
-				case 'v': version(); break;
 				case 'm': ++More; break;
 				case 's': ++ShowName; break;
 				case 'c': ++Continue; break;
-				case '-': --_args; continue;
+				case '-': _args = !_args; continue;
+				case 'h': case '?': help(); break;
+				case 'v': version(); break;
 				default:
 					fprintf(stderr, "Unknown argument: -%c\n", *a);
 					exit(1);
