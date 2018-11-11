@@ -4,7 +4,7 @@
 #include "../ff.h"
 #include "cfb.h"
 
-void scan_cfb() { //TODO: Detect DOC files
+void scan_cfb() {
 	struct cfb_header h;
 	_ddread(&h, sizeof(h));
 	reportf("Compound File Binary document v%d.%d, %d FAT sectors\n",

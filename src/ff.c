@@ -109,7 +109,7 @@ void scan(int *error) {
 		}
 	}
 
-	case 0x0C000000: //TODO: Maybe get those "various" JPEG-2000 images
+	case 0x0C000000:
 		report("JPEG-2000 image");
 		return;
 
@@ -364,7 +364,7 @@ void scan(int *error) {
 		report("Google Chrome extension or packaged app (CRX)");
 		return;
 
-	case 0x00025245: //TODO: Move this with those Apple DMG files?
+	case 0x00025245:
 		report("Roxio Toast disc or DMG (toast or dmg)");
 		return;
 
