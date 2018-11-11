@@ -39,8 +39,6 @@ void version() {
 	exit(0);
 }
 
-char _args = 1;
-char Continue = 0; // on symbolic link
 
 #ifdef _WIN32
 int wmain(int argc, wchar_t **argv) {
@@ -51,26 +49,26 @@ int main(int argc, char **argv) {
 		help();
 		return 0;
 	}
+
+	char _args = 1;
+	char Continue = 0; // on symbolic link
+
 	int error = 0;
 	while (--argc >= 1) {
 		if (_args) {
 			if (argv[argc][1] == '-') { // long arguments
 #ifdef _WIN32
-#define O_HELP L"help"
-#define O_VERSION L"version"
 				wchar_t *a = argv[argc] + 2;
-				if (wcscmp(a, O_HELP) == 0)
+				if (wcscmp(a, L"help") == 0)
 					help();
-				if (wcscmp(a, O_VERSION) == 0)
+				if (wcscmp(a, L"version") == 0)
 					version();
 				_fwprintf_p(stderr, L"Unknown argument: --%s\n", a);
 #else
-#define O_HELP "help"
-#define O_VERSION "version"
 				char *a = argv[argc] + 2;
-				if (strcmp(a, O_HELP) == 0)
+				if (strcmp(a, "help") == 0)
 					help();
-				if (strcmp(a, O_VERSION) == 0)
+				if (strcmp(a, "version") == 0)
 					version();
 				fprintf(stderr, "Unknown argument: --%s\n", a);
 #endif

@@ -2,12 +2,6 @@
 #include <stdio.h>
 #include <string.h>
 
-/**
- * Reads from the already opened f handle defined in ff.h.
- * buffer: Void pointer to buffer
- * size: size of buffer
- * Returns: Number of bytes read
- */
 int _ddread(void *buffer, size_t size) {
 #ifdef _WIN32
 	unsigned long read;
@@ -17,12 +11,6 @@ int _ddread(void *buffer, size_t size) {
 #endif
 }
 
-/**
- * Fast seek the already opened file handle.
- * position: New position (<32-bit limit)
- * mode: File mode
- * Returns: Returns 0 if successful
- */
 int _ddseek(int position, int mode) {
 #ifdef _WIN32
 	return SetFilePointer(f, position, NULL, mode) == 0xFFFFFFFF;
@@ -31,20 +19,10 @@ int _ddseek(int position, int mode) {
 #endif
 }
 
-/**
- * Prints a line to stdout.
- * s: Input string
- */
 void printl(char *s) {
 	fputs(s, stdout);
 }
 
-/**
- * Slice an ISO9660-like string (space-padded)
- * buffer: Entry buffer
- * target: Target string
- * max   : Slice end (excluded)
- */
 void isoslice(char *buffer, char *target, size_t max) {
 	while (buffer[--max] == ' ' && max > 0);
 	if (max > 0) {
@@ -53,11 +31,6 @@ void isoslice(char *buffer, char *target, size_t max) {
 	} else *target = '\0';
 }
 
-/**
- * Format a decimal binary number and add its appropriate suffix.
- * e.g. 24554 will result 23K
- * l: Value
- */
 void _printfd(unsigned long long l) {
 	float f = l;
 	if (f >= GB) { // Lazy code, sorry

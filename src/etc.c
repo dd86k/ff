@@ -42,8 +42,7 @@ void scan_etc() {
 			reportn("Palm Database (DB)");
 			palmdb_name();
 			return;
-		case EREADER0_LOW:
-		case EREADER1_LOW:
+		case EREADER0_LOW: case EREADER1_LOW:
 			switch (b[1]) {
 			case PLUCKER_HIGH:
 				reportn("Palm Database (Plucker)");

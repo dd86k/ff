@@ -7,16 +7,16 @@
 void scan_vmdk() {
 	struct SparseExtentHeader h;
 	_ddread(&h, sizeof(h));
+	
+	char *c;
 
-	reportf("VMware vdisk v%d, ", h.version);
-
-	//if (h.flags & COMPRESSED)
 	switch (h.compressAlgorithm) {
-	case 0: printl("no"); break;
-	case 1: printl("DEFLATE"); break;
-	default: printl("?"); break;
+	case 0:  c = "no"; break;
+	case 1:  c = "DEFLATE"; break;
+	default: c = "?"; break;
 	}
-	printl(" compression, ");
+
+	reportf("VMware vdisk v%d, %s compression, ", h.version, c);
 
 	_printfd(h.capacity * 512);
 
