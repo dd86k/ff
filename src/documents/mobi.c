@@ -88,15 +88,15 @@ void scan_mobi() { // Big-endian
 }
 
 void scan_palmdoc() {
-    struct palmdoc_hdr h;
-    _ddread(&h, sizeof(h));
+	struct palmdoc_hdr h;
+	_ddread(&h, sizeof(h));
 
-    reportn("Palm document");
+	reportn("Palm document");
 
-    if (h.Compression == 0x0100) // Big Endian
-        printl(", PalmDOC compressed");
-    else if (h.Compression == 0x4844) // 17480
-        printl(", HUFF/CDIC compressed");
+	if (h.Compression == 0x0100) // Big Endian
+		printl(", PalmDOC compressed");
+	else if (h.Compression == 0x4844) // 17480
+		printl(", HUFF/CDIC compressed");
 
-    palmdb_name();
+	palmdb_name();
 }

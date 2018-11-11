@@ -31,20 +31,20 @@
 #define EM_AARCH64 0xB7 // 64-bit ARM
 
 struct Elf32_Ehdr {
-    uint8_t e_ident[EI_NIDENT-4]; // Excludes magic
-    uint16_t e_type;
-    uint16_t e_machine;
-    uint32_t e_version;
-    /*uint32_t e_entry; // Don't need the rest, variable
-    uint32_t e_phoff;
-    uint32_t e_shoff;
-    uint32_t e_flags;
-    uint16_t e_ehsize;
-    uint16_t e_phentsize;
-    uint16_t e_phnum;
-    uint16_t e_shentsize;
-    uint16_t e_shnum;
-    uint16_t e_shstrndx;*/
+	uint8_t e_ident[EI_NIDENT-4]; // Excludes magic
+	uint16_t e_type;
+	uint16_t e_machine;
+	uint32_t e_version;
+	/*uint32_t e_entry; // Don't need the rest, variable
+	uint32_t e_phoff;
+	uint32_t e_shoff;
+	uint32_t e_flags;
+	uint16_t e_ehsize;
+	uint16_t e_phentsize;
+	uint16_t e_phnum;
+	uint16_t e_shentsize;
+	uint16_t e_shnum;
+	uint16_t e_shstrndx;*/
 };
 
 void scan_elf(void);
