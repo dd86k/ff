@@ -47,6 +47,8 @@ void scan(int *error) {
 		return;
 	}
 
+	char *r; // result pointer
+
 	switch (s) {
 	case 0x00000100: {
 		uint8_t b[12];
@@ -445,14 +447,17 @@ void scan(int *error) {
 		scan_rpm();
 		return;
 
-	case 0x44415749: case 0x44415750: { // "IWAD", "PWAD"
-		char *r;
+	case 0x44415749:
+		r = "IWAD";
+		goto WAD;
+	case 0x44415750:
+		r = "PWAD";
+		goto WAD;
+	case 0x32444157: {
+		r = "WAD2";
+WAD:
 		int b[2]; // Reads as ints.
 		_ddread(&b, sizeof(b));
-		if (s == 0x44415750)
-			r = "PWAD";
-		else
-			r = "IWAD";
 		reportf("%s, %d entries at %Xh\n", r, b[0], b[1]);
 		return;
 	}

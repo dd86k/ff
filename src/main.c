@@ -34,7 +34,7 @@ void version() {
 #endif
 		"\n"
 		"MIT License: Copyright (c) 2017-2018 dd86k\n"
-		"Project page: <https://github.com/dd86k/ff>"
+		"Project page: <https://git.dd86k.space.com/dd86k/ff>"
 	);
 	exit(0);
 }
