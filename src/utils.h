@@ -46,6 +46,8 @@ uint16_t bswap16(uint16_t);
 uint32_t bswap32(uint32_t);
 uint64_t bswap64(uint64_t);
 
+#define GOODBYE _Exit(0)
+
 #define GB 0x40000000
 #define MB 0x100000
 #define KB 0x400

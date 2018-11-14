@@ -14,6 +14,7 @@
 #include "archives/rpf.h"
 #include "archives/rpm.h"
 #include "archives/zip.h"
+#include "archives/7zip.h"
 #include "audio/flac.h"
 #include "audio/ogg.h"
 #include "audio/midi.h"
@@ -390,7 +391,7 @@ void scan(int *error) {
 		return;
 
 	case 0xAFBC7A37: // Followed by [0x27, 0x1C]
-		report("7-Zip archive (7z)");
+		scan_7zip();
 		return;
 
 	case 0x184D2204:
