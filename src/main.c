@@ -23,7 +23,7 @@ void help() {
 		" -h, -?   Print this help screen and quits\n"
 		" -v       Print the version screen and quits"
 	);
-	exit(0);
+	GOODBYE;
 }
 
 void version() {
@@ -36,7 +36,7 @@ void version() {
 		"MIT License: Copyright (c) 2017-2018 dd86k\n"
 		"Project page: <https://git.dd86k.space.com/dd86k/ff>"
 	);
-	exit(0);
+	GOODBYE;
 }
 
 #ifdef _WIN32
@@ -44,10 +44,7 @@ int wmain(int argc, wchar_t **argv) {
 #else
 int main(int argc, char **argv) {
 #endif
-	if (argc <= 1) {
-		help();
-		return 0;
-	}
+	if (argc <= 1) help();
 
 	char _args = 1;
 	char Continue = 0; // on symbolic link

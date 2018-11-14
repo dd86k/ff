@@ -116,8 +116,7 @@ void scan(int *error) {
 		report("JPEG-2000 image");
 		return;
 
-	case 0xD75F2A80:
-	// http://www.cineon.com/ff_draft.php
+	case 0xD75F2A80: // http://www.cineon.com/ff_draft.php
 		report("Kodak Cineon image (DPX)");
 		return;
 
