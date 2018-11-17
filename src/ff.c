@@ -562,6 +562,9 @@ WAD:
 		case 0x685A42: // "BZh"
 			report("Bzip2 archive");
 			return;
+		case 0x305A42: // "BZ0"
+			report("Bzip1 archive");
+			return;
 
 		case 0xBFBBEF:
 			report("UTF-8+BOM text");
