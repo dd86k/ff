@@ -151,7 +151,6 @@ void scan(int *error) {
 	case 0x494C4247: // "GBLI"
 	case 0x534C4247: // "GBLS"
 	case 0x4A4C4247: { // "GBLJ"
-		char *r;
 		switch (s) {
 		case 0x454C4247: r = "English";  break; // 'E'
 		case 0x464C4247: r = "French";   break; // 'F'
