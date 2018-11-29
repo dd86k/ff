@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdarg.h>
 #include "ff.h"
 #include "utils.h"
 #include "etc.h"
@@ -455,11 +456,12 @@ void scan(int *error) {
 		goto WAD;
 	case 0x32444157: {
 		r = "WAD2";
-WAD:
-		int b[2]; // Reads as ints.
-		_ddread(&b, sizeof(b));
-		reportf("%s, %d entries at %Xh\n", r, b[0], b[1]);
-		return;
+WAD:		{ // Fixes "expression expected" on clang-alpine
+			int b[2]; // Reads as ints.
+			_ddread(&b, sizeof(b));
+			reportf("%s, %d entries at %Xh\n", r, b[0], b[1]);
+			return;
+		}
 	}
 
 	case 0x6D736100: { // "\0asm", WebAssembly binary
