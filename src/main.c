@@ -18,8 +18,8 @@ void help() {
 		"         ff {-v|--version|-h|--help}\n"
 		"\nOPTIONS\n"
 		" -c   Continue on soft symbolic link\n"
-		" -m   Print even more information if available\n"
-		" -s   Show name before result\n"
+		" -m   Print more information if available\n"
+		" -s   Prepend filename to result\n"
 		" -h, -?   Print this help screen and quits\n"
 		" -v       Print the version screen and quits"
 	);
