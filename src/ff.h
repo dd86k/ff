@@ -10,9 +10,9 @@ FILE *f;
 #endif
 
 #ifdef _WIN32
-wchar_t *_currf;
+wchar_t *currFile;
 #else
-char *_currf;
+char *currFile;
 #endif
 
 void scan(int *);

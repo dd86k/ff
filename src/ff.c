@@ -41,6 +41,7 @@
 #include "vdisk/qcow2.h"
 #include "vdisk/qed.h"
 
+// Scan currFile 
 void scan(int *error) {
 	uint32_t s;
 	if (_ddread(&s, 4)) {
@@ -49,13 +50,13 @@ void scan(int *error) {
 		return;
 	}
 
-	char *r; // result pointer
+	char *r; // result placeholder
 
 	switch (s) {
 	case 0x00000100: {
 		uint8_t b[12];
 		_ddread(&b, sizeof(b));
-		uint32_t *p = (uint32_t *)&b;
+		uint32_t *p = (uint32_t *)b;
 		switch (*p) { // b[0..4]
 		case 0x5349534D: // "MSIS"
 			report("Microsoft Money");
@@ -654,7 +655,7 @@ void report(char *s) {
 #else
 			"%s: %s\n",
 #endif
-			_currf, s
+			currFile, s
 		);
 	else
 		puts(s);
@@ -672,7 +673,7 @@ void reportn(char *s) {
 #else
 			"%s: %s",
 #endif
-			_currf, s
+			currFile, s
 		);
 	else
 		printl(s);
@@ -680,13 +681,13 @@ void reportn(char *s) {
 
 void reportf(char *s, ...) {
 	if (ShowName) {
-		printf( // Might want to add _currf to arg list in the future
+		printf( // Might want to add currFile to arg list in the future
 #ifdef _WIN32
 			"%ls: ",
 #else
 			"%s: ",
 #endif
-			_currf
+			currFile
 		);
 	}
 	va_list a;

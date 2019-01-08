@@ -12,31 +12,53 @@
 #define VERSION "0.4.0"
 
 void help() {
-	puts(
+	fputs(
 		"Simple binary file scanner\n"
 		"  Usage: ff FILE [OPTIONS]\n"
 		"         ff {-v|--version|-h|--help}\n"
 		"\nOPTIONS\n"
-		" -c   Continue on soft symbolic link\n"
-		" -m   Print more information if available\n"
-		" -s   Prepend filename to result\n"
-		" -h, -?   Print this help screen and quits\n"
-		" -v       Print the version screen and quits"
+		" -c    Continue on soft symbolic link\n"
+		" -m    If available, print more information\n"
+		" -s    Prepend filename to result\n"
+		" -h, --help       Print this help screen and exit\n"
+		" -v, --version    Print version screen and exit\n"
+		" --license    Print license screen and exit\n",
+		stdout
 	);
-	GOODBYE;
 }
 
 void version() {
-	puts(
+	fputs(
 		"ff v" VERSION 
 #ifdef TIMESTAMP
 		"  (" TIMESTAMP ")"
 #endif
 		"\n"
-		"MIT License: Copyright (c) 2017-2018 dd86k\n"
-		"Project page: <https://git.dd86k.space.com/dd86k/ff>"
+		"MIT License: Copyright (c) 2017-2019 dd86k\n"
+		"Project page: <https://git.dd86k.space/dd86k/ff>\n",
+		stdout
 	);
-	GOODBYE;
+}
+
+void license() {
+	fputs(
+		"Copyright (C) 2018-2019 dd86k\n\n"
+		"Permission is hereby granted, free of charge, to any person obtaining a copy\n"
+		"of this software and associated documentation files (the \"Software\"), to deal\n"
+		"in the Software without restriction, including without limitation the rights\n"
+		"to use, copy, modify, merge, publish, distribute, sublicense, and/or sell\n"
+		"copies of the Software, and to permit persons to whom the Software is\n"
+		"furnished to do so, subject to the following conditions:\n\n"
+		"The above copyright notice and this permission notice shall be included in\n"
+		"all copies or substantial portions of the Software.\n\n"
+		"THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\n"
+		"IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS\n"
+		"FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS\n"
+		"OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,\n"
+		"WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR\n"
+		"IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.\n",
+		stdout
+	);
 }
 
 #ifdef _WIN32
@@ -46,26 +68,42 @@ int main(int argc, char **argv) {
 #endif
 	if (argc <= 1) help();
 
-	char _args = 1;
-	char Continue = 0; // on symbolic link
+	char cliargs = 1;
+	char clicont = 0; // on symbolic link
 
 	int error = 0;
 	while (--argc >= 1) {
-		if (_args) {
+		if (cliargs) {
 			if (argv[argc][1] == '-') { // long arguments
 #ifdef _WIN32
 				wchar_t *a = argv[argc] + 2;
-				if (wcscmp(a, L"help") == 0)
+				if (wcscmp(a, L"help") == 0) {
 					help();
-				if (wcscmp(a, L"version") == 0)
+					return 0;
+				}
+				if (wcscmp(a, L"version") == 0) {
 					version();
+					return 0;
+				}
+				if (wcscmp(a, L"license") == 0) {
+					license();
+					return 0;
+				}
 				_fwprintf_p(stderr, L"Unknown argument: --%s\n", a);
 #else
 				char *a = argv[argc] + 2;
-				if (strcmp(a, "help") == 0)
+				if (strcmp(a, "help") == 0) {
 					help();
-				if (strcmp(a, "version") == 0)
+					return 0;
+				}
+				if (strcmp(a, "version") == 0) {
 					version();
+					return 0;
+				}
+				if (strcmp(a, "license") == 0) {
+					version();
+					return 0;
+				}
 				fprintf(stderr, "Unknown argument: --%s\n", a);
 #endif
 				exit(1);
@@ -78,34 +116,34 @@ int main(int argc, char **argv) {
 				while (*++a) switch (*a) {
 				case 'm': ++More; break;
 				case 's': ++ShowName; break;
-				case 'c': ++Continue; break;
-				case '-': _args = !_args; continue;
-				case 'h': case '?': help(); break;
-				case 'v': version(); break;
+				case 'c': ++clicont; break;
+				case '-': cliargs = !cliargs; continue;
+				case 'h': help(); return 0;
+				case 'v': version(); return 0;
 				default:
 					fprintf(stderr, "Unknown argument: -%c\n", *a);
 					exit(1);
 				}
 				continue;
 			}
-		}
-		_currf = argv[argc];
+		} // cliargs
+		currFile = argv[argc];
 #ifdef _WIN32 // -- Windows --
-		uint32_t a = GetFileAttributesW(_currf);
+		uint32_t a = GetFileAttributesW(currFile);
 		if (a == 0xFFFFFFFF) { // INVALID_FILE_ATTRIBUTES
 EWFO:			_fwprintf_p(stderr, //TODO: GetLastError (Windows)
 				L"E: Could not open file: %s\n",
-				_currf
+				currFile
 			);
 			return 1;
 		}
 		if (a & 0x10) { // FILE_ATTRIBUTE_DIRECTORY
 			report("Directory");
 		} else if (a & 0x400) { // FILE_ATTRIBUTE_REPARSE_POINT
-			if (Continue) goto _fo;
+			if (clicont) goto _fo;
 			report("Symbolic link");
 		} else { // Not invalid at this point
-_fo:			f = CreateFileW(_currf,
+_fo:			f = CreateFileW(currFile,
 				GENERIC_READ, FILE_SHARE_READ, NULL,
 				OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 			if (!f) goto EWFO;
@@ -127,25 +165,25 @@ _fo:			f = CreateFileW(_currf,
 		}
 #else // -- POSIX --
 		struct stat s;
-		if (lstat(_currf, &s)) {
+		if (lstat(currFile, &s)) {
 			perror("E:");
 			return 1;
 		}
 
 		switch (s.st_mode & S_IFMT) { // stat(2)
 		case S_IFREG:
-_fo:			f = fopen(_currf, "rb"); // maybe use _s?
+_fo:			f = fopen(currFile, "rb"); // maybe use _s?
 			if (!f) {
-				fprintf(stderr, "E: Could not open file: %s\n", _currf);
+				fprintf(stderr, "E: Could not open file: %s\n", currFile);
 				return 2;
 			}
 			scan(&error);
 			fclose(f);
 			break;
 		case S_IFLNK:
-			if (Continue) goto _fo;
+			if (clicont) goto _fo;
 			char p[4096];
-			realpath(_currf, p); // + null terminator
+			realpath(currFile, p); // + null terminator
 			reportf("Symbolic link to \"%s\"\n", p);
 			break;
 		case S_IFBLK: report("Block device"); break;
