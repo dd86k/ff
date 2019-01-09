@@ -9,7 +9,7 @@
 #include "settings.h"
 #include "utils.h"
 
-#define VERSION "0.4.0"
+#define VERSION "0.4.1"
 
 void help() {
 	printl(

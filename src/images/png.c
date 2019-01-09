@@ -32,7 +32,7 @@ void scan_png() {
 	case 3:
 		switch (h.depth) {
 		case 1: case 2: case 4: case 8:
-			printf("8-bit PLTE Palette (%d)", h.depth);
+			printf("8-bit PLTE Palette (%d)\n", h.depth);
 			break;
 		default: puts("plte?"); break;
 		}
@@ -40,7 +40,7 @@ void scan_png() {
 	case 4:
 		switch (h.depth) {
 		case 8: case 16:
-			printf("%d-bit grayscale+alpha", h.depth);
+			printf("%d-bit grayscale+alpha\n", h.depth);
 			break;
 		default: puts("grayscale+alpha?"); break;
 		}
@@ -48,7 +48,7 @@ void scan_png() {
 	case 6:
 		switch (h.depth) {
 		case 8: case 16:
-			printf("32-bit RGBA (%d)", h.depth);
+			printf("32-bit RGBA (%d)\n", h.depth);
 			break;
 		default: puts("rgba?"); break;
 		}
