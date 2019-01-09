@@ -1,9 +1,9 @@
 ." Hi! This manual (man page) was written by dd86k.
 ." Please read man-pages(7) and groff_man(7) about the manual page format.
-.TH ff 1 "January 2018" dd86k "User manual"
+.TH ff 1 "January 2019" dd86k "User manual"
 .SH NAME
 .B ff
-- Simple tool to determine the file type via pre-determined magic.
+- determines file type via pre-determined magic.
 
 .SH SYNOPSIS
 .SY ff
@@ -13,6 +13,7 @@
 .SY ff
 .OP --help
 .OP --version
+.OP --license
 .YS
 
 .SH DESCRIPTION
@@ -22,26 +23,34 @@ is a simple, dumb, fast binary file scanner that is very similar to and inspired
 
 .SH OPTIONS
 
+Please note that options go at the end of the command line, as options are read from right to left. To selectively set options for particular files in one go, the options will affect the file or files on its left until new options are toggled. All short options can be toggled back and forth.
+
 .IP -c
-Continue on symlink.
+Continue on symlink. Default: Off
 
 .IP -m
-Show more information, if available.
+Show more information, if available. Default: Off
 
 .IP -s
-Prepend filename to result, useful while globbing.
+Prepend filename to result, useful while globbing. Default: Off
 
-.IP -v
+.IP --
+Disables further CLI option settings. Default: Off
+
+.IP -v, --version
 Show version screen and exit.
 
-.IP -h
+.IP -h, --help
 Show help screen and exit.
+
+.IP --license
+Show license screen and exit.
 
 .SH EXAMPLES
 .EX
-$ ff ff ff.exe -s
-ff: ELF64 LE System V Shared object for x86-64 machines
-ff.exe: PE32+ Windows Console Executable for x86-64 machines, LARGE_ADDRESS_AWARE
+$ ff ff ff.exe
+PE32+ Windows Console Executable for x86-64, LARGE_ADDRESS_AWARE
+ELF64LE System V Shared object for x86-64 machines
 
 $ ff ff.exe -m
 PE32+ Windows Console Executable for x86-64 machines, LARGE_ADDRESS_AWARE
@@ -52,13 +61,16 @@ Number of symbols      : 0h
 Size of Optional Header: F0h
 Characteristics        : 22h
 
-$ ff t/*.png -sm
-t/a.png: Portable Network Graphics image, 201 x 192 pixels, 8-bit PLTE Palette
-Default compression, Default filtering, No interlacing
-t/b.png: Portable Network Graphics image, 715 x 823 pixels, 32-bit RGBA
-Default compression, Default filtering, No interlacing
-t/c.png: Portable Network Graphics image, 281 x 198 pixels, 24-bit RGB
-Default compression, Default filtering, No interlacing
+$ ff * -sm
+Manuel - Gas Gas Gas.flac: FLAC audio, 44100 Hz, 16-bit, 2 channels
+cv.wav: WAVE audio (G.729) 8000 Hz, 0 kbps, 0-bit, 1 channels
+2002ado.wad: PWAD, 894 entries at C7A7FDh
+
+(Linux)$ ff /dev/null
+Character device
+
+(Windows)> ff NUL
+Character device
 .EE
 
 .SH WARNINGS

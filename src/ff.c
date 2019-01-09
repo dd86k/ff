@@ -49,6 +49,8 @@ void scan(int *error) {
 		*error = 4;
 		return;
 	}
+	
+	char *r;
 
 	switch (s) {
 	case 0x00000100: {
@@ -451,18 +453,17 @@ void scan(int *error) {
 		return;
 
 	case 0x44415749:
-		char *d;
-		d = "IWAD";
+		r = "IWAD";
 		goto WAD;
 	case 0x44415750:
-		d = "PWAD";
+		r = "PWAD";
 		goto WAD;
 	case 0x32444157: {
-		d = "WAD2";
+		r = "WAD2";
 WAD:		{ // Fixes "expression expected" on clang-alpine
 			int b[2]; // Reads as ints.
 			_ddread(&b, sizeof(b));
-			reportf("%s, %d entries at %Xh\n", d, b[0], b[1]);
+			reportf("%s, %d entries at %Xh\n", r, b[0], b[1]);
 			return;
 		}
 	}
@@ -629,19 +630,18 @@ WAD:		{ // Fixes "expression expected" on clang-alpine
 				return;
 
 			case 0x0908:
-				char h;
-				h = '8';
+				r = "8";
 				goto BIFF;
 			case 0x0904:
-				h = '4';
+				r = "4";
 				goto BIFF;
 			case 0x0902:
-				h = '3';
+				r = "3";
 				goto BIFF;
 			case 0x0900:
-				h = '2';
+				r = "2";
 			BIFF:
-				reportf("Microsoft Excel BIFF%c spreadsheet", h);
+				reportf("Microsoft Excel BIFF%s spreadsheet", r);
 				return;
 
 			default:

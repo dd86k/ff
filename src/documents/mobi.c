@@ -10,7 +10,7 @@ void palmdb_name() {
 	char name[32];
 	_ddseek(0, SEEK_SET);
 	_ddread(name, sizeof(name));
-	printf(", \"%s\"\n", name);
+	printf(", \"%.32s\"\n", name);
 }
 
 void scan_mobi() { // Big-endian

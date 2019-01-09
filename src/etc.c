@@ -110,11 +110,13 @@ void scan_etc() {
 		case WORDSMITH_LOW:
 			mt = "Palm Database (WordSmith)";
 			break;
+		default: goto MOBI_OUT;
 		}
 		reportn(mt);
 		palmdb_name();
 		return;
 	} else goto _END;
+MOBI_OUT:
 
 	if (_ddseek(0x101, SEEK_SET) == 0) { // Tar files
 		char b[sizeof(TAR)];

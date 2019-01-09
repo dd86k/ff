@@ -63,7 +63,10 @@ int wmain(int argc, wchar_t **argv) {
 #else
 int main(int argc, char **argv) {
 #endif
-	if (argc <= 1) help();
+	if (argc <= 1) {
+		help();
+		return 0;
+	}
 
 	char cliargs = 1;
 	char clicont = 0; // on symbolic link
@@ -111,9 +114,9 @@ int main(int argc, char **argv) {
 				char *a = argv[argc];
 #endif
 				while (*++a) switch (*a) {
-				case 'm': ++More; break;
-				case 's': ++ShowName; break;
-				case 'c': ++clicont; break;
+				case 'm': More = !More; break;
+				case 's': ShowName = !ShowName; break;
+				case 'c': clicont = !clicont; break;
 				case '-': cliargs = !cliargs; continue;
 				case 'h': help(); return 0;
 				case 'v': version(); return 0;
