@@ -17,17 +17,17 @@ void scan_nesm() {
 		r = "PAL";
 
 	if (h.chip & 1)
-		c = "VRCVI, ";
+		c = "VRCVI";
 	if (h.chip & 2)
-		c = "VRCVII, ";
+		c = "VRCVII";
 	if (h.chip & 4)
-		c = "FDS, ";
+		c = "FDS";
 	if (h.chip & 8)
-		c = "MMC5, ";
+		c = "MMC5";
 	if (h.chip & 0x10)
-		c = "Namco 106, ";
+		c = "Namco 106";
 	if (h.chip & 0x20)
-		c = "Sunsoft FME-07, ";
+		c = "Sunsoft FME-07";
 
 	reportf("%s Nintendo Sound audio, %d songs, using %s, "
 		"\"%.32s - %.32s\", (c) %.32s\n",

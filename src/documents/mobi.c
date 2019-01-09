@@ -75,7 +75,7 @@ void scan_mobi() { // Big-endian
 	default: c = "no";
 	}
 
-	switch (h.Compression) { // Looks like encryption version
+	switch (h.Encryption) { // Looks like encryption version
 	case 0x0100: e = "Legacy Mobipocket"; break;
 	case 0x0200: e = "Mobipocket"; break;
 	default: e = "no";
@@ -83,7 +83,6 @@ void scan_mobi() { // Big-endian
 
 	reportf("Mobipocket %s document, %s compression, %s encryption",
 		r, c, e);
-
 	palmdb_name();
 }
 

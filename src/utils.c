@@ -44,7 +44,7 @@ void _printfd(unsigned long long l) {
 }
 
 uint16_t bswap16(uint16_t s) {
-	return (s & 0xff00) >> 8 | (s & 0xff) << 8;
+	return s >> 8 | s << 8;
 }
 
 uint32_t bswap32(uint32_t s) {
@@ -76,8 +76,4 @@ void print_array(uint8_t *a, size_t s) {
 		printf(" %02X", *a); ++a;
 	}
 	putchar('\n');
-}
-
-void ddstrncpy(char *d, char *s, int c) {
-	memcpy(d, s, c + 1);
 }

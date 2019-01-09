@@ -8,7 +8,7 @@ void scan_szdd() {
 	struct szdd_hdr h;
 	_ddread(&h, sizeof(h));
 
-	reportn("MS-DOS SZDD");
-	if (h.compression != 'A') printl("? ");
-	puts("archive");
+	reportf("MS-DOS SZDD%s archive, char: %Xh, %d B\n",
+		h.compression != 'A' ? "?" : "",
+		h.character, h.length);
 }

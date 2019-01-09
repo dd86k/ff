@@ -16,52 +16,45 @@ void scan_png() {
 	case 0:
 		switch (h.depth) {
 		case 1: case 2: case 4: case 8: case 16:
-			printf("%d", h.depth);
+			printf("%d-bit grayscale\n", h.depth);
 			break;
-		default: putchar('?'); break;
+		default: puts("grayscale?"); break;
 		}
-		printl("-bit Grayscale");
 		break;
 	case 2:
 		switch (h.depth) {
 		case 8: case 16:
-			printf("%d", h.depth*3);
+			printf("%d-bit RGB\n", h.depth * 3);
 			break;
-		default: putchar('?'); break;
+		default: puts("rgb?"); break;
 		}
-		printl("-bit RGB");
 		break;
 	case 3:
 		switch (h.depth) {
 		case 1: case 2: case 4: case 8:
-			printl("8");
+			printf("8-bit PLTE Palette (%d)", h.depth);
 			break;
-		default: putchar('?'); break;
+		default: puts("plte?"); break;
 		}
-		printl("-bit PLTE Palette");
 		break;
 	case 4:
 		switch (h.depth) {
 		case 8: case 16:
-			printf("%d", h.depth);
+			printf("%d-bit grayscale+alpha", h.depth);
 			break;
-		default: putchar('?'); break;
+		default: puts("grayscale+alpha?"); break;
 		}
-		printl("-bit Grayscale+Alpha");
 		break;
 	case 6:
 		switch (h.depth) {
 		case 8: case 16:
-			printl("32");
+			printf("32-bit RGBA (%d)", h.depth);
 			break;
-		default: putchar('?'); break;
+		default: puts("rgba?"); break;
 		}
-		printl("-bit RGBA");
 		break;
-	default: putchar('?'); break;
+	default: puts("color?"); break;
 	}
-
-	putchar('\n');
 
 	if (More) {
 		switch (h.compression) {

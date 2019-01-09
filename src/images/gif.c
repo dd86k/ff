@@ -10,31 +10,26 @@ void scan_gif() {
 	_ddseek(0, SEEK_SET);
 	_ddread(&h, sizeof(h));
 
-	reportn("GIF");
-
 	switch (h.version_[1]) { // 87a, 89a, lazy switch
-	case '7': printl("87a"); break;
-	case '9': printl("89a"); break;
-	default: printl(" image, non-supported version\n"); return;
+	case '7': case '9': break;
+	default: report("GIF image"); return;
 	}
 
-	printf(" image, %d x %d pixels, %d-bit",
-		h.width, h.height, ((h.packed >> 4) & 3) + 1);
+	reportf("GIF%.3s image, %d x %d pixels, %d-bit\n",
+		h.version_, h.width, h.height, ((h.packed >> 4) & 3) + 1);
 
 	if (More) {
 		if (h.packed & GLOBAL_COLOR_TABLE) {
-			printl(", Global Color Table");
+			printl("Global Color Table");
 			if (h.packed & 3)
-				printf(" of %lf bytes", pow(2, ((h.packed & 3) + 1)));
+				printf(", %d bytes", (int)pow(2, ((h.packed & 3) + 1)));
 			if (h.packed & SORT_FLAG)
 				printl(", Sorted");
 			if (h.bgcolor)
-				printf(", BG Index of %X", h.bgcolor);
+				printf(", BG Index of %d", h.bgcolor);
+			putchar('\n');
 		}
-
 		if (h.aspect)
-			printf(", %f pixel ratio (reported)", ((float)h.aspect + 15) / 64);
+			printf("Pixel ratio (reported): %f", ((float)h.aspect + 15) / 64);
 	}
-
-	putchar('\n');
 }

@@ -22,7 +22,7 @@ void scan_vhd() { // big-endian
 	case D_FIXED:   d = "fixed"; break;
 	case D_DYNAMIC: d = "dynamic"; break;
 	case D_DIFF:    d = "differencing"; break;
-	default: d = h.disk_type < 7 ? "reserved (deprecated)" : "?";
+	default: d = h.disk_type < 7 ? "reserved (deprecated)" : "type?";
 	}
 
 	switch (h.creator_os) {

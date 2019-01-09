@@ -29,23 +29,23 @@ void scan_bpg(void) {
 
 	if (More) {
 		switch (h.color >> 4) {
-		default: printl("color? "); break;
 		case 0: printl("YCbCr (BT 709) "); break;
 		case 1: printl("RGB "); break;
 		case 2: printl("YCgCo "); break;
 		case 3: printl("YCbCr (BT 709) "); break;
 		case 4: printl("YCbCr (BT 2020) "); break;
 		case 5: printl("YCbCr (BT 2020, constant) "); break;
+		default: printl("color? "); break;
 		}
 
 		switch (h.format >> 5) {
-		default: puts("format?"); break;
 		case 0: puts("Grayscale"); break;
 		case 1: puts("4:2:0 (JPEG)"); break;
 		case 2: puts("4:2:2 (JPEG)"); break;
 		case 3: puts("4:4:4"); break;
 		case 4: puts("4:2:0 (MPEG2)"); break;
 		case 5: puts("4:2:2 (MPEG2)"); break;
+		default: puts("format?"); break;
 		}
 	}
 }

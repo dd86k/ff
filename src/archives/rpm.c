@@ -7,17 +7,19 @@
 void scan_rpm() {
 	struct rpm_hdr h;
 	_ddread(&h, sizeof(h));
-	reportn("RPM ");
+
+	char *t, *o;
+
 	switch (h.type) {
-	case 0: printl("binary"); break;
-	case 0x100: printl("source"); break;
-	default: putchar('?');
+	case 0: t = "binary"; break;
+	case 0x100: t = "source"; break;
+	default: t = "type?";
 	}
-	printf(" package v%d.%d, \"%.66s\" for ",
-		h.major, h.minor, h.name);
 	switch (h.osnum) {
-	case 0x100: printl("linux"); break;
-	default: printl("other"); break;
+	case 0x100: o = "linux"; break;
+	default: o = "other"; break;
 	}
-	puts(" platforms");
+
+	reportf("RPM %s package v%d.%d, \"%.66s\" for %s platforms",
+		t, h.major, h.minor, h.name, o);
 }

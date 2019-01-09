@@ -6,21 +6,22 @@
 
 // https://xiph.org/flac/format.html
 // https://xiph.org/flac/api/format_8h_source.html
+// 
 
-void scan_flac() { // Silly format
+void scan_flac() { // big endian
 	struct flac_hdr h;
 	_ddread(&h, sizeof(h));
-	reportn("FLAC audio");
-	if ((h.header & 0xFF) == 0) {
-		int bits = ((h.stupid[8] & 1) << 4 | (h.stupid[9] >> 4)) + 1;
-		int chan = ((h.stupid[8] >> 1) & 7) + 1;
-		int rate =
-			((h.stupid[6] << 12) | h.stupid[7] << 4 | h.stupid[8] >> 4);
-		printf(", %d Hz, %d-bit, %d channels\n", rate, bits, chan);
-		if (More) {
-			printl("MD5: ");
-			print_array(h.md5, sizeof(h.md5));
-		}
+
+	if ((uint8_t)h.header) { // & 0xFF != 0
+		report("FLAC audio?");
+		return;
 	}
-	putchar('\n');
+	int bits = ((h.data[8] & 1) << 4 | (h.data[9] >> 4)) + 1;
+	int chan = ((h.data[8] >> 1) & 7) + 1;
+	int rate = ((h.data[6] << 12) | h.data[7] << 4 | h.data[8] >> 4);
+	reportf("FLAC audio, %d Hz, %d-bit, %d channels\n", rate, bits, chan);
+	if (More) {
+		printl("MD5: ");
+		print_array(h.md5, sizeof(h.md5));
+	}
 }

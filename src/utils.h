@@ -38,13 +38,6 @@ void printl(char *str);
  * max   : Slice end (excluded)
  */
 void isoslice(char *buffer, char *target, size_t max);
-/**
- * Copy an ascii string
- * des: Destination
- * src: Source
- * len: Length excluding null terminator
- */
-void ddstrncpy(char *des, char *src, int len);
 
 void print_array(uint8_t *, size_t);
 

@@ -23,9 +23,9 @@ void scan_ne() {
 		if (h.ne_flags & NEIERR)
 			printl(", errors in image");
 		if (h.ne_flags & NEPROT)
-			printl(", runs in protected mode");
+			printl(", protected mode");
 		if (h.ne_flags & NEREAL)
-			printl(", runs in real mode");
+			printl(", real mode");
 		if (h.ne_flags & NEINST)
 			printl(", instance data");
 		if (h.ne_flags & NESOLO)

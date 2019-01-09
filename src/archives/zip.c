@@ -28,8 +28,8 @@ void scan_zip() {
 	default: c = "archive?"; return;
 	}
 
-	reportf("PKWare ZIP %s archive v%d.%d, ",
-		c, h.version / 10, h.version % 10);
+	reportf("%s PKWare ZIP (%d) archive v%d.%d, ",
+		c, h.compression, h.version / 10, h.version % 10);
 
 	if (h.fnlength > 0) {
 		fn = malloc(h.fnlength + 1);

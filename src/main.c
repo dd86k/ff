@@ -12,52 +12,49 @@
 #define VERSION "0.4.0"
 
 void help() {
-	fputs(
-		"Simple binary file scanner\n"
-		"  Usage: ff FILE [OPTIONS]\n"
-		"         ff {-v|--version|-h|--help}\n"
-		"\nOPTIONS\n"
-		" -c    Continue on soft symbolic link\n"
-		" -m    If available, print more information\n"
-		" -s    Prepend filename to result\n"
-		" -h, --help       Print this help screen and exit\n"
-		" -v, --version    Print version screen and exit\n"
-		" --license    Print license screen and exit\n",
-		stdout
+	printl(
+	"Simple binary file scanner\n"
+	"  Usage: ff FILE [OPTIONS]\n"
+	"         ff {-v|--version|-h|--help}\n"
+	"\nOPTIONS\n"
+	" -c    Continue on soft symbolic link\n"
+	" -m    If available, print more information\n"
+	" -s    Prepend filename to result\n"
+	" -h, --help       Print this help screen and exit\n"
+	" -v, --version    Print version screen and exit\n"
+	" --license    Print license screen and exit\n"
 	);
 }
 
 void version() {
-	fputs(
-		"ff v" VERSION 
+	printl(
+	"ff v" VERSION 
 #ifdef TIMESTAMP
-		"  (" TIMESTAMP ")"
+	"  (" TIMESTAMP ")"
 #endif
-		"\n"
-		"MIT License: Copyright (c) 2017-2019 dd86k\n"
-		"Project page: <https://git.dd86k.space/dd86k/ff>\n",
-		stdout
+	"\n"
+	"MIT License: Copyright (c) 2017-2019 dd86k\n"
+	"Project page: <https://git.dd86k.space/dd86k/ff>\n"
 	);
 }
 
 void license() {
-	fputs(
-		"Copyright (C) 2018-2019 dd86k\n\n"
-		"Permission is hereby granted, free of charge, to any person obtaining a copy\n"
-		"of this software and associated documentation files (the \"Software\"), to deal\n"
-		"in the Software without restriction, including without limitation the rights\n"
-		"to use, copy, modify, merge, publish, distribute, sublicense, and/or sell\n"
-		"copies of the Software, and to permit persons to whom the Software is\n"
-		"furnished to do so, subject to the following conditions:\n\n"
-		"The above copyright notice and this permission notice shall be included in\n"
-		"all copies or substantial portions of the Software.\n\n"
-		"THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\n"
-		"IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS\n"
-		"FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS\n"
-		"OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,\n"
-		"WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR\n"
-		"IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.\n",
-		stdout
+	printl(
+	"Copyright (C) 2018-2019 dd86k\n\n"
+	"Permission is hereby granted, free of charge, to any person obtaining a copy\n"
+	"of this software and associated documentation files (the \"Software\"), to deal\n"
+	"in the Software without restriction, including without limitation the rights\n"
+	"to use, copy, modify, merge, publish, distribute, sublicense, and/or sell\n"
+	"copies of the Software, and to permit persons to whom the Software is\n"
+	"furnished to do so, subject to the following conditions:\n\n"
+	"The above copyright notice and this permission notice shall be included in\n"
+	"all copies or substantial portions of the Software.\n\n"
+	"THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\n"
+	"IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS\n"
+	"FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS\n"
+	"OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,\n"
+	"WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR\n"
+	"IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.\n"
 	);
 }
 

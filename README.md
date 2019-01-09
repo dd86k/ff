@@ -1,6 +1,6 @@
 # ff, simple binary file scanner
 
-ff aims to be a simple, fast, and easy-to-understand binary file scanner.
+ff aims to be a simple, fast, generic, and understandable binary file scanner.
 
 ```
 $ ff *.exe -s

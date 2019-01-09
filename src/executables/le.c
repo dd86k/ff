@@ -33,16 +33,16 @@ void scan_le(int is_le) {
 		t = "Executable"; // Program module
 
 	switch (h.e32_cpu) {
-	default:    c = "?"; break;
 	case i286:  c = "i286"; break;
 	case _i386: c = "i386"; break;
 	case i486:  c = "i486"; break;
+	default:    c = "?"; break;
 	}
 
 	bo = h.e32_border ? "BE" : "LE";
 	wo = h.e32_worder ? "BE" : "LE";
 
-	reportf("%s %s %s for %s machines, %s byte order, %s word order",
+	reportf("%s %s %s for %s machines, %s byte order, %s word order\n",
 		e, os, t, c, bo, wo);
 
 	if (More) {

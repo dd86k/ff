@@ -10,39 +10,37 @@ void scan_tar() {
 	_ddseek(0, SEEK_SET);
 	_ddread(&h, sizeof(h));
 
-	long s = strtol(h.size, NULL, sizeof(h.size));
-
 	char *l;
 
 	switch (h.linkflag) {
 	case 0:
-	case '0': l = "normal"; break;
-	case '1': l = "link"; break;
-	case '2': l = "syslink"; break;
-	case '3': l = "character special"; break;
-	case '4': l = "block special"; break;
-	case '5': l = "directory"; break;
+	case '0': l = "Normal"; break;
+	case '1': l = "Link"; break;
+	case '2': l = "Syslink"; break;
+	case '3': l = "Character special"; break;
+	case '4': l = "Block special"; break;
+	case '5': l = "Directory"; break;
 	case '6': l = "FIFO"; break;
-	case '7': l = "contiguous"; break;
+	case '7': l = "Contiguous"; break;
 	default: report("Tar archive?"); return;
 	}
 
-	reportf("Tar archive, %s, ", l);
+	long s = strtol(h.size, NULL, sizeof(h.size));
 
+	reportf("%s Tar archive, ", l);
 	_printfd(s);
 	putchar('\n');
 
 	if (More) {
 		printf(
-			"Name: %s\n"
-			"Link name: %s\n"
-			"uname: %s\n"
-			"gname: %s\n"
-			"Magic: %s\n"
-			"Mode: %s\n"
-			"Checksum: %s\n"
-			"Major version: %s\n"
-			"Major version: %s\n",
+			"Name: %.100s\n"
+			"Link name: %.100s\n"
+			"uname: %.32s\n"
+			"gname: %.32s\n"
+			"Magic: %.8s\n"
+			"Mode: %.8s\n"
+			"Checksum: %.8s\n"
+			"Version: %.8s.%.8s\n",
 			h.name, h.linkname, h.uname,
 			h.gname, h.magic, h.mode,
 			h.chksum, h.devmajor, h.devminor

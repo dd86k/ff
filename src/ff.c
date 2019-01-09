@@ -41,7 +41,7 @@
 #include "vdisk/qcow2.h"
 #include "vdisk/qed.h"
 
-// Scan currFile 
+// Scan currFile
 void scan(int *error) {
 	uint32_t s;
 	if (_ddread(&s, 4)) {
@@ -49,8 +49,6 @@ void scan(int *error) {
 		*error = 4;
 		return;
 	}
-
-	char *r; // result placeholder
 
 	switch (s) {
 	case 0x00000100: {
@@ -99,16 +97,15 @@ void scan(int *error) {
 		return;
 
 	case 0x2A004D4D: // "MM\0*"
-		report("Tagged Image File Format image");
-		return;
+		goto TIFF;
 
 	case 0x002A4949: { // "II*\0"
 		_ddread(&s, 4);
 		switch (s) {
-		case 0x10: // 'I' 'I' '*' 00 | 10 00 00 00 'C' 'R'
+		case 0x10: // 'I' 'I' '*' 00 | 10 00 00 00 | 'C' 'R'
 			report("Canon RAW Format Version 2 image (TIFF)");
 			return;
-		default:
+		default: TIFF:
 			report("Tagged Image File Format image (TIFF)");
 			return;
 		}
@@ -139,7 +136,7 @@ void scan(int *error) {
 		return;
 
 	case 0xDBFFD8FF: case 0xE0FFD8FF: case 0xE1FFD8FF:
-		report("Joint Photographic Experts Group image");
+		report("Joint Photographic Experts Group image (JPEG)");
 		return;
 
 	case 0xCEA1A367:
@@ -152,6 +149,7 @@ void scan(int *error) {
 	case 0x494C4247: // "GBLI"
 	case 0x534C4247: // "GBLS"
 	case 0x4A4C4247: { // "GBLJ"
+		char *r;
 		switch (s) {
 		case 0x454C4247: r = "English";  break; // 'E'
 		case 0x464C4247: r = "French";   break; // 'F'
@@ -302,9 +300,10 @@ void scan(int *error) {
 		report("PostScript document");
 		return;
 
-	case 0x46445025: { // "%PDF"
-		uint8_t b[5] = { 0 };
+	case 0x46445025: { // "%PDF" | "-n.n" (n=digit)
+		uint8_t b[5];
 		_ddread(&b, 4);
+		b[4] = 0;
 		reportf("PDF%s document\n", b);
 		return;
 	}
@@ -328,7 +327,7 @@ void scan(int *error) {
 		scan_ogg();
 		return;
 
-	case 0x43614C66: // "fLaC", big endian
+	case 0x43614C66: // "fLaC"
 		scan_flac();
 		return;
 
@@ -368,7 +367,7 @@ void scan(int *error) {
 		return;
 
 	case 0x00025245:
-		report("Roxio Toast disc or DMG (toast or dmg)");
+		report("Roxio Toast disc or DMG (toast, dmg)");
 		return;
 
 	case 0x21726178: // "xar!"
@@ -386,7 +385,7 @@ void scan(int *error) {
 			return;
 		}
 
-	case 0x004D4344: // "DCM\0", followed by "PA30"
+	case 0x004D4344: // "DCM\0" | "PA30"
 		report("Windows Update Binary Delta Compression data");
 		return;
 
@@ -416,17 +415,20 @@ void scan(int *error) {
 		case 0x4D524F46: // "FORM"
 			_ddseek(4, SEEK_CUR);
 			_ddread(&s, 4);
+			char *r;
 			switch (s) {
 			case 0x55564A44: // "DJVU"
-				report("DjVu document, single page");
-				return;
+				r = "single page";
+				break;
 			case 0x4D564A44: // "DJVM"
-				report("DjVu document, multiple pages");
-				return;
+				r = "multiple pages";
+				break;
 			default:
 				report_unknown();
 				return;
 			}
+			reportf("DjVu document, %s\n", r);
+			return;
 		default:
 			report_unknown();
 			return;
@@ -449,17 +451,18 @@ void scan(int *error) {
 		return;
 
 	case 0x44415749:
-		r = "IWAD";
+		char *d;
+		d = "IWAD";
 		goto WAD;
 	case 0x44415750:
-		r = "PWAD";
+		d = "PWAD";
 		goto WAD;
 	case 0x32444157: {
-		r = "WAD2";
+		d = "WAD2";
 WAD:		{ // Fixes "expression expected" on clang-alpine
 			int b[2]; // Reads as ints.
 			_ddread(&b, sizeof(b));
-			reportf("%s, %d entries at %Xh\n", r, b[0], b[1]);
+			reportf("%s, %d entries at %Xh\n", d, b[0], b[1]);
 			return;
 		}
 	}
@@ -479,17 +482,20 @@ WAD:		{ // Fixes "expression expected" on clang-alpine
 	// http://www.cabextract.org.uk/libmspack/doc/szdd_kwaj_format.html
 	case 0x4A41574B: // "KWAJ"
 		scan_kwaj();
-		break;
+		return;
 
 	case 0x44445A53: // "SZDD"
 		scan_szdd();
-		break;
+		return;
+	case 0x88205A53: // "SZ \x88"
+		report("MS-DOS SZDD archive (QBasic)");
+		return;
 
 	case 0x0000FEFF:
-		report("UTF-32+BOM (LSB) text");
+		report("UTF-32+BOM-LSB text");
 		return;
 	case 0xFFFE0000:
-		report("UTF-32+BOM (MSB) text");
+		report("UTF-32+BOM-MSB text");
 		return;
 
 	case 0x564D444B: // "KDMV", VMDK vdisk
@@ -534,7 +540,7 @@ WAD:		{ // Fixes "expression expected" on clang-alpine
 		return;
 
 	case 0x00000F01:
-		report("MS-SQL database");
+		report("MS-SQL database (MDF)");
 		/* Header is 96 bytes
 			POSSIBLE STRUCTURE:
 			u32 magic
@@ -548,7 +554,7 @@ WAD:		{ // Fixes "expression expected" on clang-alpine
 		return;
 
 	case 0x0c0901fe:
-		report("MySQL FORM");
+		report("MySQL FORM file");
 		return;
 
 	case 0xff743064: // '\377t0c'
@@ -557,13 +563,13 @@ WAD:		{ // Fixes "expression expected" on clang-alpine
 		
 	case 0x587A37FD:
 		report("XZ archive");
-		break;
+		return;
 
 	default:
 		switch (s & 0xFFFFFF) {
 		case 0x464947: // "GIF"
 			scan_gif();
-			break;
+			return;
 
 		case 0x685A42: // "BZh"
 			report("Bzip2 archive");
@@ -623,16 +629,19 @@ WAD:		{ // Fixes "expression expected" on clang-alpine
 				return;
 
 			case 0x0908:
-				report("Microsoft Excel BIFF8 spreadsheet");
-				return;
+				char h;
+				h = '8';
+				goto BIFF;
 			case 0x0904:
-				report("Microsoft Excel BIFF4 spreadsheet");
-				return;
+				h = '4';
+				goto BIFF;
 			case 0x0902:
-				report("Microsoft Excel BIFF3 spreadsheet");
-				return;
+				h = '3';
+				goto BIFF;
 			case 0x0900:
-				report("Microsoft Excel BIFF2 spreadsheet");
+				h = '2';
+			BIFF:
+				reportf("Microsoft Excel BIFF%c spreadsheet", h);
 				return;
 
 			default:

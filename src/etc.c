@@ -15,121 +15,105 @@ void scan_etc() {
 	if (_ddseek(0x3c, SEEK_SET) == 0) { // Palm Database Format
 		unsigned long int b[2];
 		_ddread(&b, sizeof(b));
+		char *mt;
 		switch (b[0]) { // LOW
 		case ADOBE_LOW:
-			reportn("Palm Database (Adobe Reader)");
-			palmdb_name();
-			return;
+			mt = "Palm Database (Adobe Reader)";
+			break;
 		case BOOKMOBI_LOW:
 			scan_mobi();
 			return;
 		case PALMDOC_LOW:
 			switch (b[1]) {
 			case TEALDOC_HIGH:
-				reportn("Palm Database (TealDoc)");
-				return;
-			default:
+				mt = "Palm Database (TealDoc)";
+				break;
+			default: // PALMDOC_HIGH
 				scan_palmdoc();
 				return;
 			}
-			palmdb_name();
-			return;
+			break;
 		case BDICTY_LOW:
-			reportn("Palm Database (BDicty)");
-			palmdb_name();
-			return;
+			mt = "Palm Database (BDicty)";
+			break;
 		case DB_LOW:
-			reportn("Palm Database (DB)");
-			palmdb_name();
-			return;
+			mt = "Palm Database (DB)";
+			break;
 		case EREADER0_LOW: case EREADER1_LOW:
 			switch (b[1]) {
 			case PLUCKER_HIGH:
-				reportn("Palm Database (Plucker)");
+				mt = "Palm Database (Plucker)";
 				break;
 			case QUICKSHEET_HIGH:
-				reportn("Palm Database (QuickSheet)");
+				mt = "Palm Database (QuickSheet)";
 				break;
 			case TEALMEAL_HIGH:
-				reportn("Palm Database (TealMeal)");
+				mt = "Palm Database (TealMeal)";
 				break;
 			case TEALPAINT_HIGH:
-				reportn("Palm Database (TailPaint)");
+				mt = "Palm Database (TailPaint)";
 				break;
 			default: // EREADER0_HIGH/EREADER1_HIGH
-				reportn("Palm Database (eReader)");
+				mt = "Palm Database (eReader)";
 				break;
 			}
-			palmdb_name();
-			return;
+			break;
 		case FIREVIEWER_LOW:
-			reportn("Palm Database (FireViewer)");
-			palmdb_name();
-			return;
+			mt = "Palm Database (FireViewer)";
+			break;
 		case HANDBASE_LOW:
-			reportn("Palm Database (HanDBase)");
-			palmdb_name();
-			return;
+			mt = "Palm Database (HanDBase)";
+			break;
 		case INFOVIEW_LOW:
 			switch (b[1]) {
 			case TEALINFO_HIGH:
-				reportn("Palm Database (TealInfo)");
-				return;
+				mt = "Palm Database (TealInfo)";
+				break;
 			default:
-				reportn("Palm Database (InfoView)");
+				mt = "Palm Database (InfoView)";
 				break;
 			}
-			palmdb_name();
-			return;
+			break;
 		case ISILO_LOW:
-			reportn("Palm Database (iSilo)");
-			palmdb_name();
-			return;
+			mt = "Palm Database (iSilo)";
+			break;
 		case ISILO3_LOW:
-			reportn("Palm Database (iSilo 3)");
-			palmdb_name();
-			return;
+			mt = "Palm Database (iSilo 3)";
+			break;
 		case JFILE_LOW:
-			reportn("Palm Database (JFile)");
-			palmdb_name();
-			return;
+			mt = "Palm Database (JFile)";
+			break;
 		case JFILEPRO_LOW:
-			reportn("Palm Database (JFile Pro)");
-			palmdb_name();
-			return;
+			mt = "Palm Database (JFile Pro)";
+			break;
 		case LIST_LOW:
-			reportn("Palm Database (LIST)");
-			palmdb_name();
-			return;
+			mt = "Palm Database (LIST)";
+			break;
 		case MOBILEDB_LOW:
-			reportn("Palm Database (MobileDB)");
-			palmdb_name();
-			return;
+			mt = "Palm Database (MobileDB)";
+			break;
 		case SUPERMEMO_LOW:
-			reportn("Palm Database (SuperMemo)");
-			palmdb_name();
-			return;
+			mt = "Palm Database (SuperMemo)";
+			break;
 		case THINKDB_LOW:
-			reportn("Palm Database (ThinKDB)");
-			palmdb_name();
-			return;
+			mt = "Palm Database (ThinKDB)";
+			break;
 		case TIDES_LOW:
-			reportn("Palm Database (Tides)");
-			palmdb_name();
-			return;
+			mt = "Palm Database (Tides)";
+			break;
 		case TOMERAIDER_LOW:
-			reportn("Palm Database (TomeRaider)");
-			palmdb_name();
-			return;
+			mt = "Palm Database (TomeRaider)";
+			break;
 		case WEASEL_LOW:
-			reportn("Palm Database (Weasel)");
-			palmdb_name();
-			return;
+			mt = "Palm Database (Weasel)";
+			break;
 		case WORDSMITH_LOW:
-			reportn("Palm Database (WordSmith)");
-			palmdb_name();
-			return;
+			mt = "Palm Database (WordSmith)";
+			break;
 		}
+		reportn(mt);
+		palmdb_name();
+		return;
 	} else goto _END;
 
 	if (_ddseek(0x101, SEEK_SET) == 0) { // Tar files

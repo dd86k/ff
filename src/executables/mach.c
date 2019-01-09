@@ -80,7 +80,6 @@ void scan_mach(uint32_t s) {
 	}
 
 	switch (cpu_type) {
-	default: a = "?"; break;
 	case TYPE_VAX:
 		switch (cpu_subtype) {
 		case VAX780:  a = "VAX780"; break;
@@ -218,6 +217,7 @@ MMAX_XPC
 		}
 		break;
 	case TYPE_VEO: a = "VEO"; break;
+	default: a = "?"; break;
 	}
 
 	reportf("Mach-O %s %s for %s", m, f, a);

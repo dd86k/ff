@@ -21,7 +21,7 @@ void scan_midi() { // Big-endian
 	reportf("MIDI, %s, %d tracks at ", f, bswap16(h.tracks));
 
 	if (div & 0x8000) // Negative, SMPTE units
-		printf("%d ticks/frame (SMPTE: %d)\n", div & 0xFF, div >> 8 & 0xFF);
+		printf("%d ticks/frame (SMPTE: %d)\n", (uint8_t)div, div >> 8);
 	else // Ticks per beat
 		printf("%d ticks/quarter-note\n", div);
 }
