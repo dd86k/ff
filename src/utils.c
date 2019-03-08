@@ -13,7 +13,7 @@ int _ddread(void *buffer, size_t size) {
 
 int _ddseek(int position, int mode) {
 #ifdef _WIN32
-	return SetFilePointer(f, position, NULL, mode) == 0xFFFFFFFF;
+	return SetFilePointer(f, position, NULL, mode) == INVALID_SET_FILE_POINTER;
 #else
 	return fseek(f, position, mode);
 #endif

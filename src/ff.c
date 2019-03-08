@@ -55,7 +55,7 @@ void scan(int *error) {
 	switch (s) {
 	case 0x00000100: {
 		uint8_t b[12];
-		_ddread(&b, sizeof(b));
+		_ddread(b, sizeof(b));
 		uint32_t *p = (uint32_t *)b;
 		switch (*p) { // b[0..4]
 		case 0x5349534D: // "MSIS"
@@ -182,7 +182,7 @@ void scan(int *error) {
 	case 0x14000000: case 0x18000000:
 	case 0x1C000000: case 0x20000000: {
 		uint32_t b[2];
-		_ddread(&b, sizeof(b));
+		_ddread(b, sizeof(b));
 		switch (*b) {
 		case 0x70797466: // "ftyp"
 			switch (*(b + 1)) {
@@ -304,7 +304,7 @@ void scan(int *error) {
 
 	case 0x46445025: { // "%PDF" | "-n.n" (n=digit)
 		uint8_t b[5];
-		_ddread(&b, 4);
+		_ddread(b, 4);
 		b[4] = 0;
 		reportf("PDF%s document\n", b);
 		return;
@@ -462,7 +462,7 @@ void scan(int *error) {
 		r = "WAD2";
 WAD:		{ // Fixes "expression expected" on clang-alpine
 			int b[2]; // Reads as ints.
-			_ddread(&b, sizeof(b));
+			_ddread(b, sizeof(b));
 			reportf("%s, %d entries at %Xh\n", r, b[0], b[1]);
 			return;
 		}
