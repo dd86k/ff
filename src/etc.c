@@ -118,11 +118,18 @@ void scan_etc() {
 MOBI_OUT:
 
 	if (_ddseek(0x101, SEEK_SET)) goto _END; // Tar files
-	char btar[sizeof(TAR)];
-	_ddread(btar, sizeof(TAR));
-	if (strcmp(btar, TAR) == 0 || strcmp(btar, GNUTAR) == 0) {
-		scan_tar();
-		return;
+	//char btar[sizeof(TAR)];
+	//_ddread(btar, sizeof(TAR));
+	uint32_t btar32[2];
+	_ddread(btar32, 8);
+	//if (strcmp(btar, TAR) == 0 || strncmp(btar, GNUTAR, 8) == 0) {
+	switch (btar32[0]) {
+	case TAR32L: case GNUTAR32L:
+		switch (btar32[1]) {
+		case TAR32H: case GNUTAR32H:
+			scan_tar(); return;
+		}
+		break;
 	}
 
 	if (_ddseek(0x8001, SEEK_SET)) goto _END; // ISO files
