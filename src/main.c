@@ -9,7 +9,7 @@
 #include "settings.h"
 #include "utils.h"
 
-#define VERSION "0.4.1"
+#define VERSION "0.4.1a"
 
 void help() {
 	printl(
@@ -101,7 +101,7 @@ int main(int argc, char **argv) {
 					return 0;
 				}
 				if (strcmp(a, "license") == 0) {
-					version();
+					license();
 					return 0;
 				}
 				fprintf(stderr, "Unknown argument: --%s\n", a);
