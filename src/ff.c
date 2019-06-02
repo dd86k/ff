@@ -50,7 +50,7 @@ void scan(int *error) {
 		*error = 4;
 		return;
 	}
-	
+
 	char *r;
 
 	switch (s) {
@@ -147,23 +147,24 @@ void scan(int *error) {
 		return;
 
 	case 0x454C4247: // "GBLE"
+		r = "English";
+		goto GTA_TEXT;
 	case 0x464C4247: // "GBLF"
+		r = "French";
+		goto GTA_TEXT;
 	case 0x474C4247: // "GBLG"
+		r = "German";
+		goto GTA_TEXT;
 	case 0x494C4247: // "GBLI"
+		r = "Italian";
+		goto GTA_TEXT;
 	case 0x534C4247: // "GBLS"
-	case 0x4A4C4247: { // "GBLJ"
-		char *r;
-		switch (s) {
-		case 0x454C4247: r = "English";  break; // 'E'
-		case 0x464C4247: r = "French";   break; // 'F'
-		case 0x474C4247: r = "German";   break; // 'G'
-		case 0x494C4247: r = "Italian";  break; // 'I'
-		case 0x534C4247: r = "Spanish";  break; // 'S'
-		case 0x4A4C4247: r = "Japanese"; break; // 'J'
-		}
-		reportf("GTA Text (GTA2+) in %s\n", r);
+		r = "Spanish";
+		goto GTA_TEXT;
+	case 0x4A4C4247: // "GBLJ"
+		r = "Japanese";
+GTA_TEXT:	reportf("GTA Text (GTA2+) in %s\n", r);
 		return;
-	}
 
 	case 0x47585432: { // "2TXG", big endian
 		_ddread(&s, 4);

@@ -77,7 +77,7 @@ void scan_mp3(uint32_t sig, int id3) {
 		"MPEG-%c Audio Layer %s (MP3) audio, %s Hz, %s kbps, %s",
 		v, l, f, b, c
 	);
-	if (ci == 1) {
+	if (ci == 1) { // joint stereo audio
 		if (h.extra & 0x20)
 			printf(" +intensity");
 		if (h.extra & 0x10)
