@@ -15,12 +15,12 @@ void help() {
 	printl(
 	"Simple binary file scanner\n"
 	"  Usage: ff FILE [OPTIONS]\n"
-	"         ff {-v|--version|-h|--help}\n"
+	"         ff {-h|--help|--version|--license}\n"
 	"\nOPTIONS\n"
 	" -c    Continue on soft symbolic link\n"
 	" -m    If available, print more information\n"
 	" -s    Prepend filename to result\n"
-	" -h, --help       Print this help screen and exit\n"
+	" -h, --help   Print this help screen and exit\n"
 	" --version    Print version screen and exit\n"
 	" --license    Print license screen and exit\n"
 	);
@@ -33,7 +33,7 @@ void version() {
 	"  (" TIMESTAMP ")"
 #endif
 	"\n"
-	"License: Unlicense <http://unlicense.org>\n"
+	"License: Unlicense <https://unlicense.org>\n"
 	"Project page: <https://git.dd86k.space/dd86k/ff>\n"
 	);
 }
@@ -63,7 +63,7 @@ void license() {
 	"ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR\n"
 	"OTHER DEALINGS IN THE SOFTWARE.\n"
 	"\n"
-	"For more information, please refer to <http://unlicense.org>\n"
+	"For more information, please refer to <https://unlicense.org>\n"
 	);
 }
 
