@@ -9,7 +9,7 @@
 #include "settings.h"
 #include "utils.h"
 
-#define VERSION "0.4.1a"
+#define VERSION "0.5.0"
 
 void help() {
 	printl(
@@ -21,40 +21,49 @@ void help() {
 	" -m    If available, print more information\n"
 	" -s    Prepend filename to result\n"
 	" -h, --help       Print this help screen and exit\n"
-	" -v, --version    Print version screen and exit\n"
+	" --version    Print version screen and exit\n"
 	" --license    Print license screen and exit\n"
 	);
 }
 
 void version() {
 	printl(
-	"ff v" VERSION 
+	"ff " VERSION 
 #ifdef TIMESTAMP
 	"  (" TIMESTAMP ")"
 #endif
 	"\n"
-	"MIT License: Copyright (c) 2017-2019 dd86k\n"
+	"License: Unlicense <http://unlicense.org>\n"
 	"Project page: <https://git.dd86k.space/dd86k/ff>\n"
 	);
 }
 
 void license() {
 	printl(
-	"Copyright (C) 2018-2019 dd86k\n\n"
-	"Permission is hereby granted, free of charge, to any person obtaining a copy\n"
-	"of this software and associated documentation files (the \"Software\"), to deal\n"
-	"in the Software without restriction, including without limitation the rights\n"
-	"to use, copy, modify, merge, publish, distribute, sublicense, and/or sell\n"
-	"copies of the Software, and to permit persons to whom the Software is\n"
-	"furnished to do so, subject to the following conditions:\n\n"
-	"The above copyright notice and this permission notice shall be included in\n"
-	"all copies or substantial portions of the Software.\n\n"
-	"THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\n"
-	"IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS\n"
-	"FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS\n"
-	"OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,\n"
-	"WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR\n"
-	"IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.\n"
+	"This is free and unencumbered software released into the public domain.\n"
+	"\n"
+	"Anyone is free to copy, modify, publish, use, compile, sell, or\n"
+	"distribute this software, either in source code form or as a compiled\n"
+	"binary, for any purpose, commercial or non-commercial, and by any\n"
+	"means.\n"
+	"\n"
+	"In jurisdictions that recognize copyright laws, the author or authors\n"
+	"of this software dedicate any and all copyright interest in the\n"
+	"software to the public domain. We make this dedication for the benefit\n"
+	"of the public at large and to the detriment of our heirs and\n"
+	"successors. We intend this dedication to be an overt act of\n"
+	"relinquishment in perpetuity of all present and future rights to this\n"
+	"software under copyright law.\n"
+	"\n"
+	"THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND,\n"
+	"EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF\n"
+	"MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.\n"
+	"IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR\n"
+	"OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,\n"
+	"ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR\n"
+	"OTHER DEALINGS IN THE SOFTWARE.\n"
+	"\n"
+	"For more information, please refer to <http://unlicense.org>\n"
 	);
 }
 
@@ -119,7 +128,6 @@ int main(int argc, char **argv) {
 				case 'c': clicont = !clicont; break;
 				case '-': cliargs = !cliargs; continue;
 				case 'h': help(); return 0;
-				case 'v': version(); return 0;
 				default:
 					fprintf(stderr, "Unknown argument: -%c\n", *a);
 					exit(1);
