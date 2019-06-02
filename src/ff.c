@@ -562,7 +562,7 @@ WAD:		{ // Fixes "expression expected" on clang-alpine
 	case 0xff743064: // '\377t0c'
 		scan_idx();
 		return;
-		
+
 	case 0x587A37FD:
 		report("XZ archive");
 		return;

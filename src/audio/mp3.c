@@ -43,7 +43,7 @@ void scan_mp3(uint32_t sig, int id3) {
 
 	struct mp3_hdr h = *(struct mp3_hdr*)&sig;
 
-	char v = h.sig & 0x80 ? '1' : '2'; /// MPEG version
+	char v = h.sig & 0x800 ? '1' : '2'; /// MPEG version
 	char *l; // layer
 	char *b; // bitrate
 	char *f; // frequency
@@ -85,7 +85,7 @@ void scan_mp3(uint32_t sig, int id3) {
 	}
 	if (id3)
 		printf(", id3");
-	if (h.sig & 1)
+	if (h.sig & 0x100)
 		printf(", crc16");
 	if (h.info & 1)
 		printf(", priv. bit");
