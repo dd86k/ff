@@ -115,13 +115,13 @@ int skip_id3() {
 		h.sizea[2] << 7 | h.sizea[3]) +
 		(h.flags & 0x10 ? 20 : 10);
 	if (_ddseek(ns, SEEK_SET)) {
-		report_unknown();
+		report_data();
 		exit(0);
 	}
 	uint32_t s;
 	_ddread(&s, 4);
 	/*if (check_mp3(s)) {
-		report_unknown();
+		report_data();
 		exit(0);
 	}*/
 	return s; // don't ask me why

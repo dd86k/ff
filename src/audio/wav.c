@@ -12,7 +12,7 @@ void scan_wav() {
 		do {
 			_ddread(&s, 4); // get chunk length
 			if (_ddseek(s, SEEK_CUR)) { // and skip it if possible
-				report_unknown();
+				report_data();
 				return;
 			}
 			_ddread(&s, 4);

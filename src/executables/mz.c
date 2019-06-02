@@ -10,7 +10,7 @@ void scan_mz() {
 	struct mz_hdr h;
 
 	if (_ddseek(0x3c, SEEK_SET)) {
-		report_unknown();
+		report_data();
 		return;
 	}
 

@@ -34,7 +34,7 @@ void version() {
 #endif
 	"\n"
 	"License: Unlicense <https://unlicense.org>\n"
-	"Project page: <https://git.dd86k.space/dd86k/ff>\n"
+	"Home: <https://git.dd86k.space/dd86k/ff>\n"
 	);
 }
 
@@ -140,7 +140,7 @@ int main(int argc, char **argv) {
 		uint32_t a = GetFileAttributesW(currFile);
 		if (a == 0xFFFFFFFF) { // INVALID_FILE_ATTRIBUTES
 EWFO:			_fwprintf_p(stderr, //TODO: GetLastError (Windows)
-				L"E: Could not open file: %s\n",
+				L"Could not open file: %s\n",
 				currFile
 			);
 			return 1;
@@ -156,8 +156,8 @@ _fo:			f = CreateFileW(currFile,
 				OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 			if (!f) goto EWFO;
 			switch (GetFileType(f)) {
-			//case FILE_TYPE_DISK:
-			//	return 0; // Normal files fall here, because they're on disk?
+			//case FILE_TYPE_DISK: // Normal files
+			//	return 0;
 			case FILE_TYPE_CHAR:
 				report("Character device");
 				return 0;
@@ -199,7 +199,7 @@ _fo:			f = fopen(currFile, "rb"); // maybe use _s?
 		case S_IFDIR: report("Directory"); break;
 		case S_IFIFO: report("FIFO/pipe"); break;
 		case S_IFSOCK: report("Socket"); break;
-		default: report_unknown(); break;
+		default: report("Unknown"); break;
 		}
 #endif
 	} // while

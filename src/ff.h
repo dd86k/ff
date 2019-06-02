@@ -19,5 +19,5 @@ void scan(int *);
 void report(char *);
 void reportn(char *);
 void reportf(char *, ...);
-void report_unknown();
+void report_data();
 void report_text();

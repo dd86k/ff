@@ -163,5 +163,5 @@ MOBI_OUT:
 
 _END: // If file is smaller than our seeks and/or didn't find anything
 	//TODO: Detect text?
-	report_unknown();
+	report_data();
 }

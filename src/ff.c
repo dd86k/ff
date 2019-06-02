@@ -71,7 +71,7 @@ void scan(int *error) {
 				report("Microsoft Access database");
 				return;
 			default:
-				report_unknown();
+				report_data();
 				return;
 			}
 		default:
@@ -209,12 +209,12 @@ void scan(int *error) {
 					report("3rd Generation Partnership Project video (3gp)");
 					return;
 				default:
-					report_unknown();
+					report_data();
 					return;
 				}
 			}
 		default:
-			report_unknown();
+			report_data();
 			return;
 		}
 	}
@@ -247,7 +247,7 @@ void scan(int *error) {
 			report("Amiga Fantavision video"); return;
 		case 0x46464941: // "AIFF"
 			report("Audio Interchange File audio (AIFF)"); return;
-		default: report_unknown(); return;
+		default: report_data(); return;
 		}
 	}
 
@@ -276,7 +276,7 @@ void scan(int *error) {
 			report("RAR archive v1.5+");
 			return;
 		default:
-			report_unknown();
+			report_data();
 			return;
 		}
 	}
@@ -322,7 +322,7 @@ void scan(int *error) {
 			report("Microsoft System Deployment disk");
 			return;
 		default:
-			report_unknown();
+			report_data();
 			return;
 		}
 
@@ -349,7 +349,7 @@ void scan(int *error) {
 			report("Audio Video Interface video (avi)");
 			return;
 		default:
-			report_unknown();
+			report_data();
 			return;
 		}
 
@@ -384,7 +384,7 @@ void scan(int *error) {
 			report("Windows Files And Settings Transfer Repository (USMT)");
 			return;
 		default:
-			report_unknown();
+			report_data();
 			return;
 		}
 
@@ -427,13 +427,13 @@ void scan(int *error) {
 				r = "multiple pages";
 				break;
 			default:
-				report_unknown();
+				report_data();
 				return;
 			}
 			reportf("DjVu document, %s\n", r);
 			return;
 		default:
-			report_unknown();
+			report_data();
 			return;
 		}
 
@@ -708,7 +708,7 @@ void reportf(char *s, ...) {
 	vprintf(s, a);
 }
 
-void report_unknown() {
+void report_data() {
 	report("Data");
 }
 
