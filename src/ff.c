@@ -19,6 +19,7 @@
 #include "audio/flac.h"
 #include "audio/ogg.h"
 #include "audio/midi.h"
+#include "audio/mp3.h"
 #include "audio/nesm.h"
 #include "audio/snes.h"
 #include "audio/wav.h"
@@ -222,30 +223,30 @@ void scan(int *error) {
 		_ddseek(8, SEEK_SET);
 		_ddread(&s, 4);
 		switch (s) {
-		// "ILBM"
-		case 0x4D424C49: report("IFF Interleaved Bitmap image"); return;
-		// "8SVX"
-		case 0x58565338: report("IFF 8-Bit voice audio"); return;
-		// "ACBM"
-		case 0x4D424341: report("Amiga Contiguous image"); return;
-		// "ANBM"
-		case 0x4D424E41: report("IFF Animated image"); return;
-		// "ANIM"
-		case 0x4D494E41: report("IFF CEL animation"); return;
-		// "FAXX"
-		case 0x58584146: report("IFF Facsimile image"); return;
-		// "FTXT"
-		case 0x54585446: report("IFF Formatted text"); return;
-		// "SMUS"
-		case 0x53554D53: report("IFF Simple Musical Score"); return;
-		// "CMUS"
-		case 0x53554D43: report("IFF Musical Score"); return;
-		// "YUVN"
-		case 0x4E565559: report("IFF YUV image"); return;
-		// "FANT"
-		case 0x544E4146: report("Amiga Fantavision video"); return;
-		// "AIFF"
-		case 0x46464941: report("Audio Interchange File audio (AIFF)"); return;
+		case 0x4D424C49: // "ILBM"
+			report("IFF Interleaved Bitmap image"); return;
+		case 0x58565338: // "8SVX"
+			report("IFF 8-Bit voice audio"); return;
+		case 0x4D424341: // "ACBM"
+			report("Amiga Contiguous image"); return;
+		case 0x4D424E41: // "ANBM"
+			report("IFF Animated image"); return;
+		case 0x4D494E41: // "ANIM"
+			report("IFF CEL animation"); return;
+		case 0x58584146: // "FAXX"
+			report("IFF Facsimile image"); return;
+		case 0x54585446: // "FTXT"
+			report("IFF Formatted text"); return;
+		case 0x53554D53: // "SMUS"
+			report("IFF Simple Musical Score"); return;
+		case 0x53554D43: // "CMUS"
+			report("IFF Musical Score"); return;
+		case 0x4E565559: // "YUVN"
+			report("IFF YUV image"); return;
+		case 0x544E4146: // "FANT"
+			report("Amiga Fantavision video"); return;
+		case 0x46464941: // "AIFF"
+			report("Audio Interchange File audio (AIFF)"); return;
 		default: report_unknown(); return;
 		}
 	}
@@ -583,16 +584,18 @@ WAD:		{ // Fixes "expression expected" on clang-alpine
 			report("UTF-8+BOM text");
 			return;
 
-		case 0x324449: // "ID3"
-			report("MPEG-2 Audio Layer III (MP3)+ID3v2 audio");
-			return;
-
 		case 0x53454E: // "NES"
 			report("Nintendo Entertainment System ROM (NES)");
 			return;
 
 		case 0x0184CF:
 			report("Lepton-compressed JPEG image (LEP)");
+			return;
+			
+		//case 0xNNNNNN: // "TAG", big-endian, ID3v1
+
+		case 0x334449: // "ID3", big-endian, ID3v2
+			scan_mp3(skip_id3(), 1);
 			return;
 
 		default:
@@ -611,10 +614,6 @@ WAD:		{ // Fixes "expression expected" on clang-alpine
 
 			case 0xFEFF:
 				report("UTF-16+BOM text");
-				return;
-
-			case 0xFBFF:
-				report("MPEG-2 Audio Layer III (MP3) audio");
 				return;
 
 			case 0x4D42:
@@ -645,6 +644,11 @@ WAD:		{ // Fixes "expression expected" on clang-alpine
 				return;
 
 			default:
+				if (check_mp3(s)) {
+					scan_mp3(s, 0);
+					return;
+				}
+
 				scan_etc();
 				return;
 			} // 2 Byte signatures

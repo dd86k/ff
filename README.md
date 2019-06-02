@@ -2,6 +2,9 @@
 
 ff aims to be a simple, fast, generic, and understandable binary file scanner.
 
+Warning: This tool is not memory safe and will not work on big-endian (MSB)
+platforms.
+
 ```
 $ ff ff ff.exe
 PE32+ Windows Console Executable for x86-64, LARGE_ADDRESS_AWARE

@@ -5,6 +5,7 @@
 #include "etc.h"
 #include "archives/iso.h"
 #include "archives/tar.h"
+#include "audio/mp3.h"
 #include "documents/mobi.h"
 
 /**
@@ -12,7 +13,11 @@
  * Note: Start seeking from the lowest value!
  */
 void scan_etc() {
-	if (_ddseek(0x3c, SEEK_SET)) goto _END; // Palm Database Format
+	//
+	// Palm Database Format
+	//
+
+	if (_ddseek(0x3c, SEEK_SET)) goto _END;
 	char *mt;
 	uint32_t b[2];
 	_ddread(b, sizeof(b));
@@ -117,7 +122,11 @@ void scan_etc() {
 	return;
 MOBI_OUT:
 
-	if (_ddseek(0x101, SEEK_SET)) goto _END; // Tar files
+	//
+	// Tar archives
+	//
+
+	if (_ddseek(0x101, SEEK_SET)) goto _END;
 	uint32_t btar32[2];
 	_ddread(btar32, 8);
 	switch (btar32[0]) {
@@ -129,20 +138,24 @@ MOBI_OUT:
 		break;
 	}
 
-	if (_ddseek(0x8001, SEEK_SET)) goto _END; // ISO files
+	//
+	// ISO-9660
+	//
+
+	if (_ddseek(0x8001, SEEK_SET)) goto _END;
 	char biso[5];
 	_ddread(biso, 5);
 	if (strncmp(biso, ISO, 5) == 0) {
 		scan_iso(); return;
 	}
 
-	if (_ddseek(0x8801, SEEK_SET)) goto _END; // ISO files
+	if (_ddseek(0x8801, SEEK_SET)) goto _END;
 	_ddread(biso, 5);
 	if (strncmp(biso, ISO, 5) == 0) {
 		scan_iso(); return;
 	}
 
-	if (_ddseek(0x9001, SEEK_SET)) goto _END; // ISO files
+	if (_ddseek(0x9001, SEEK_SET)) goto _END;
 	_ddread(biso, 5);
 	if (strncmp(biso, ISO, 5) == 0) {
 		scan_iso(); return;
