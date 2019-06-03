@@ -4,40 +4,42 @@
 #include "../utils.h"
 #include "mp3.h"
 
-// MPEG-1 ISO/IEC 11172-3
-// MPEG-2 ISO/IEC 13818-3
+// MPEG-1: ISO/IEC 11172-3
+// MPEG-2: ISO/IEC 13818-3
+// ID3v1: http://www.mpgedit.org/mpgedit/mpeg%5Fformat/mpeghdr.htm
+// ID3V2: http://id3.org/
 
 void scan_mp3(uint32_t sig, int id3) {
-	char bv1l1[][8] = {
+	char bv1l1[16][8] = {
 		"free", "32", "64", "96", "128", "160", "192", "224",
 		"256", "288", "320", "352", "384", "416", "448", "bad"
 	};
-	char bv1l2[][8] = {
+	char bv1l2[16][8] = {
 		"free", "32", "48", "56", "64", "80", "96", "112",
 		"128", "160", "192", "224", "256", "320", "384", "bad"
 	};
-	char bv1l3[][8] = {
+	char bv1l3[16][8] = {
 		"free", "32", "40", "48", "56", "64", "80", "96",
 		"112", "128", "160", "192", "224", "256", "320", "bad"
 	};
-	char bv2l1[][8] = {
+	char bv2l1[16][8] = {
 		"free", "32", "48", "56", "64", "80", "96", "112",
 		"128", "144", "160", "176", "192", "224", "256", "bad"
 	};
-	char bv2l23[][8] = {
+	char bv2l23[16][8] = {
 		"free", "8", "16", "24", "32", "40", "48", "56",
 		"64", "80", "96", "112", "128", "144", "160", "bad"
 	};
-	char fv1[][8] = {
+	char fv1[4][8] = {
 		"44100", "48000", "32000", "(res.)"
 	};
-	char fv2[][8] = {
+	char fv2[4][8] = {
 		"22050", "24000", "16000", "(res.)"
 	};
-	/*char fv25[][8] = {
+	/*char fv25[4][8] = {
 		"11025", "12000", "8000", "(res.)"
 	};*/
-	char ca[][8] = {
+	char ca[4][8] = {
 		"stereo", "joint", "dual", "mono"
 	};
 
@@ -51,23 +53,26 @@ void scan_mp3(uint32_t sig, int id3) {
 	size_t bi = h.info >> 4; // bitrate index
 	size_t fi = (h.info >> 2) & 3; // frequency index
 	size_t ci = (h.extra >> 6); // channel index
+	char li; // layer index, only for mode extension
 
 	switch (h.sig & 0x600) {
 	case 0x200:
+		li = 3;
 		l = "III";
 		b = v == '2' ? bv2l23[bi] : bv1l3[bi];
 		break;
 	case 0x400:
+		li = 2;
 		l = "II";
 		b = v == '2' ? bv2l23[bi] : bv1l2[bi];
 		break;
 	case 0x600:
+		li = 1;
 		l = "I";
 		b = v == '2' ? bv2l1[bi] : bv1l1[bi];
 		break;
 	default:
-		l = "(res.)";
-		b = "(res.)";
+		li = 0; l = "(res.)"; b = "(res.)";
 		break;
 	}
 	f = v == '2' ? fv2[fi] : fv1[fi];
@@ -77,52 +82,78 @@ void scan_mp3(uint32_t sig, int id3) {
 		"MPEG-%c Audio Layer %s (MP3) audio, %s Hz, %s kbps, %s",
 		v, l, f, b, c
 	);
-	if (ci == 1) { // joint stereo audio
-		if (h.extra & 0x20)
-			printf(" +intensity");
-		if (h.extra & 0x10)
-			printf(" +ms");
+	if (ci == 1) { // joint stereo audio, regardless of version
+		switch (li) { // layer
+		case 3:
+			if (h.extra & 0x20)
+				printf(" +intensity");
+			if (h.extra & 0x10)
+				printf(" +ms");
+			break;
+		case 2: case 1:
+			switch (h.extra & 0x30) {
+			case 0:    printf(" (band 4-31)"); break;
+			case 0x10: printf(" (band 8-31)"); break;
+			case 0x20: printf(" (band 12-31)"); break;
+			case 0x30: printf(" (band 16-31)"); break;
+			}
+			break;
+		}
 	}
-	if (id3)
-		printf(", id3");
+	switch (id3) {
+	case 2: printf(", id3v2"); break;
+	case 1: printf(", id3v1"); break;
+	}
 	if (h.sig & 0x100)
 		printf(", crc16");
 	if (h.info & 1)
-		printf(", priv. bit");
+		printf(", pbit");
 	if (h.info & 2)
 		printf(", pad");
 	if (h.extra & 8)
 		printf(", copyright");
 	if (h.extra & 6)
 		printf(", original");
+	switch (h.extra & 3) {
+	case 1: printf(", 50/15 ms\n"); return;
+	case 3: printf(", CCIT J.17\n"); return;
+	}
 	putchar('\n');
 }
 
+// returns non-zero if 4-byte sig is mp3, LSB only
 int check_mp3(uint32_t s) {
 	return (bswap16(s) >> 4) == 0xFFF;
 }
 
-// skip id3 and return signature
-int skip_id3() {
-	struct id3_hdr h;
-	_ddseek(0, SEEK_SET);
+// skip ID3v2 header, assuming we're already 4 bytes within file (file pointer
+// being at position byte 3), and return signature after id3
+int skip_id3v2() {
+	struct id3_hdr_p h;
 	_ddread(&h, sizeof(h));
-	// Synchsafe integers
-	// Yep, every 7th bit is not used, on top of being MSB
-	// So the entire integer is spread out like so: 0xxxxxxx 0xxxxxxx
+	// Synchsafe integers: only bits 0-6 are used (0xxxxxxx 0xxxxxxx)
 	// Also if footer present, +20 instead of +10 for size
 	int ns = (h.sizea[0] << 21 | h.sizea[1] << 14 |
 		h.sizea[2] << 7 | h.sizea[3]) +
 		(h.flags & 0x10 ? 20 : 10);
-	if (_ddseek(ns, SEEK_SET)) {
-		report_data();
-		exit(0);
-	}
+	if (_ddseek(ns, SEEK_SET)) goto ID3_END;
 	uint32_t s;
 	_ddread(&s, 4);
-	/*if (check_mp3(s)) {
-		report_data();
+	if (check_mp3(s) == 0) {
+ID3_END:	report_data();
 		exit(0);
-	}*/
-	return s; // don't ask me why
+	}
+	return s;
+}
+
+// skip IDv1 header, and return signature after id3
+int skip_id3v1() {
+	if (_ddseek(128, SEEK_SET)) goto ID3_END;
+	uint32_t s;
+	_ddread(&s, 4);
+	if (check_mp3(s) == 0) {
+ID3_END:	report_data();
+		exit(0);
+	}
+	return s;
 }

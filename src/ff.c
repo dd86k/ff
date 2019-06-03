@@ -592,11 +592,13 @@ WAD:		{ // Fixes "expression expected" on clang-alpine
 		case 0x0184CF:
 			report("Lepton-compressed JPEG image (LEP)");
 			return;
-			
-		//case 0xNNNNNN: // "TAG", big-endian, ID3v1
+
+		case 0x474154: // "TAG", big-endian, ID3v1
+			scan_mp3(skip_id3v1(), 1);
+			return;
 
 		case 0x334449: // "ID3", big-endian, ID3v2
-			scan_mp3(skip_id3(), 1);
+			scan_mp3(skip_id3v2(), 2);
 			return;
 
 		default:
