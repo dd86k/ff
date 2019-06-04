@@ -72,106 +72,129 @@ int wmain(int argc, wchar_t **argv) {
 #else
 int main(int argc, char **argv) {
 #endif
+	//
+	// CLI
+	//
+
 	if (argc <= 1) {
 		help();
 		return 0;
 	}
 
-	char cliargs = 1;
+	char cliargs = 1; // if we still take CLI options
 	char clicont = 0; // on symbolic link
-
 	int error = 0;
-	while (--argc >= 1) {
-		if (cliargs) {
-			if (argv[argc][1] == '-') { // long arguments
+
+	while (--argc >= 1) { // note: loop does entire CLI for globbing reasons
+		if (cliargs == 0) goto CLI_SKIP;
+
+		if (argv[argc][1] == '-') { // long arguments
 #ifdef _WIN32
-				wchar_t *a = argv[argc] + 2;
-				if (wcscmp(a, L"help") == 0) {
-					help();
-					return 0;
-				}
-				if (wcscmp(a, L"version") == 0) {
-					version();
-					return 0;
-				}
-				if (wcscmp(a, L"license") == 0) {
-					license();
-					return 0;
-				}
-				_fwprintf_p(stderr, L"Unknown argument: --%s\n", a);
-#else
-				char *a = argv[argc] + 2;
-				if (strcmp(a, "help") == 0) {
-					help();
-					return 0;
-				}
-				if (strcmp(a, "version") == 0) {
-					version();
-					return 0;
-				}
-				if (strcmp(a, "license") == 0) {
-					license();
-					return 0;
-				}
-				fprintf(stderr, "Unknown argument: --%s\n", a);
-#endif
-				exit(1);
-			} else if (argv[argc][0] == '-') { // short arguments
-#ifdef _WIN32
-				wchar_t *a = argv[argc];
-#else
-				char *a = argv[argc];
-#endif
-				while (*++a) switch (*a) {
-				case 'm': More = !More; break;
-				case 's': ShowName = !ShowName; break;
-				case 'c': clicont = !clicont; break;
-				case '-': cliargs = !cliargs; continue;
-				case 'h': help(); return 0;
-				default:
-					fprintf(stderr, "Unknown argument: -%c\n", *a);
-					exit(1);
-				}
-				continue;
+			wchar_t *a = argv[argc] + 2;
+			if (wcscmp(a, L"help") == 0) {
+				help();
+				return 0;
 			}
-		} // cliargs
+			if (wcscmp(a, L"version") == 0) {
+				version();
+				return 0;
+			}
+			if (wcscmp(a, L"license") == 0) {
+				license();
+				return 0;
+			}
+			_fwprintf_p(stderr, L"Unknown argument: --%s\n", a);
+#else
+			char *a = argv[argc] + 2;
+			if (strcmp(a, "help") == 0) {
+				help();
+				return 0;
+			}
+			if (strcmp(a, "version") == 0) {
+				version();
+				return 0;
+			}
+			if (strcmp(a, "license") == 0) {
+				license();
+				return 0;
+			}
+			fprintf(stderr, "Unknown argument: --%s\n", a);
+#endif
+			return 1;
+		} else if (argv[argc][0] == '-') { // short arguments
+#ifdef _WIN32
+			wchar_t *a = argv[argc];
+#else
+			char *a = argv[argc];
+#endif
+			while (*++a) switch (*a) {
+			case 'm': More = !More; break;
+			case 's': ShowName = !ShowName; break;
+			case 'c': clicont = !clicont; break;
+			case '-': cliargs = !cliargs; continue;
+			case 'h': help(); return 0;
+			default:
+				fprintf(stderr, "Unknown argument: -%c\n", *a);
+				return 1;
+			}
+			continue;
+		}
+CLI_SKIP:
+		//
+		// Main application
+		//
+
 		currFile = argv[argc];
-#ifdef _WIN32 // -- Windows --
+		char *r;
+
+#ifdef _WIN32
+		//
+		// Windows
+		//
+
 		uint32_t a = GetFileAttributesW(currFile);
 		if (a == 0xFFFFFFFF) { // INVALID_FILE_ATTRIBUTES
-EWFO:			_fwprintf_p(stderr, //TODO: GetLastError (Windows)
+G_ERROR:		_fwprintf_p(stderr, //TODO: GetLastError (Windows)
 				L"Could not open file: %s\n",
 				currFile
 			);
 			return 1;
 		}
 		if (a & 0x10) { // FILE_ATTRIBUTE_DIRECTORY
-			report("Directory");
+			r = "Directory";
 		} else if (a & 0x400) { // FILE_ATTRIBUTE_REPARSE_POINT
-			if (clicont) goto _fo;
-			report("Symbolic link");
+			if (clicont) goto G_FILE;
+			r = "Symbolic link";
 		} else { // Not invalid at this point
-_fo:			f = CreateFileW(currFile,
+G_FILE:			f = CreateFileW(currFile,
 				GENERIC_READ, FILE_SHARE_READ, NULL,
 				OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-			if (!f) goto EWFO;
+
+			if (f == 0) goto G_ERROR;
+
 			switch (GetFileType(f)) {
-			//case FILE_TYPE_DISK: // Normal files
-			//	return 0;
+			case FILE_TYPE_DISK: // Normal files
+				scan(&error);
+				CloseHandle(f);
+				continue;
 			case FILE_TYPE_CHAR:
-				report("Character device");
-				return 0;
+				r = "Character device";
+				break;
 			case FILE_TYPE_PIPE:
-				report("Pipe");
-				return 0;
+				r = "Pipe";
+				break;
 			case FILE_TYPE_UNKNOWN: // Better be safe than sorry
-				report("Unknown");
-				return 0;
+				r = "Unknown";
+				break;
 			}
-			scan(&error);
 			CloseHandle(f);
 		}
-#else // -- POSIX --
+		report(r);
+#else
+		//
+		// POSIX
+		//
+
 		struct stat s;
 		if (lstat(currFile, &s)) {
 			perror("E:");
@@ -180,27 +203,28 @@ _fo:			f = CreateFileW(currFile,
 
 		switch (s.st_mode & S_IFMT) { // stat(2)
 		case S_IFREG:
-_fo:			f = fopen(currFile, "rb"); // maybe use _s?
+G_FILE:			f = fopen(currFile, "rb");
 			if (!f) {
 				fprintf(stderr, "E: Could not open file: %s\n", currFile);
 				return 2;
 			}
 			scan(&error);
 			fclose(f);
-			break;
+			continue;
 		case S_IFLNK:
-			if (clicont) goto _fo;
+			if (clicont) goto G_FILE;
 			char p[4096];
 			realpath(currFile, p); // + null terminator
 			reportf("Symbolic link to \"%s\"\n", p);
-			break;
-		case S_IFBLK: report("Block device"); break;
-		case S_IFCHR: report("Character device"); break;
-		case S_IFDIR: report("Directory"); break;
-		case S_IFIFO: report("FIFO/pipe"); break;
-		case S_IFSOCK: report("Socket"); break;
-		default: report("Unknown"); break;
+			continue;
+		case S_IFBLK: r = "Block device"; break;
+		case S_IFCHR: r = "Character device"; break;
+		case S_IFDIR: r = "Directory"; break;
+		case S_IFIFO: r = "FIFO/pipe"; break;
+		case S_IFSOCK: r = "Socket"; break;
+		default: r = "Unknown"; break;
 		}
+		report(r);
 #endif
 	} // while
 
