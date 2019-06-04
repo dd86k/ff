@@ -86,37 +86,37 @@ void scan_mp3(uint32_t sig, int id3) {
 		switch (li) { // layer
 		case 3:
 			if (h.extra & 0x20)
-				printf(" +intensity");
+				printl(" +intensity");
 			if (h.extra & 0x10)
-				printf(" +ms");
+				printl(" +ms");
 			break;
 		case 2: case 1:
 			switch (h.extra & 0x30) {
-			case 0:    printf(" (band 4-31)"); break;
-			case 0x10: printf(" (band 8-31)"); break;
-			case 0x20: printf(" (band 12-31)"); break;
-			case 0x30: printf(" (band 16-31)"); break;
+			case 0:    printl(" (band 4-31)"); break;
+			case 0x10: printl(" (band 8-31)"); break;
+			case 0x20: printl(" (band 12-31)"); break;
+			case 0x30: printl(" (band 16-31)"); break;
 			}
 			break;
 		}
 	}
 	switch (id3) {
-	case 2: printf(", id3v2"); break;
-	case 1: printf(", id3v1"); break;
+	case 2: printl(", id3v2"); break;
+	case 1: printl(", id3v1"); break;
 	}
 	if (h.sig & 0x100)
-		printf(", crc16");
+		printl(", crc16");
 	if (h.info & 1)
-		printf(", pbit");
+		printl(", pbit");
 	if (h.info & 2)
-		printf(", pad");
+		printl(", pad");
 	if (h.extra & 8)
-		printf(", copyright");
+		printl(", copyright");
 	if (h.extra & 6)
-		printf(", original");
+		printl(", original");
 	switch (h.extra & 3) {
-	case 1: printf(", 50/15 ms\n"); return;
-	case 3: printf(", CCIT J.17\n"); return;
+	case 1: printl(", 50/15 ms\n"); return;
+	case 3: printl(", CCIT J.17\n"); return;
 	}
 	putchar('\n');
 }
