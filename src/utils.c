@@ -31,7 +31,7 @@ void isoslice(char *buffer, char *target, size_t max) {
 	} else *target = '\0';
 }
 
-void _printfd(unsigned long long l) {
+void _printfd(uint64_t l) {
 	float f = l;
 	if (f >= GB) { // Lazy code, sorry
 		printf("%.2fG", f / GB);

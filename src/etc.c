@@ -117,7 +117,7 @@ void scan_etc() {
 		break;
 	default: goto MOBI_OUT;
 	}
-	reportn(mt);
+	reportl(mt);
 	palmdb_name();
 	return;
 MOBI_OUT:
@@ -127,7 +127,14 @@ MOBI_OUT:
 	//
 
 	if (_ddseek(0x101, SEEK_SET)) goto _END;
-	uint32_t btar32[2];
+	uint64_t btar64;
+	_ddread(&btar64, 8);
+	switch (btar64) {
+	case TAR64: case GNUTAR64:
+		scan_tar();
+		return;
+	}
+	/*uint32_t btar32[2];
 	_ddread(btar32, 8);
 	switch (btar32[0]) {
 	case TAR32L: case GNUTAR32L:
@@ -136,7 +143,7 @@ MOBI_OUT:
 			scan_tar(); return;
 		}
 		break;
-	}
+	}*/
 
 	//
 	// ISO-9660
@@ -161,7 +168,6 @@ MOBI_OUT:
 		scan_iso(); return;
 	}
 
-_END: // If file is smaller than our seeks and/or didn't find anything
-	//TODO: Detect text?
+_END:
 	report_data();
 }

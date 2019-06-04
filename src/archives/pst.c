@@ -27,9 +27,9 @@ void scan_pst() {
 	char *a, *c;
 
 	if (ansi)
-		a = "ANSI, ";
+		a = "ANSI";
 	else if (unicode)
-		a = "Unicode, ";
+		a = "Unicode";
 
 	switch (uh.crypt) {
 	case 0x01: c = "encrypted (Permutation algorithm)"; break;

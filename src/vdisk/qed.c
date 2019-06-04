@@ -10,7 +10,7 @@ void scan_qed() {
 	struct qed_hdr h;
 	_ddread(&h, sizeof(h));
 
-	reportn("QEMU QED vdisk, ");
+	reportl("QEMU QED vdisk, ");
 	_printfd(h.image_size);
 
 	if (h.features & QED_F_BACKING_FILE) {

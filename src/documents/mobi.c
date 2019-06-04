@@ -90,7 +90,7 @@ void scan_palmdoc() {
 	struct palmdoc_hdr h;
 	_ddread(&h, sizeof(h));
 
-	reportn("Palm document");
+	reportl("Palm document");
 
 	if (h.Compression == 0x0100) // Big Endian
 		printl(", PalmDOC compressed");

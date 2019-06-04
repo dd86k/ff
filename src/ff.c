@@ -681,7 +681,7 @@ void report(char *s) {
  * Report to stdout the filetype without a newline
  * Params: s = Type
  */
-void reportn(char *s) {
+void reportl(char *s) {
 	if (ShowName)
 		printf(
 #ifdef _WIN32

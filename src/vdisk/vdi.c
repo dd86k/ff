@@ -54,7 +54,7 @@ void scan_vdi() {
 		print_a("Modify UUID :", sh.uuidModify, 16);
 		print_a("Link UUID   :", sh.uuidLinkage, 16);
 		if (h.majorv >= 1)
-			print_a("ParentModify UUID:", sh.uuidParentModify, 16);
+			print_a("Parent UUID :", sh.uuidParentModify, 16);
 		printf(
 			"Cylinders (Legacy)  : %u\n"
 			"Heads (Legacy)      : %u\n"

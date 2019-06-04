@@ -17,7 +17,7 @@ char *currFile;
 
 void scan(int *);
 void report(char *);
-void reportn(char *);
+void reportl(char *);
 void reportf(char *, ...);
 void report_data();
 void report_text();
