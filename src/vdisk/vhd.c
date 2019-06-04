@@ -31,7 +31,7 @@ void scan_vhd() { // big-endian
 	default:         os = "OS?"; break;
 	}
 
-	reportf("Microsoft VHD vdisk v%d.%d, %s, %s v%d.%d on %s, ",
+	reportf("Microsoft VHD vdisk v%u.%u, %s, %s v%u.%u on %s, ",
 		bswap16(h.major), bswap16(h.minor), d,
 		h.creator_app, bswap16(h.creator_major), bswap16(h.creator_minor),
 		os);
@@ -50,12 +50,11 @@ void scan_vhd() { // big-endian
 	putchar('\n');
 
 	if (More) {
-		printl("UUID: ");
-		print_array(h.uuid, sizeof(h.uuid));
+		print_a("UUID: ", h.uuid, sizeof(h.uuid));
 		printf(
-			"Cylinders: %d\n"
-			"Heads: %d\n"
-			"Sectors: %d\n",
+			"Cylinders: %u\n"
+			"Heads: %u\n"
+			"Sectors: %u\n",
 			h.cylinders, h.heads, h.sectors
 		);
 	}

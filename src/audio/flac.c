@@ -19,9 +19,7 @@ void scan_flac() { // big endian
 	int bits = ((h.data[8] & 1) << 4 | (h.data[9] >> 4)) + 1;
 	int chan = ((h.data[8] >> 1) & 7) + 1;
 	int rate = ((h.data[6] << 12) | h.data[7] << 4 | h.data[8] >> 4);
-	reportf("FLAC audio, %d Hz, %d-bit, %d channels\n", rate, bits, chan);
-	if (More) {
-		printl("MD5: ");
-		print_array(h.md5, sizeof(h.md5));
-	}
+	reportf("FLAC audio, %u Hz, %u-bit, %u channels\n", rate, bits, chan);
+	if (More)
+		print_a("MD5: ", h.md5, sizeof(h.md5));
 }

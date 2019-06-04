@@ -39,7 +39,8 @@ void printl(char *str);
  */
 void isoslice(char *buffer, char *target, size_t max);
 
-void print_array(uint8_t *, size_t);
+/// Print array with prepending message
+void print_a(char *, uint8_t *, size_t);
 
 uint16_t bswap16(uint16_t);
 uint32_t bswap32(uint32_t);

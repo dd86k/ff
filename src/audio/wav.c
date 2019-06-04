@@ -35,15 +35,13 @@ void scan_wav() {
 	default:         report("WAVE audio?"); return;
 	}
 
-	reportf("WAVE (%s) audio, %d Hz, %d kbps, %d-bit, %d channels\n",
+	reportf("WAVE (%s) audio, %u channels, %u Hz, %u kbps, %u-bit\n",
 		f, h.samplerate, h.datarate / 1024 * 8, h.samplebits, h.channels);
 
 	if (More) {
 		uint8_t guid[16];
 		_ddseek(8, SEEK_CUR);
 		_ddread(guid, sizeof(guid));
-		printf("EXTENDED:");
-		print_array(guid, sizeof(guid));
-		putchar('\n');
+		print_a("EXTENDED: ", guid, sizeof(guid));
 	}
 }

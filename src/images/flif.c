@@ -15,13 +15,13 @@ void scan_flif() {
 	//_ddread(&animf, 1);
 	//const int animf = fread_l + 1; // animation frames
 
-	reportf("Free Lossless Image Format image, %d x %d", width, height);
+	reportf("Free Lossless Image Format (FLIF) image, %u x %u", width, height);
 
 	switch (h.type & 0xF) {
 	case 1: printl(", Grayscale"); break;
 	case 3: printl(", RGB"); break;
 	case 4: printl(", RGBA"); break;
-	default: printf(", %d channels", h.type & 0xF);
+	default: printf(", %u channels", h.type & 0xF);
 	}
 
 	switch (h.type >> 4) {

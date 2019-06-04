@@ -38,7 +38,7 @@ void scan_pe() {
 	case EFI_ROM:                  s = "EFI ROM"; break;
 	case XBOX:                     s = "XBOX"; break;
 	case WINDOWS_BOOT_APPLICATION: s = "Windows Boot Application"; break;
-	default: s = "?"; break;
+	default: s = "(?)"; break;
 	}
 
 	net = dirs.CLRHeader ? ".NET " : "";
@@ -48,7 +48,7 @@ void scan_pe() {
 	else if (peh.Characteristics & EXECUTABLE_IMAGE)
 		c = "Executable";
 	else
-		c = "?";
+		c = "(?)";
 
 	switch (peh.Machine) {
 	case I386:      m = "x86"; break;
@@ -107,12 +107,12 @@ void scan_pe() {
 
 	if (More) {
 		printf(
-			"Number of sections     : %Xh\n"
-			"Timestamp              : %Xh\n"
-			"Pointer to Symbol Table: %Xh\n"
-			"Number of symbols      : %Xh\n"
-			"Size of Optional Header: %Xh\n"
-			"Characteristics        : %Xh\n",
+			"Sections        : %Xh\n"
+			"Timestamp       : %Xh\n"
+			"Symbol Table    : %Xh\n"
+			"Symbols         : %Xh\n"
+			"Opt. Header Size: %Xh\n"
+			"Characteristics : %Xh\n",
 			peh.NumberOfSymbols,
 			peh.TimeDateStamp,
 			peh.PointerToSymbolTable,

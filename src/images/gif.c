@@ -15,18 +15,18 @@ void scan_gif() {
 	default: report("GIF image"); return;
 	}
 
-	reportf("GIF%.3s image, %d x %d pixels, %d-bit\n",
+	reportf("GIF%.3s image, %u x %u pixels, %u-bit\n",
 		h.version_, h.width, h.height, ((h.packed >> 4) & 3) + 1);
 
 	if (More) {
 		if (h.packed & GLOBAL_COLOR_TABLE) {
 			printl("Global Color Table");
 			if (h.packed & 3)
-				printf(", %d bytes", (int)pow(2, ((h.packed & 3) + 1)));
+				printf(", %u bytes", (int)pow(2, ((h.packed & 3) + 1)));
 			if (h.packed & SORT_FLAG)
 				printl(", Sorted");
 			if (h.bgcolor)
-				printf(", BG Index of %d", h.bgcolor);
+				printf(", BG Index of %u", h.bgcolor);
 			putchar('\n');
 		}
 		if (h.aspect)

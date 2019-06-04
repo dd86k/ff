@@ -11,7 +11,7 @@ void scan_qcow2(void) {
 	struct QCowHeader h;
 	_ddread(&h, sizeof(h));
 
-	reportf("QEMU QCOW2 vdisk v%d, ", bswap32(h.version));
+	reportf("QEMU QCOW2 vdisk v%u, ", bswap32(h.version));
 	_printfd(bswap64(h.size));
 
 	switch (bswap32(h.crypt_method)) {
@@ -21,7 +21,7 @@ void scan_qcow2(void) {
 
 	if (More) {
 		printf(
-			"Number of snapshots: %d\n",
+			"Number of snapshots: %u\n",
 			bswap32(h.nb_snapshots)
 		);
 	}

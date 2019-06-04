@@ -39,7 +39,7 @@ _MZ:
 	_ddseek(0, SEEK_SET);
 	_ddread(&h, sizeof(h));
 
-	reportf("MZ executable for MS-DOS (Overlay: %d)\n", h.e_ovno);
+	reportf("MZ executable for MS-DOS (Overlay: %u)\n", h.e_ovno);
 
 	if (More) {
 		printf(

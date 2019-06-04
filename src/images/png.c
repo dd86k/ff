@@ -9,14 +9,14 @@ void scan_png() {
 	_ddseek(16, SEEK_SET); // Magic!
 	_ddread(&h, sizeof(h));
 
-	reportf("Portable Network Graphics image, %d x %d pixels, ",
+	reportf("Portable Network Graphics image, %u x %u pixels, ",
 		bswap32(h.width), bswap32(h.height));
 
 	switch (h.color) {
 	case 0:
 		switch (h.depth) {
 		case 1: case 2: case 4: case 8: case 16:
-			printf("%d-bit grayscale\n", h.depth);
+			printf("%u-bit grayscale\n", h.depth);
 			break;
 		default: puts("grayscale?"); break;
 		}
@@ -24,7 +24,7 @@ void scan_png() {
 	case 2:
 		switch (h.depth) {
 		case 8: case 16:
-			printf("%d-bit RGB\n", h.depth * 3);
+			printf("%u-bit RGB\n", h.depth * 3);
 			break;
 		default: puts("rgb?"); break;
 		}
@@ -32,7 +32,7 @@ void scan_png() {
 	case 3:
 		switch (h.depth) {
 		case 1: case 2: case 4: case 8:
-			printf("8-bit PLTE Palette (%d)\n", h.depth);
+			printf("8-bit PLTE Palette (%u)\n", h.depth);
 			break;
 		default: puts("plte?"); break;
 		}
@@ -40,7 +40,7 @@ void scan_png() {
 	case 4:
 		switch (h.depth) {
 		case 8: case 16:
-			printf("%d-bit grayscale+alpha\n", h.depth);
+			printf("%u-bit grayscale+alpha\n", h.depth);
 			break;
 		default: puts("grayscale+alpha?"); break;
 		}
@@ -48,7 +48,7 @@ void scan_png() {
 	case 6:
 		switch (h.depth) {
 		case 8: case 16:
-			printf("32-bit RGBA (%d)\n", h.depth);
+			printf("32-bit RGBA (%u)\n", h.depth);
 			break;
 		default: puts("rgba?"); break;
 		}

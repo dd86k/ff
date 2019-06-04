@@ -8,8 +8,10 @@
 void scan_7zip() {
 	struct _7zip_h h;
 	_ddread(&h, sizeof(struct _7zip_h));
-	reportf("7-Zip archive (7z) v%d.%d, crc %08X\n",
+
+	reportf("7-Zip archive (7z) v%u.%u, crc %08X\n",
 		h.vmajor, h.vminor, h.ncrc);
+
 	if (More) {
 		printf(
 			"Next header offset: %"PRIX64"h\n"

@@ -15,6 +15,6 @@ void scan_icab() {
 	case v5_00_000: r = "v5.00.000"; break;
 	default: r = "other"; break;
 	}
-	reportf("InstallShield CAB archive %s (%Xh) at %Xh (%dB)\n",
+	reportf("InstallShield CAB archive %s (%Xh) at %Xh (%u B)\n",
 		r, h.version, h.desc_offset, h.desc_size);
 }

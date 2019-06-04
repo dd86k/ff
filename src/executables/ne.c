@@ -15,7 +15,7 @@ void scan_ne() {
 	else
 		t = "Executable";
 
-	reportf("NE %s, for Windows %d.%d", t, h.ne_expver[1], h.ne_expver[0]);
+	reportf("NE %s, for Windows %u.%u", t, h.ne_expver[1], h.ne_expver[0]);
 
 	if (h.ne_flags) {
 		if (h.ne_flags & NENONC)

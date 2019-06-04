@@ -36,7 +36,7 @@ void scan_lnk() {
 			if (low >= 0x30 && low <= 0x5A)
 				printf("%c", low);
 			else if (low >= 0x70 && low <= 0x87)
-				printf("F%d", low - 0x6F); // Function keys
+				printf("F%u", low - 0x6F); // Function keys
 			else switch (low) {
 				case 0x90: printl("num lock"); break;
 				case 0x91: printl("scroll lock"); break;
@@ -59,8 +59,7 @@ void scan_lnk() {
 	putchar('\n');
 
 	if (More) {
-		printf("LinkCLSID:");
-		print_array(h.clsid, sizeof(h.clsid));
+		print_a("LinkCLSID: ", h.clsid, sizeof(h.clsid));
 		printf(
 			"LinkFlags: %Xh\n"
 			"FileAttributes: %Xh\n"

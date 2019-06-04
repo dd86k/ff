@@ -19,6 +19,9 @@ void scan_pst() {
 	} else if (h.version_ >= 23) {
 		unicode = 1;
 		_ddread(&uh, sizeof(uh));
+	} else {
+		report_data();
+		return;
 	}
 
 	char *a, *c;
@@ -35,7 +38,7 @@ void scan_pst() {
 	default:   c = "unencrypted";
 	}
 
-	reportf("PST archive, v%d (client v%d), %s, %s\n",
+	reportf("PST archive, v%u (client v%u), %s, %s\n",
 		h.version_, h.client_version, a, c);
 
 	if (More) {

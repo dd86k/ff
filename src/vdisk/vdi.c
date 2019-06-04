@@ -45,27 +45,22 @@ void scan_vdi() {
 	default: t = "type?"; break;
 	}
 
-	reportf("VirtualBox VDI vdisk v%d.%d, %s, ", h.majorv, h.minorv, t);
+	reportf("VirtualBox VDI vdisk v%u.%u, %s, ", h.majorv, h.minorv, t);
 	_printfd(sh.cbDisk);
 	putchar('\n');
 
 	if (More) {
-		printl("Create UUID:");
-		print_array(sh.uuidCreate, 16);
-		printl("Modify UUID:");
-		print_array(sh.uuidModify, 16);
-		printl("Link UUID  :");
-		print_array(sh.uuidLinkage, 16);
-		if (h.majorv >= 1) {
-			printl("ParentModify UUID:");
-			print_array(sh.uuidParentModify, 16);
-		}
+		print_a("Create UUID :", sh.uuidCreate, 16);
+		print_a("Modify UUID :", sh.uuidModify, 16);
+		print_a("Link UUID   :", sh.uuidLinkage, 16);
+		if (h.majorv >= 1)
+			print_a("ParentModify UUID:", sh.uuidParentModify, 16);
 		printf(
-			"Cylinders (Legacy): %d\n"
-			"Heads (Legacy): %d\n"
-			"Sectors (Legacy): %d\n"
-			"Sector size (Legacy): %d\n"
-			"Header size: %d\n",
+			"Cylinders (Legacy)  : %u\n"
+			"Heads (Legacy)      : %u\n"
+			"Sectors (Legacy)    : %u\n"
+			"Sector size (Legacy): %u\n"
+			"Header size         : %u\n",
 			sh.LegacyGeometry.cCylinders,
 			sh.LegacyGeometry.cHeads,
 			sh.LegacyGeometry.cSectors,

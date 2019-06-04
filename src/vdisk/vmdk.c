@@ -16,7 +16,7 @@ void scan_vmdk() {
 	default: c = "?"; break;
 	}
 
-	reportf("VMware vdisk v%d, %s compression, ", h.version, c);
+	reportf("VMware vdisk v%u, %s compression, ", h.version, c);
 
 	_printfd(h.capacity * 512);
 

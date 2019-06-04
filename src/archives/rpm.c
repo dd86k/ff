@@ -20,6 +20,6 @@ void scan_rpm() {
 	default: o = "other"; break;
 	}
 
-	reportf("RPM %s package v%d.%d, \"%.66s\" for %s platforms",
+	reportf("RPM %s package v%u.%u, \"%.66s\" for %s platforms",
 		t, h.major, h.minor, h.name, o);
 }

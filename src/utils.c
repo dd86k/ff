@@ -71,9 +71,11 @@ uint64_t bswap64(uint64_t s) {
 	return s;
 }
 
-void print_array(uint8_t *a, size_t s) {
+void print_a(char *p, uint8_t *a, size_t s) {
+	size_t i = 0;
+	printl(p);
 	while (--s) {
-		printf(" %02X", *a); ++a;
+		printf(" %02X", a[i]); ++i;
 	}
 	putchar('\n');
 }

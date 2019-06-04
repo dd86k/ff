@@ -21,6 +21,6 @@ void scan_rpf(uint32_t s) {
 	case 0x37465052: g = "GTA V"; break;
 	}
 
-	reportf("RPF %s archive v%d for %s, %d entries",
+	reportf("RPF %s archive v%u for %s, %u entries",
 		e, s >> 24, g, h.numentries);
 }

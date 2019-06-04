@@ -23,7 +23,7 @@ void scan_ps() { // big-endian
 	default: c = "type?"; break;
 	}
 
-	reportf("Photoshop image v%d, %d x %d, %d-bit %s, %d channels\n",
+	reportf("Photoshop image v%u, %u x %u, %u-bit %s, %u channels\n",
 		bswap16(h.version), bswap32(h.width),
 		bswap32(h.height), bswap16(h.depth),
 		c, bswap16(h.channels));

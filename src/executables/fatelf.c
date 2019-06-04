@@ -12,7 +12,7 @@ void scan_fatelf() {
 
 	switch (fh.version_) {
 	default:
-		reportf("FatELF, invalid (%d)\n", fh.version_);
+		reportf("FatELF, invalid (%u)\n", fh.version_);
 		return;
 	case 1: {
 		struct fat_subheader_v1 fhv1;

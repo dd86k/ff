@@ -123,7 +123,7 @@ void scan(int *error) {
 		return;
 
 	case 0x01434E52: case 0x02434E52: // RNC\x01 or \x02
-		reportf("Rob Northen Compressed archive v%d\n", s >> 24);
+		reportf("Rob Northen Compressed archive v%u\n", s >> 24);
 		return;
 
 	case 0x58504453: case 0x53445058: // "SDPX", "XPDS"
@@ -465,7 +465,7 @@ GTA_TEXT:	reportf("GTA Text (GTA2+) in %s\n", r);
 WAD:		{ // Fixes "expression expected" on clang-alpine
 			int b[2]; // Reads as ints.
 			_ddread(b, sizeof(b));
-			reportf("%s, %d entries at %Xh\n", r, b[0], b[1]);
+			reportf("%s, %u entries at %Xh\n", r, b[0], b[1]);
 			return;
 		}
 	}
@@ -474,7 +474,7 @@ WAD:		{ // Fixes "expression expected" on clang-alpine
 		// http://webassembly.org/docs/binary-encoding/
 		uint8_t v;
 		_ddread(&v, 1);
-		reportf("WebAssembly v%d binary (wasm)\n", v);
+		reportf("WebAssembly v%u binary (wasm)\n", v);
 		return;
 	}
 

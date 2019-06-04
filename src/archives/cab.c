@@ -7,7 +7,7 @@
 void scan_cab() {
 	struct cfh_hdr h;
 	_ddread(&h, sizeof(h));
-	reportf("Microsoft Cabinet archive v%d.%d, ", h.major, h.minor);
+	reportf("Microsoft Cabinet archive vu.%u, ", h.major, h.minor);
 	_printfd(h.size);
-	printf(", %d files, %d folders\n", h.files, h.folders);
+	printf(", %u files, %u folders\n", h.files, h.folders);
 }

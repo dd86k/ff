@@ -29,7 +29,7 @@ void scan_nesm() {
 	if (h.chip & 0x20)
 		c = "Sunsoft FME-07";
 
-	reportf("%s Nintendo Sound audio, %d songs, using %s, "
+	reportf("%s Nintendo Sound audio, %u songs, using %s, "
 		"\"%.32s - %.32s\", (c) %.32s\n",
 		r, h.total_song, c,
 		h.song_artist,

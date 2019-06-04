@@ -1,6 +1,6 @@
 ." Hi! This manual (man page) was written by dd86k.
 ." Please read man-pages(7) and groff_man(7) about the manual page format.
-.TH ff 1 "March 2019" dd86k "User manual"
+.TH ff 1 "June 2019" dd86k "User manual"
 .SH NAME
 .B ff
 - determines file type via pre-determined magic.
@@ -8,7 +8,7 @@
 .SH SYNOPSIS
 .SY ff
 .IR FILE
-.OP -cmsvh
+.OP -cmsh
 .YS
 .SY ff
 .OP --help
@@ -61,10 +61,11 @@ Number of symbols      : 0h
 Size of Optional Header: F0h
 Characteristics        : 22h
 
-$ ff * -sm
+$ ff * -s
 Manuel - Gas Gas Gas.flac: FLAC audio, 44100 Hz, 16-bit, 2 channels
-cv.wav: WAVE audio (G.729) 8000 Hz, 0 kbps, 0-bit, 1 channels
+cv.wav: WAVE (G.729) audio, 1 channels, 8000 Hz, 0 kbps, 0-bit
 2002ado.wad: PWAD, 894 entries at C7A7FDh
+SYN - 28 Days Later.mp3: MPEG-1 Audio Layer III (MP3) audio, 44100 Hz, 320 kbps, joint +intensity, id3v2, crc16, original
 
 (Linux)$ ff /dev/null
 Character device
@@ -74,7 +75,7 @@ Character device
 .EE
 
 .SH WARNINGS
-ff is still a work in progress and may give incorrect results.
+ff is still a work in progress and may give incorrect results. Big-endian platforms such as ARM are not supported at the moment of writting.
 
 .SH NOTES
 This project started for my interest of having a simple scanner for Windows and Linux.
