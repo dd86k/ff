@@ -7,7 +7,7 @@
 /// Scan an ELF image
 void scan_elf() {
 	struct Elf32_Ehdr h;
-	_ddread(&h, sizeof(h));
+	_osread(&h, sizeof(h));
 
 	char *c = elf_class(h.e_ident[EI_CLASS-4]);
 	char *d = elf_data(h.e_ident[EI_DATA-4]);

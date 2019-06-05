@@ -6,7 +6,7 @@
 
 void scan_vmdk() {
 	struct SparseExtentHeader h;
-	_ddread(&h, sizeof(h));
+	_osread(&h, sizeof(h));
 	
 	char *c;
 

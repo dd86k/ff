@@ -12,7 +12,7 @@ uint32_t fread_l(int max) {
 	uint8_t b; // buffer
 	uint32_t s = 0; // Shift
 	do {
-		_ddread(&b, 1);
+		_osread(&b, 1);
 		r |= b & 0x7F;
 		if ((b & 0x80) == 0) return r;
 		s += 7;

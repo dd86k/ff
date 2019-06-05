@@ -6,7 +6,7 @@
 
 void scan_kwaj() {
 	struct kwaj_hdr h;
-	_ddread(&h, sizeof(h));
+	_osread(&h, sizeof(h));
 
 	char *r;
 
@@ -28,10 +28,10 @@ void scan_kwaj() {
 		if (h.header & DLENGHT) offset += 2;
 
 		if (offset)
-			_ddseek(offset, SEEK_CUR);
+			_osseek(offset, SEEK_CUR);
 
 		char s[13]; // 8.3 limit + \0
-		_ddread(s, sizeof(s));
+		_osread(s, sizeof(s));
 		*(s + 12) = '\0';
 		printf(", \"%s\"", s);
 	}

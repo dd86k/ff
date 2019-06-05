@@ -8,7 +8,7 @@
 // See [MS-SHLLINK].pdf, Microsoft
 void scan_lnk() {
 	struct ShellLinkHeader h;
-	_ddread(&h, sizeof(h));
+	_osread(&h, sizeof(h));
 
 	char *sc;
 
@@ -48,11 +48,11 @@ void scan_lnk() {
 	/*if (h.flags & HasLinkTargetIDList &&
 		h.flags & HasLinkInfo) {
 		uint16_t l;
-		_ddread(&l, 2); // Read IDListSize
+		_osread(&l, 2); // Read IDListSize
 		// Skip LinkTargetIDList to LinkInfo->LocalBasePath
-		_ddseek(l + 47, SEEK_CUR);
+		_osseek(l + 47, SEEK_CUR);
 		char t[255];
-		_ddread(&t, sizeof(t));
+		_osread(&t, sizeof(t));
 		printf(", to %s", t);
 	}*/
 

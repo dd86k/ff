@@ -6,8 +6,8 @@
 
 void scan_png() {
 	struct ihdr_chunk_full h;
-	_ddseek(16, SEEK_SET); // Magic!
-	_ddread(&h, sizeof(h));
+	_osseek(16, SEEK_SET); // Magic!
+	_osread(&h, sizeof(h));
 
 	reportf("Portable Network Graphics image, %u x %u pixels, ",
 		bswap32(h.width), bswap32(h.height));

@@ -10,7 +10,7 @@
 
 void scan_zip() {
 	struct pkzip_hdr h;
-	_ddread(&h, sizeof(h));
+	_osread(&h, sizeof(h));
 
 	char *c, *fn;
 
@@ -42,7 +42,7 @@ void scan_zip() {
 
 	if (h.fnlength > 0) {
 		fn = malloc(h.fnlength + 1);
-		_ddread(fn, h.fnlength);
+		_osread(fn, h.fnlength);
 		*(fn + h.fnlength) = '\0';
 		printf("\"%s\", ", fn);
 	}

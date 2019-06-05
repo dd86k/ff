@@ -130,15 +130,15 @@ int check_mp3(uint32_t s) {
 // being at position byte 3), and return signature after id3
 int skip_id3v2() {
 	struct id3_hdr_p h;
-	_ddread(&h, sizeof(h));
+	_osread(&h, sizeof(h));
 	// Synchsafe integers: only bits 0-6 are used (0xxxxxxx 0xxxxxxx)
 	// Also if footer present, +20 instead of +10 for size
 	int ns = (h.sizea[0] << 21 | h.sizea[1] << 14 |
 		h.sizea[2] << 7 | h.sizea[3]) +
 		(h.flags & 0x10 ? 20 : 10);
-	if (_ddseek(ns, SEEK_SET)) goto ID3_END;
+	if (_osseek(ns, SEEK_SET)) goto ID3_END;
 	uint32_t s;
-	_ddread(&s, 4);
+	_osread(&s, 4);
 	if (check_mp3(s) == 0) {
 ID3_END:	report_data();
 		exit(0);
@@ -148,9 +148,9 @@ ID3_END:	report_data();
 
 // skip IDv1 header, and return signature after id3
 int skip_id3v1() {
-	if (_ddseek(128, SEEK_SET)) goto ID3_END;
+	if (_osseek(128, SEEK_SET)) goto ID3_END;
 	uint32_t s;
-	_ddread(&s, 4);
+	_osread(&s, 4);
 	if (check_mp3(s) == 0) {
 ID3_END:	report_data();
 		exit(0);

@@ -7,12 +7,12 @@
 
 void scan_flif() {
 	struct flif_hdr h;
-	_ddread(&h, sizeof(h));
+	_osread(&h, sizeof(h));
 
 	int width = fread_l(4) + 1;
 	int height = fread_l(4) + 1;
 	//uint8_t animf;
-	//_ddread(&animf, 1);
+	//_osread(&animf, 1);
 	//const int animf = fread_l + 1; // animation frames
 
 	reportf("Free Lossless Image Format (FLIF) image, %u x %u", width, height);

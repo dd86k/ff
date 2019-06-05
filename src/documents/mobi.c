@@ -8,16 +8,16 @@
 //TODO: pass a pointer and copy the string directly for reportf usage
 void palmdb_name() {
 	char name[32];
-	_ddseek(0, SEEK_SET);
-	_ddread(name, sizeof(name));
+	_osseek(0, SEEK_SET);
+	_osread(name, sizeof(name));
 	printf(", \"%.32s\"\n", name);
 }
 
 void scan_mobi() { // Big-endian
 	struct palmdoc_hdr h;
 	struct mobi_hdr mh;
-	_ddseek(STARTPOS, SEEK_SET);
-	_ddread(&h, sizeof(h) + sizeof(mh));
+	_osseek(STARTPOS, SEEK_SET);
+	_osread(&h, sizeof(h) + sizeof(mh));
 
 	char *r;
 
@@ -88,7 +88,7 @@ void scan_mobi() { // Big-endian
 
 void scan_palmdoc() {
 	struct palmdoc_hdr h;
-	_ddread(&h, sizeof(h));
+	_osread(&h, sizeof(h));
 
 	reportl("Palm document");
 

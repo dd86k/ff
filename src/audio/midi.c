@@ -5,7 +5,7 @@
 
 void scan_midi() { // Big-endian
 	struct midi_hdr h;
-	_ddread(&h, sizeof(h));
+	_osread(&h, sizeof(h));
 
 	char *f;
 

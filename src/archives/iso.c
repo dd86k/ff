@@ -56,8 +56,8 @@ void scan_block(char *buf) {
 
 // Returns a set value if we can't seek, therefore stopping.
 int check_seek(int pos, char *buf) {
-	if (_ddseek(pos, SEEK_SET)) return 1;
-	_ddread(buf, BLOCK_SIZE);
+	if (_osseek(pos, SEEK_SET)) return 1;
+	_osread(buf, BLOCK_SIZE);
 	if (strncmp(buf + 1, ISO, 5) == 0) scan_block(buf);
 	return 0;
 }

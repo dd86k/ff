@@ -8,13 +8,13 @@ void scan_pe() {
 	struct PE_OPTIONAL_HEADER peoh;
 	struct IMAGE_DATA_DIRECTORY dirs;
 
-	_ddread(&peh, sizeof(peh));
+	_osread(&peh, sizeof(peh));
 
 	if (peh.SizeOfOptionalHeader) { // PE Optional Header
-		_ddread(&peoh, sizeof(peoh));
+		_osread(&peoh, sizeof(peoh));
 		if (peoh.magic == HDR64) // PE_FORMAT
-			_ddseek(16, SEEK_CUR);
-		_ddread(&dirs, sizeof(dirs));
+			_osseek(16, SEEK_CUR);
+		_osread(&dirs, sizeof(dirs));
 	}
 
 	char *p, *s, *net, *c, *m;

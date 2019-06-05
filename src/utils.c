@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 
-int _ddread(void *buffer, size_t size) {
+int _osread(void *buffer, size_t size) {
 #ifdef _WIN32
 	unsigned long read;
 	return ReadFile(f, buffer, size, &read, NULL) == 0;
@@ -11,7 +11,7 @@ int _ddread(void *buffer, size_t size) {
 #endif
 }
 
-int _ddseek(int position, int mode) {
+int _osseek(int position, int mode) {
 #ifdef _WIN32
 	return SetFilePointer(f, position, NULL, mode) == INVALID_SET_FILE_POINTER;
 #else

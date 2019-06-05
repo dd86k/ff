@@ -7,7 +7,7 @@
 
 void scan_bpg(void) {
 	struct heic_hdr h;
-	_ddread(&h, sizeof(h));
+	_osread(&h, sizeof(h));
 
 	uint32_t width = fread_l(4);
 	uint32_t height = fread_l(4);

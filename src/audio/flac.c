@@ -10,7 +10,7 @@
 
 void scan_flac() { // big endian
 	struct flac_hdr h;
-	_ddread(&h, sizeof(h));
+	_osread(&h, sizeof(h));
 
 	if ((uint8_t)h.header) { // & 0xFF != 0
 		report("FLAC audio?");

@@ -8,15 +8,15 @@
 
 void scan_qed() {
 	struct qed_hdr h;
-	_ddread(&h, sizeof(h));
+	_osread(&h, sizeof(h));
 
 	reportl("QEMU QED vdisk, ");
 	_printfd(h.image_size);
 
 	if (h.features & QED_F_BACKING_FILE) {
-		_ddseek(h.backing_filename_offset, SEEK_SET);
+		_osseek(h.backing_filename_offset, SEEK_SET);
 		char buffer[256] = { 0 };
-		_ddread(&buffer, 256);
+		_osread(&buffer, 256);
 		printf(", backing file: %s", buffer);
 		if (h.features & QED_F_BACKING_FORMAT_NO_PROBE)
 			printl(" (raw)");

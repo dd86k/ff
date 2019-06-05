@@ -6,7 +6,7 @@
 
 void scan_icab() {
 	struct iscab_hdr h;
-	_ddread(&h, sizeof(h));
+	_osread(&h, sizeof(h));
 	char *r;
 	switch (h.version) {
 	case LEGACY:    r = "(Legacy)";  break;

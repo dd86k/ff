@@ -9,8 +9,8 @@
 
 void scan_tar() {
 	struct tar_hdr h;
-	_ddseek(0, SEEK_SET);
-	_ddread(&h, sizeof(h));
+	_osseek(0, SEEK_SET);
+	_osread(&h, sizeof(h));
 
 	char *l;
 

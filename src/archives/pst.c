@@ -7,18 +7,18 @@
 void scan_pst() {
 	struct pst_header h;
 	struct pst_unicode uh;
-	_ddread(&h, sizeof(h));
+	_osread(&h, sizeof(h));
 	char ansi = 0;
 	char unicode = 0;
 
 	if (h.version_ == 14 || h.version_ == 15) {
 		ansi = 1;
 		struct pst_ansi ah;
-		_ddread(&ah, sizeof(ah));
+		_osread(&ah, sizeof(ah));
 		uh.crypt = ah.crypt;
 	} else if (h.version_ >= 23) {
 		unicode = 1;
-		_ddread(&uh, sizeof(uh));
+		_osread(&uh, sizeof(uh));
 	} else {
 		report_data();
 		return;

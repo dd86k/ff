@@ -6,9 +6,9 @@
 #include "vdi.h"
 
 void scan_vdi() {
-	_ddseek(64, SEEK_SET); // Skip description, char[64]
+	_osseek(64, SEEK_SET); // Skip description, char[64]
 	struct vdi_hdr h;
-	_ddread(&h, sizeof(h));
+	_osread(&h, sizeof(h));
 
 	if (h.magic != VDIMAGIC) {
 		report_text(); // Coincidence
@@ -19,11 +19,11 @@ void scan_vdi() {
 
 	switch (h.majorv) { // Use latest major version natively
 	case 1:
-		_ddread(&sh, sizeof(sh));
+		_osread(&sh, sizeof(sh));
 		break;
 	case 0: { // Or else, translate
 		struct VDIHEADER0 vd0;
-		_ddread(&vd0, sizeof(vd0));
+		_osread(&vd0, sizeof(vd0));
 		sh.cbDisk = vd0.cbDisk;
 		sh.u32Type = vd0.u32Type;
 		memcpy(&sh.uuidCreate, &vd0.uuidCreate, 16);

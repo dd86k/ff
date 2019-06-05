@@ -6,7 +6,7 @@
 
 void scan_rpf(uint32_t s) {
 	struct rpf_hdr h;
-	_ddread(&h, sizeof(h));
+	_osread(&h, sizeof(h));
 
 	char *g;
 

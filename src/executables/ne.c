@@ -6,7 +6,7 @@
 
 void scan_ne() {
 	struct ne_hdr h;
-	_ddread(&h, sizeof(h));
+	_osread(&h, sizeof(h));
 
 	char *t;
 

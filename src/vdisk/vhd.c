@@ -6,7 +6,7 @@
 
 void scan_vhd() { // big-endian
 	struct vhd_hdr h;
-	_ddread(&h, sizeof(h));
+	_osread(&h, sizeof(h));
 
 	h.features = bswap32(h.features);
 	if ((h.features & F_RES) == 0) {

@@ -7,8 +7,8 @@
 
 void scan_gif() {
 	struct gif_header h;
-	_ddseek(0, SEEK_SET);
-	_ddread(&h, sizeof(h));
+	_osseek(0, SEEK_SET);
+	_osread(&h, sizeof(h));
 
 	switch (h.version_[1]) { // 87a, 89a, lazy switch
 	case '7': case '9': break;

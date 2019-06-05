@@ -12,14 +12,14 @@
  * size: size of buffer
  * Returns: Number of bytes read
  */
-int _ddread(void *buffer, size_t size);
+int _osread(void *buffer, size_t size);
 /**
  * Fast seek the already opened file handle.
  * pos: New position (<32-bit limit)
  * mode: File mode
  * Returns: Returns 0 if successful
  */
-int _ddseek(int pos, int mode);
+int _osseek(int pos, int mode);
 /**
  * Format a decimal binary number and add its appropriate suffix.
  * e.g. 24554 will result 23K

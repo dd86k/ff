@@ -7,7 +7,7 @@
 /// Scan a LE executable
 void scan_le(int is_le) {
 	struct e32_hdr h;
-	_ddread(&h, sizeof(h));
+	_osread(&h, sizeof(h));
 
 	char *e, *os, *t, *c, *bo, *wo;
 

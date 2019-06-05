@@ -6,7 +6,7 @@
 
 void scan_cfb() {
 	struct cfb_header h;
-	_ddread(&h, sizeof(h));
+	_osread(&h, sizeof(h));
 	reportf("Compound File Binary document v%u.%u, %u FAT sectors\n",
 		h.major, h.minor, h.fat_sectors);
 	if (More) {

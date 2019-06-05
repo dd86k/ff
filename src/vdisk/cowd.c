@@ -6,7 +6,7 @@
 
 void scan_cowd() {
 	struct COWDisk_Header h;
-	_ddread(&h, sizeof(h));
+	_osread(&h, sizeof(h));
 
 	if (h.flags != 3) {
 		report_text();

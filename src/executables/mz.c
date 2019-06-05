@@ -9,18 +9,18 @@
 void scan_mz() {
 	struct mz_hdr h;
 
-	if (_ddseek(0x3c, SEEK_SET)) {
+	if (_osseek(0x3c, SEEK_SET)) {
 		report_data();
 		return;
 	}
 
 	uint32_t p;
-	_ddread(&p, 4);
+	_osread(&p, 4);
 
 	if (p) {
 		uint16_t sig;
-		if (_ddseek(p, SEEK_SET)) goto _MZ;
-		_ddread(&sig, sizeof(sig));
+		if (_osseek(p, SEEK_SET)) goto _MZ;
+		_osread(&sig, sizeof(sig));
 		switch (sig) {
 		case 0x4550: // "PE"
 			scan_pe();
@@ -36,8 +36,8 @@ void scan_mz() {
 	}
 
 _MZ:
-	_ddseek(0, SEEK_SET);
-	_ddread(&h, sizeof(h));
+	_osseek(0, SEEK_SET);
+	_osread(&h, sizeof(h));
 
 	reportf("MZ executable for MS-DOS (Overlay: %u)\n", h.e_ovno);
 

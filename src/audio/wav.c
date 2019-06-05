@@ -7,19 +7,19 @@
 // http://www-mmsp.ece.mcgill.ca/Documents/AudioFormats/WAVE/WAVE.html
 void scan_wav() {
 	uint32_t s;
-	_ddread(&s, 4);
+	_osread(&s, 4);
 	if (s != FMT_CHUNK) // Time to find the right chunk type
 		do {
-			_ddread(&s, 4); // get chunk length
-			if (_ddseek(s, SEEK_CUR)) { // and skip it if possible
+			_osread(&s, 4); // get chunk length
+			if (_osseek(s, SEEK_CUR)) { // and skip it if possible
 				report_data();
 				return;
 			}
-			_ddread(&s, 4);
+			_osread(&s, 4);
 		} while (s != FMT_CHUNK); // Skip useless chunks
 
 	struct fmt_chunk h;
-	_ddread(&h, sizeof(h));
+	_osread(&h, sizeof(h));
 
 	char *f;
 
@@ -40,8 +40,8 @@ void scan_wav() {
 
 	if (More) {
 		uint8_t guid[16];
-		_ddseek(8, SEEK_CUR);
-		_ddread(guid, sizeof(guid));
+		_osseek(8, SEEK_CUR);
+		_osread(guid, sizeof(guid));
 		print_a("EXTENDED: ", guid, sizeof(guid));
 	}
 }

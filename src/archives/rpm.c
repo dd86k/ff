@@ -6,7 +6,7 @@
 
 void scan_rpm() {
 	struct rpm_hdr h;
-	_ddread(&h, sizeof(h));
+	_osread(&h, sizeof(h));
 
 	char *t, *o;
 

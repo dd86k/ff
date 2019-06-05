@@ -30,11 +30,11 @@ void scan_mach(uint32_t s) {
 
 	if (fat) { // Java prefers Fat files
 		struct fatmach_header fh;
-		_ddread(&fh, sizeof(fh));
+		_osread(&fh, sizeof(fh));
 
 		if (fh.nfat_arch) {
 			struct fat_arch fa;
-			_ddread(&fa, sizeof(fa));
+			_osread(&fa, sizeof(fa));
 
 			if (reversed) {
 				cpu_type = bswap32(fa.cputype);
@@ -49,7 +49,7 @@ void scan_mach(uint32_t s) {
 		}
 	} else {
 		struct mach_header mh;
-		_ddread(&mh, sizeof(mh));
+		_osread(&mh, sizeof(mh));
 
 		if (reversed) {
 			filetype = bswap32(mh.filetype);

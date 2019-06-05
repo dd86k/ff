@@ -17,10 +17,10 @@ void scan_etc() {
 	// Palm Database Format
 	//
 
-	if (_ddseek(0x3c, SEEK_SET)) goto _END;
+	if (_osseek(0x3c, SEEK_SET)) goto _END;
 	char *mt;
 	uint32_t b[2];
-	_ddread(b, sizeof(b));
+	_osread(b, sizeof(b));
 	switch (b[0]) { // LOW
 	case ADOBE_LOW:
 		mt = "Palm Database (Adobe Reader)";
@@ -126,16 +126,16 @@ MOBI_OUT:
 	// Tar archives
 	//
 
-	if (_ddseek(0x101, SEEK_SET)) goto _END;
+	if (_osseek(0x101, SEEK_SET)) goto _END;
 	uint64_t btar64;
-	_ddread(&btar64, 8);
+	_osread(&btar64, 8);
 	switch (btar64) {
 	case TAR64: case GNUTAR64:
 		scan_tar();
 		return;
 	}
 	/*uint32_t btar32[2];
-	_ddread(btar32, 8);
+	_osread(btar32, 8);
 	switch (btar32[0]) {
 	case TAR32L: case GNUTAR32L:
 		switch (btar32[1]) {
@@ -149,21 +149,21 @@ MOBI_OUT:
 	// ISO-9660
 	//
 
-	if (_ddseek(0x8001, SEEK_SET)) goto _END;
+	if (_osseek(0x8001, SEEK_SET)) goto _END;
 	char biso[5];
-	_ddread(biso, 5);
+	_osread(biso, 5);
 	if (strncmp(biso, ISO, 5) == 0) {
 		scan_iso(); return;
 	}
 
-	if (_ddseek(0x8801, SEEK_SET)) goto _END;
-	_ddread(biso, 5);
+	if (_osseek(0x8801, SEEK_SET)) goto _END;
+	_osread(biso, 5);
 	if (strncmp(biso, ISO, 5) == 0) {
 		scan_iso(); return;
 	}
 
-	if (_ddseek(0x9001, SEEK_SET)) goto _END;
-	_ddread(biso, 5);
+	if (_osseek(0x9001, SEEK_SET)) goto _END;
+	_osread(biso, 5);
 	if (strncmp(biso, ISO, 5) == 0) {
 		scan_iso(); return;
 	}

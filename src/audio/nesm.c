@@ -5,7 +5,7 @@
 
 void scan_nesm() {
 	struct nesm_hdr h;
-	_ddread(&h, sizeof(h));
+	_osread(&h, sizeof(h));
 
 	char *r, *c = "?";
 

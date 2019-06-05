@@ -45,7 +45,7 @@
 // Scan currFile
 void scan(int *error) {
 	uint32_t s;
-	if (_ddread(&s, 4)) {
+	if (_osread(&s, 4)) {
 		puts("E: Could not read file.");
 		*error = 4;
 		return;
@@ -56,7 +56,7 @@ void scan(int *error) {
 	switch (s) {
 	case 0x00000100: {
 		uint8_t b[12];
-		_ddread(b, sizeof(b));
+		_osread(b, sizeof(b));
 		uint32_t *p = (uint32_t *)b;
 		switch (*p) { // b[0..4]
 		case 0x5349534D: // "MSIS"
@@ -103,7 +103,7 @@ void scan(int *error) {
 		goto TIFF;
 
 	case 0x002A4949: { // "II*\0"
-		_ddread(&s, 4);
+		_osread(&s, 4);
 		switch (s) {
 		case 0x10: // 'I' 'I' '*' 00 | 10 00 00 00 | 'C' 'R'
 			report("Canon RAW Format Version 2 image (TIFF)");
@@ -167,7 +167,7 @@ GTA_TEXT:	reportf("GTA Text (GTA2+) in %s\n", r);
 		return;
 
 	case 0x47585432: { // "2TXG", big endian
-		_ddread(&s, 4);
+		_osread(&s, 4);
 		reportf("GTA Text 2 with %u entries\n", bswap32(s));
 		return;
 	}
@@ -184,7 +184,7 @@ GTA_TEXT:	reportf("GTA Text (GTA2+) in %s\n", r);
 	case 0x14000000: case 0x18000000:
 	case 0x1C000000: case 0x20000000: {
 		uint32_t b[2];
-		_ddread(b, sizeof(b));
+		_osread(b, sizeof(b));
 		switch (*b) {
 		case 0x70797466: // "ftyp"
 			switch (*(b + 1)) {
@@ -221,8 +221,8 @@ GTA_TEXT:	reportf("GTA Text (GTA2+) in %s\n", r);
 	}
 
 	case 0x4D524F46: { // "FORM"
-		_ddseek(8, SEEK_SET);
-		_ddread(&s, 4);
+		_osseek(8, SEEK_SET);
+		_osread(&s, 4);
 		switch (s) {
 		case 0x4D424C49: // "ILBM"
 			report("IFF Interleaved Bitmap image"); return;
@@ -268,7 +268,7 @@ GTA_TEXT:	reportf("GTA Text (GTA2+) in %s\n", r);
 		return;
 
 	case 0x21726152: { // "Rar!"
-		_ddread(&s, 3);
+		_osread(&s, 3);
 		switch (s) {
 		case 0x01071A: //TODO: http://www.rarlab.com/technote.htm
 			report("RAR archive v5.0+");
@@ -306,7 +306,7 @@ GTA_TEXT:	reportf("GTA Text (GTA2+) in %s\n", r);
 
 	case 0x46445025: { // "%PDF" | "-n.n" (n=digit)
 		uint8_t b[5];
-		_ddread(b, 4);
+		_osread(b, 4);
 		b[4] = 0;
 		reportf("PDF%s document\n", b);
 		return;
@@ -317,7 +317,7 @@ GTA_TEXT:	reportf("GTA Text (GTA2+) in %s\n", r);
 		return;
 
 	case 0x49445324: // "$SDI"
-		_ddread(&s, 4);
+		_osread(&s, 4);
 		switch (s) {
 		case 0x31303030:
 			report("Microsoft System Deployment disk");
@@ -340,8 +340,8 @@ GTA_TEXT:	reportf("GTA Text (GTA2+) in %s\n", r);
 		return;
 
 	case 0x46464952: // "RIFF", most MP2 files
-		_ddseek(8, SEEK_SET);
-		_ddread(&s, 4);
+		_osseek(8, SEEK_SET);
+		_osread(&s, 4);
 		switch (s) {
 		case 0x45564157: // "WAVE"
 			scan_wav();
@@ -379,7 +379,7 @@ GTA_TEXT:	reportf("GTA Text (GTA2+) in %s\n", r);
 		return;
 
 	case 0x434F4D50: // "PMOC"
-		_ddread(&s, 4);
+		_osread(&s, 4);
 		switch (s) {
 		case 0x434F4D43: // "CMOC"
 			report("Windows Files And Settings Transfer Repository (USMT)");
@@ -414,11 +414,11 @@ GTA_TEXT:	reportf("GTA Text (GTA2+) in %s\n", r);
 		return;
 
 	case 0x54265441: // "AT&T"
-		_ddread(&s, 4);
+		_osread(&s, 4);
 		switch (s) {
 		case 0x4D524F46: // "FORM"
-			_ddseek(4, SEEK_CUR);
-			_ddread(&s, 4);
+			_osseek(4, SEEK_CUR);
+			_osread(&s, 4);
 			char *r;
 			switch (s) {
 			case 0x55564A44: // "DJVU"
@@ -464,7 +464,7 @@ GTA_TEXT:	reportf("GTA Text (GTA2+) in %s\n", r);
 		r = "WAD2";
 WAD:		{ // Fixes "expression expected" on clang-alpine
 			int b[2]; // Reads as ints.
-			_ddread(b, sizeof(b));
+			_osread(b, sizeof(b));
 			reportf("%s, %u entries at %Xh\n", r, b[0], b[1]);
 			return;
 		}
@@ -473,7 +473,7 @@ WAD:		{ // Fixes "expression expected" on clang-alpine
 	case 0x6D736100: { // "\0asm", WebAssembly binary
 		// http://webassembly.org/docs/binary-encoding/
 		uint8_t v;
-		_ddread(&v, 1);
+		_osread(&v, 1);
 		reportf("WebAssembly v%u binary (wasm)\n", v);
 		return;
 	}

@@ -7,7 +7,7 @@
 // http://www.adobe.com/devnet-apps/photoshop/fileformatashtml/#50577409_19840
 void scan_ps() { // big-endian
 	struct psd_hdr h;
-	_ddread(&h, sizeof(h));
+	_osread(&h, sizeof(h));
 
 	char *c;
 
