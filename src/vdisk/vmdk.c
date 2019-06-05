@@ -27,9 +27,9 @@ void scan_vmdk() {
 
 	if (More) {
 		printf(
-			"Capacity: %lld Sectors\n"
-			"Overhead: %lld Sectors\n"
-			"Grain size (Raw): %lld Sectors\n",
+			"Capacity: %llu Sectors\n"
+			"Overhead: %llu Sectors\n"
+			"Grain size (Raw): %llu Sectors\n",
 			h.capacity, h.overHead, h.grainSize
 		);
 	}
