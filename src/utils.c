@@ -34,13 +34,13 @@ void isoslice(char *buffer, char *target, size_t max) {
 void _printfd(uint64_t l) {
 	float f = l;
 	if (f >= GB) { // Lazy code, sorry
-		printf("%.2fG", f / GB);
+		printf("%.2f GB", f / GB);
 	} else if (f >= MB) {
-		printf("%.1fM", f / MB);
+		printf("%.1f MB", f / MB);
 	} else if (f >= KB) {
-		printf("%.1fK", f / KB);
+		printf("%.1f KB", f / KB);
 	} else
-		printf("%lldB", l);
+		printf("%lld B", l);
 }
 
 uint16_t bswap16(uint16_t s) {
@@ -56,19 +56,16 @@ uint32_t bswap32(uint32_t s) {
 }
 
 uint64_t bswap64(uint64_t s) {
-	uint64_t* pi = (uint64_t*)&s;
-	uint64_t a = // Hopefully it uses bswap (or XOR for clang?)
-		(pi[0] & 0x000000ff) << 24 |
-		(pi[0] & 0x0000ff00) << 8 |
-		(pi[0] & 0x00ff0000) >> 8 |
-		(pi[0] & 0xff000000) >> 24;
-	pi[0] =
-		(pi[1] & 0x000000ff) << 24 |
-		(pi[1] & 0x0000ff00) << 8 |
-		(pi[1] & 0x00ff0000) >> 8 |
-		(pi[1] & 0xff000000) >> 24;
-	pi[1] = a;
-	return s;
+	uint8_t *p = (uint8_t*)&s;
+	return
+		((uint64_t)p[0] << 56) |
+		((uint64_t)p[1] << 40) |
+		((uint64_t)p[2] << 24) |
+		((uint64_t)p[3] << 8)  |
+		((uint64_t)p[4] >> 8)  |
+		((uint64_t)p[5] >> 24) |
+		((uint64_t)p[6] >> 40) |
+		((uint64_t)p[7] >> 56);
 }
 
 void print_a(char *p, uint8_t *a, size_t s) {
