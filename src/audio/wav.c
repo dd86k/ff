@@ -35,7 +35,7 @@ void scan_wav() {
 	default:         report("WAVE audio?"); return;
 	}
 
-	reportf("WAVE (%s) audio, %u channels, %u Hz, %u kbps, %u-bit\n",
+	reportf("WAVE (%s) audio, %u Hz, %u kbps, %u-bit, %u channels\n",
 		f, h.samplerate, h.datarate / 1024 * 8, h.samplebits, h.channels);
 
 	if (More) {
