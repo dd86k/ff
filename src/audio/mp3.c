@@ -43,19 +43,19 @@ void scan_mp3(uint32_t sig, int id3) {
 		"stereo", "joint", "dual", "mono"
 	};
 
-	struct mp3_hdr h = *(struct mp3_hdr*)&sig;
+	struct mp3_hdr *h = (struct mp3_hdr*)&sig;
 
-	char v = h.sig & 0x800 ? '1' : '2'; /// MPEG version
+	char v = h->sig & 0x800 ? '1' : '2'; /// MPEG version
 	char *l; // layer
 	char *b; // bitrate
 	char *f; // frequency
 	char *c; // channels
-	size_t bi = h.info >> 4; // bitrate index
-	size_t fi = (h.info >> 2) & 3; // frequency index
-	size_t ci = (h.extra >> 6); // channel index
+	size_t bi = h->info >> 4; // bitrate index
+	size_t fi = (h->info >> 2) & 3; // frequency index
+	size_t ci = (h->extra >> 6); // channel index
 	char li; // layer index, only for mode extension
 
-	switch (h.sig & 0x600) {
+	switch (h->sig & 0x600) {
 	case 0x200:
 		li = 3;
 		l = "III";
@@ -85,13 +85,13 @@ void scan_mp3(uint32_t sig, int id3) {
 	if (ci == 1) { // joint stereo audio, regardless of version
 		switch (li) { // layer
 		case 3:
-			if (h.extra & 0x20)
+			if (h->extra & 0x20)
 				printl(" +intensity");
-			if (h.extra & 0x10)
+			if (h->extra & 0x10)
 				printl(" +ms");
 			break;
 		case 2: case 1:
-			switch (h.extra & 0x30) {
+			switch (h->extra & 0x30) {
 			case 0:    printl(" (band 4-31)"); break;
 			case 0x10: printl(" (band 8-31)"); break;
 			case 0x20: printl(" (band 12-31)"); break;
@@ -104,17 +104,17 @@ void scan_mp3(uint32_t sig, int id3) {
 	case 2: printl(", id3v2"); break;
 	case 1: printl(", id3v1"); break;
 	}
-	if (h.sig & 0x100)
+	if (h->sig & 0x100)
 		printl(", crc16");
-	if (h.info & 1)
+	if (h->info & 1)
 		printl(", pbit");
-	if (h.info & 2)
+	if (h->info & 2)
 		printl(", pad");
-	if (h.extra & 8)
+	if (h->extra & 8)
 		printl(", copyright");
-	if (h.extra & 6)
+	if (h->extra & 6)
 		printl(", original");
-	switch (h.extra & 3) {
+	switch (h->extra & 3) {
 	case 1: printl(", 50/15 ms\n"); return;
 	case 3: printl(", CCIT J.17\n"); return;
 	}
