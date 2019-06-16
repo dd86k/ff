@@ -7,7 +7,7 @@
 void scan_vmdk() {
 	struct SparseExtentHeader h;
 	_osread(&h, sizeof(h));
-	
+
 	char *c;
 
 	switch (h.compressAlgorithm) {

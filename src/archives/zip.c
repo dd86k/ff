@@ -80,6 +80,4 @@ void scan_zip() {
 			h.eflength
 		);
 	}
-
-	free(fn);
 }

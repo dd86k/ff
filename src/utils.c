@@ -50,29 +50,20 @@ uint16_t bswap16(uint16_t s) {
 uint32_t bswap32(uint32_t s) {
 	return
 		(s & 0x000000ff) << 24 |
-		(s & 0x0000ff00) << 8 |
-		(s & 0x00ff0000) >> 8 |
+		(s & 0x0000ff00) <<  8 |
+		(s & 0x00ff0000) >>  8 |
 		(s & 0xff000000) >> 24;
 }
 
 uint64_t bswap64(uint64_t s) {
-	uint8_t *p = (uint8_t*)&s;
-	return
-		((uint64_t)p[0] << 56) |
-		((uint64_t)p[1] << 40) |
-		((uint64_t)p[2] << 24) |
-		((uint64_t)p[3] << 8)  |
-		((uint64_t)p[4] >> 8)  |
-		((uint64_t)p[5] >> 24) |
-		((uint64_t)p[6] >> 40) |
-		((uint64_t)p[7] >> 56);
+	uint32_t *p = (uint32_t*)&s;
+	return (uint64_t)bswap32(p[0]) << 32 | (uint64_t)bswap32(p[1]);
 }
 
 void print_a(char *p, uint8_t *a, size_t s) {
 	size_t i = 0;
 	printl(p);
-	while (--s) {
-		printf(" %02X", a[i]); ++i;
-	}
+	while (--s)
+		printf(" %02X", a[i++]);
 	putchar('\n');
 }

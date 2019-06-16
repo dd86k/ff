@@ -24,11 +24,11 @@ void scan_lnk() {
 		int high = h.hotkey & 0xFF00;
 		printl(", hotkey (");
 		if (high) {
-			if (high & 0x0100)
+			if (high & 0x100)
 				printl("shift+");
-			if (high & 0x0200)
+			if (high & 0x200)
 				printl("ctrl+");
-			if (high & 0x0400)
+			if (high & 0x400)
 				printl("alt+");
 		}
 		uint8_t low = (uint8_t)h.hotkey;
@@ -45,16 +45,51 @@ void scan_lnk() {
 		putchar(')'); // from "hotkey ("
 	}
 
-	/*if (h.flags & HasLinkTargetIDList &&
-		h.flags & HasLinkInfo) {
+	if (h.flags & IsUnicode) {
+		printf(", unicode");
+	}
+
+	if (h.flags & HasLinkTargetIDList) {
 		uint16_t l;
 		_osread(&l, 2); // Read IDListSize
-		// Skip LinkTargetIDList to LinkInfo->LocalBasePath
-		_osseek(l + 47, SEEK_CUR);
-		char t[255];
-		_osread(&t, sizeof(t));
-		printf(", to %s", t);
-	}*/
+		_osseek(l, SEEK_CUR);
+	}
+
+	if (h.flags & HasLinkInfo) {
+		uint32_t l; // data length
+		_osread(&l, 4); // Read LinkInfoSize
+		l += 4;
+
+		if (l < LinkInfoHeaderSize) // minimum size
+			goto NO_LINK_INFO;
+
+		uint8_t *li = malloc(l);
+		_osread(li, l); // LinkInfoData
+		struct LinkInfoHeader *lih = (struct LinkInfoHeader*)li;
+
+		uint32_t hl = lih->headerSize;
+
+		if (hl >= LinkInfoHeaderMinimumExtendedSize) { // may not work under linux
+			if (lih->localBasePathOffsetUnicode) {
+				printf(", localW:\"%.255ls\"",
+					(wchar_t*)(li + lih->localBasePathOffsetUnicode - 4));
+			}
+			if (lih->commonPathSuffixOffsetUnicode) {
+				printf(", commonW:\"%.255ls\"",
+					(wchar_t*)(li + lih->commonPathSuffixOffsetUnicode - 4));
+			}
+		} else if (hl == LinkInfoHeaderSize) {
+			if (lih->localBasePathOffset) {
+				printf(", localA:\"%.255s\"",
+					li + lih->localBasePathOffset - 4);
+			}
+			if (lih->commonPathSuffixOffset) {
+				printf(", commonA:\"%.255s\"",
+					li + lih->commonPathSuffixOffset - 4);
+			}
+		} else printf(", invalid LinkInfoHeader size");
+	}
+NO_LINK_INFO:
 
 	putchar('\n');
 
@@ -63,16 +98,14 @@ void scan_lnk() {
 		printf(
 			"LinkFlags: %Xh\n"
 			"FileAttributes: %Xh\n"
-			"CreationTime: %"PRIX64"\n"
-			"AccessTime: %"PRIX64"\n"
-			"WriteTime: %"PRIX64"\n"
+			"CreationTime: %"PRIX64"h\n"
+			"AccessTime: %"PRIX64"h\n"
+			"WriteTime: %"PRIX64"h\n"
 			"FileSize: %Xh\n"
-			"IconIndex: %Xh\n"
-			"ShowCommand: %Xh\n"
-			"HotKey: %Xh\n",
+			"IconIndex: %Xh\n",
 			h.flags, h.attrs,
 			h.creation_time, h.access_time, h.write_time,
-			h.filesize, h.icon_index, h.show_command, h.hotkey
+			h.filesize, h.icon_index
 		);
 	}
 }

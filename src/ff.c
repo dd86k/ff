@@ -313,7 +313,7 @@ GTA_TEXT:	reportf("GTA Text (GTA2+) in %s\n", r);
 	}
 
 	case 0x75B22630: // Followed by 8E 66 CF 11 A6 D9 0 AA 0 62 CE 6C
-		report("Advanced Systems audio (ASF, WMA, WMV)");
+		report("Advanced Systems (ASF, WMA, WMV) audio");
 		return;
 
 	case 0x49445324: // "$SDI"
@@ -363,7 +363,7 @@ GTA_TEXT:	reportf("GTA Text (GTA2+) in %s\n", r);
 		return;
 
 	case 0x0A786564: // "dex\x0A", then follows "035\0"
-		report("Dalvik executable");
+		report("Dalvik Android executable");
 		return;
 
 	case 0x34327243: // "Cr24"

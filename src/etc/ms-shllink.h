@@ -15,16 +15,33 @@ struct ShellLinkHeader {
 	uint32_t res3;
 };
 
+struct LinkInfoHeader {
+	//uint32_t infoSize;
+	uint32_t headerSize;
+	uint32_t flags;
+	uint32_t volumeIdOffset;
+	uint32_t localBasePathOffset;
+	uint32_t commonNetworkRelativeLinkOffset;
+	uint32_t commonPathSuffixOffset;
+	uint32_t localBasePathOffsetUnicode;
+	uint32_t commonPathSuffixOffsetUnicode;
+};
+
 #define SW_SHOWNORMAL 1
 #define SW_SHOWMAXIMIZED 3
 #define SW_SHOWMINNOACTIVE 7
 
-#define HasLinkTargetIDList 0x1 /// A
-#define HasLinkInfo 0x2 // B
-#define HasName 0x4 // C
-#define HasVolumeID 0x // 
-#define HasArguments 0x20 // F
-#define IsUnicode 0x80
-#define PreferEnvironmentPath 0x1000000 // Z
+#define HasLinkTargetIDList 1	// A
+#define HasLinkInfo 2	// B
+#define HasName 4	// C
+//#define HasVolumeID 0x 	// 
+#define HasArguments 0x20	// F
+#define IsUnicode 0x80	// 
+#define PreferEnvironmentPath 0x1000000	// Z
+
+#define VolumeIDAndLocalBasePath 1
+
+#define LinkInfoHeaderSize 0x1C
+#define LinkInfoHeaderMinimumExtendedSize 0x24
 
 void scan_lnk(void);
