@@ -8,6 +8,7 @@
 //      Only get scan_* functions
 #include "archives/cab.h"
 #include "archives/deb.h"
+#include "archives/gzip.h"
 #include "archives/kwaj.h"
 #include "archives/icab.h"
 #include "archives/pst.h"
@@ -624,7 +625,7 @@ WAD:		{ // Fixes "expression expected" on clang-alpine
 				return;
 
 			case 0x8B1F:
-				report("GZIP archive (gz)");
+				scan_gzip();
 				return;
 
 			case 0x8230:

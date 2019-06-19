@@ -13,9 +13,10 @@ void scan_lnk() {
 	char *sc;
 
 	switch (h.show_command) {
-	case SW_SHOWNORMAL: sc = "normal window"; break;
 	case SW_SHOWMAXIMIZED: sc = "maximized"; break;
 	case SW_SHOWMINNOACTIVE: sc = "minimized"; break;
+	case SW_SHOWNORMAL: sc = "normal window"; break;
+	default: sc = "(?)";
 	}
 
 	reportf("Microsoft Shortcut link (MS-SHLLINK), %s", sc);
@@ -34,19 +35,18 @@ void scan_lnk() {
 		uint8_t low = (uint8_t)h.hotkey;
 		if (low) {
 			if (low >= 0x30 && low <= 0x5A)
-				printf("%c", low);
+				printf("%c)", low);
 			else if (low >= 0x70 && low <= 0x87)
-				printf("F%u", low - 0x6F); // Function keys
+				printf("F%u)", low - 0x6F); // Function keys
 			else switch (low) {
-				case 0x90: printl("num lock"); break;
-				case 0x91: printl("scroll lock"); break;
+				case 0x90: printl("num lock)"); break;
+				case 0x91: printl("scroll lock)"); break;
 			}
 		}
-		putchar(')'); // from "hotkey ("
 	}
 
 	if (h.flags & IsUnicode) {
-		printf(", unicode");
+		printl(", unicode");
 	}
 
 	if (h.flags & HasLinkTargetIDList) {
@@ -71,27 +71,25 @@ void scan_lnk() {
 
 		if (hl >= LinkInfoHeaderMinimumExtendedSize) { // may not work under linux
 			if (lih->localBasePathOffsetUnicode) {
-				printf(", localW:\"%.255ls\"",
+				printf(", to \"%.255ls\"LU\n",
 					(wchar_t*)(li + lih->localBasePathOffsetUnicode - 4));
 			}
 			if (lih->commonPathSuffixOffsetUnicode) {
-				printf(", commonW:\"%.255ls\"",
+				printf(", to \"%.255ls\"CU\n",
 					(wchar_t*)(li + lih->commonPathSuffixOffsetUnicode - 4));
 			}
 		} else if (hl == LinkInfoHeaderSize) {
 			if (lih->localBasePathOffset) {
-				printf(", localA:\"%.255s\"",
+				printf(", to \"%.255s\"LA\n",
 					li + lih->localBasePathOffset - 4);
 			}
 			if (lih->commonPathSuffixOffset) {
-				printf(", commonA:\"%.255s\"",
+				printf(", to \"%.255s\"CA\n",
 					li + lih->commonPathSuffixOffset - 4);
 			}
-		} else printf(", invalid LinkInfoHeader size");
+		} else puts(", invalid LinkInfoHeader size");
 	}
 NO_LINK_INFO:
-
-	putchar('\n');
 
 	if (More) {
 		print_a("LinkCLSID: ", h.clsid, sizeof(h.clsid));
@@ -101,8 +99,8 @@ NO_LINK_INFO:
 			"CreationTime: %"PRIX64"h\n"
 			"AccessTime: %"PRIX64"h\n"
 			"WriteTime: %"PRIX64"h\n"
-			"FileSize: %Xh\n"
-			"IconIndex: %Xh\n",
+			"FileSize: %u\n"
+			"IconIndex: %u\n",
 			h.flags, h.attrs,
 			h.creation_time, h.access_time, h.write_time,
 			h.filesize, h.icon_index
