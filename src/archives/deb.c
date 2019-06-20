@@ -6,6 +6,7 @@
 #include "../ff.h"
 #include "deb.h"
 
+// space-padded
 void _debslice(char *in, size_t max) {
 	if (*(in + max - 1) != ' ') {
 		*(in + max - 1) = '\0';
@@ -25,6 +26,7 @@ void scan_deb() {
 		return;
 	}
 
+	//TODO: check deb specs
 	long dfsize = strtol(h.ctl_filesize, NULL, sizeof(h.ctl_filesize));
 	if (dfsize) {
 		_osseek(dfsize, SEEK_CUR);
@@ -35,9 +37,9 @@ void scan_deb() {
 	_debslice(h.ctl_file_ident, sizeof(h.ctl_file_ident));
 	_debslice(dh.file_ident, sizeof(dh.file_ident));
 
-	reportf("Debian package v%.3s, %s (", h.version, h.ctl_file_ident);
+	reportf("Debian package v%.3s, %.16s (", h.version, h.ctl_file_ident);
 	_printfd(dfsize);
-	printf("), %s (", dh.file_ident);
+	printf("), %.16s (", dh.file_ident);
 	_printfd(cfsize);
 	puts(")");
 }

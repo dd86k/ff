@@ -19,6 +19,6 @@ void scan_rpf(uint32_t s) {
 	case 0x37: g = "GTA V"; break;
 	}
 
-	reportf("RPF %sencrypted archive v%u for %s, %u entries",
+	reportf("RPF %sencrypted archive v%u for %s, %u entries\n",
 		h.encrypted ? "" : "un", s, g, h.numentries);
 }

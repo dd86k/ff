@@ -11,9 +11,6 @@ void scan_fatelf() {
 	_osread(&fh, sizeof(fh));
 
 	switch (fh.version_) {
-	default:
-		reportf("FatELF, invalid (%u)\n", fh.version_);
-		return;
 	case 1: {
 		struct fat_subheader_v1 fhv1;
 		_osread(&fhv1, sizeof(fhv1));
@@ -26,5 +23,8 @@ void scan_fatelf() {
 		reportf("FatELF%s%s %s for %s machines\n", c, d, a, m);
 		return;
 	}
+	default:
+		reportf("FatELF, invalid (%u)\n", fh.version_);
+		return;
 	}
 }

@@ -18,7 +18,7 @@ void scan_png() {
 		case 1: case 2: case 4: case 8: case 16:
 			printf("%u-bit grayscale\n", h.depth);
 			break;
-		default: puts("grayscale?"); break;
+		default: puts("grayscale?");
 		}
 		break;
 	case 2:
@@ -26,7 +26,7 @@ void scan_png() {
 		case 8: case 16:
 			printf("%u-bit RGB\n", h.depth * 3);
 			break;
-		default: puts("rgb?"); break;
+		default: puts("rgb?");
 		}
 		break;
 	case 3:
@@ -34,7 +34,7 @@ void scan_png() {
 		case 1: case 2: case 4: case 8:
 			printf("8-bit PLTE Palette (%u)\n", h.depth);
 			break;
-		default: puts("plte?"); break;
+		default: puts("plte?");
 		}
 		break;
 	case 4:
@@ -42,7 +42,7 @@ void scan_png() {
 		case 8: case 16:
 			printf("%u-bit grayscale+alpha\n", h.depth);
 			break;
-		default: puts("grayscale+alpha?"); break;
+		default: puts("grayscale+alpha?");
 		}
 		break;
 	case 6:
@@ -50,29 +50,31 @@ void scan_png() {
 		case 8: case 16:
 			printf("32-bit RGBA (%u)\n", h.depth);
 			break;
-		default: puts("rgba?"); break;
+		default: puts("rgba?");
 		}
 		break;
-	default: puts("color?"); break;
+	default: puts("color?");
 	}
 
 	if (More) {
+		char *c, *f, *i;
 		switch (h.compression) {
-		case 0: printl("Default compression, "); break;
-		default: printl("compression?, "); break;
+		case 0:  c = "default"; break;
+		default: c = "unknown";
 		}
 
 		switch (h.filter) {
-		case 0: printl("Default filtering, "); break;
-		default: printl("filtering?, "); break;
+		case 0:  f = "default"; break;
+		default: f = "unknown";
 		}
 
 		switch (h.interlace) {
-		case 0: printl("No interlacing"); break;
-		case 1: printl("Adam7 interlacing"); break;
-		default: printl("interlacing?"); break;
+		case 0:  i = "no"; break;
+		case 1:  i = "Adam7"; break;
+		default: i = "unknown"; break;
 		}
 
-		putchar('\n');
+		printf("%s compression, %s filtering, %s interlacing\n",
+			c, f, i);
 	}
 }

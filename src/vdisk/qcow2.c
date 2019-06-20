@@ -11,13 +11,16 @@ void scan_qcow2(void) {
 	struct QCowHeader h;
 	_osread(&h, sizeof(h));
 
-	reportf("QEMU QCOW2 vdisk v%u, ", bswap32(h.version));
+	char *c;
+	switch (bswap32(h.crypt_method)) {
+	case C_AES: c = "AES"; break;
+	default: c = "no";
+	}
+
+	reportf("QEMU QCOW2 vdisk v%u, %s encryption, ", bswap32(h.version));
 	_printfd(bswap64(h.size));
 
-	switch (bswap32(h.crypt_method)) {
-	case C_AES: puts(", AES encrypted"); break;
-	default: putchar('\n');
-	}
+	putchar('\n');
 
 	if (More) {
 		printf(

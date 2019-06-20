@@ -11,15 +11,15 @@ void scan_kwaj() {
 	char *r;
 
 	switch (h.method) {
-	case 0: r = "uncompressed"; break;
-	case 1: r = "FFh-XOR'd data"; break;
-	case 2: r = "regular compression"; break;
-	case 3: r = "LZ + Huffman \"Jeff Johnson\" compressed"; break;
-	case 4: r = "MS-ZIP compressed"; break;
+	case 0: r = "no"; break;
+	case 1: r = "FFh-XOR"; break;
+	case 2: r = "regular"; break;
+	case 3: r = "LZ + Huffman \"Jeff Johnson\""; break;
+	case 4: r = "MS-ZIP"; break;
 	default: report("MS-DOS KWAJ archive?"); return;
 	}
 
-	reportf("MS-DOS KWAJ archive, %s, offset: %Xh");
+	reportf("MS-DOS KWAJ archive, %s compression, offset: %Xh");
 
 	if (h.header & (NAME | EXT)) {
 		int offset = 0;
@@ -30,10 +30,9 @@ void scan_kwaj() {
 		if (offset)
 			_osseek(offset, SEEK_CUR);
 
-		char s[13]; // 8.3 limit + \0
+		char s[12]; // 8.3 limit + \0
 		_osread(s, sizeof(s));
-		*(s + 12) = '\0';
-		printf(", \"%s\"", s);
+		printf(", \"%.12s\"", s);
 	}
 
 	putchar('\n');

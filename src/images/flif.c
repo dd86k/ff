@@ -17,18 +17,21 @@ void scan_flif() {
 
 	reportf("Free Lossless Image Format (FLIF) image, %u x %u", width, height);
 
-	switch (h.type & 0xF) {
+	int lt = h.type & 0xF;
+	switch (lt) {
 	case 1: printl(", Grayscale"); break;
 	case 3: printl(", RGB"); break;
 	case 4: printl(", RGBA"); break;
-	default: printf(", %u channels", h.type & 0xF);
+	default: printf(", %u channels", lt);
 	}
 
+	char *t;
 	switch (h.type >> 4) {
-	case 3: puts(", image"); break;
-	case 4: puts(", interlaced"); break;
-	case 5: puts(", animated"); break;
-	case 6: puts(", interlaced+animated"); break;
-	default: puts(", ?");
+	case 3:  t = ", image"; break;
+	case 4:  t = ", interlaced"; break;
+	case 5:  t = ", animated"; break;
+	case 6:  t = ", interlaced+animated"; break;
+	default: t = ", ?";
 	}
+	puts(t);
 }
