@@ -1,47 +1,49 @@
-#include <stdio.h>
 #include <stdarg.h>
+#include <stdio.h>
 #include "ff.h"
 #include "utils.h"
-#include "etc.h"
 #include "settings.h"
 //TODO: A master header for every folder (e.g. audio/audio.h)
 //      Only get scan_* functions
+#include "archives/7zip.h"
+#include "archives/bzip.h"
 #include "archives/cab.h"
 #include "archives/deb.h"
 #include "archives/gzip.h"
-#include "archives/kwaj.h"
 #include "archives/icab.h"
+#include "archives/kwaj.h"
 #include "archives/pst.h"
-#include "archives/szdd.h"
 #include "archives/rpf.h"
 #include "archives/rpm.h"
+#include "archives/szdd.h"
+#include "archives/xz.h"
 #include "archives/zip.h"
-#include "archives/7zip.h"
 #include "audio/flac.h"
-#include "audio/ogg.h"
 #include "audio/midi.h"
 #include "audio/mp3.h"
 #include "audio/nesm.h"
+#include "audio/ogg.h"
 #include "audio/snes.h"
 #include "audio/wav.h"
 #include "documents/cfb.h"
-#include "etc/ms-shllink.h"
+#include "etc.h"
 #include "etc/idx.h"
+#include "etc/ms-shllink.h"
 #include "executables/elf.h"
 #include "executables/fatelf.h"
 #include "executables/mach.h"
 #include "executables/mz.h"
 #include "images/bpg.h"
-#include "images/png.h"
 #include "images/flif.h"
 #include "images/gif.h"
+#include "images/png.h"
 #include "images/ps.h"
-#include "vdisk/vmdk.h"
 #include "vdisk/cowd.h"
-#include "vdisk/vhd.h"
-#include "vdisk/vdi.h"
 #include "vdisk/qcow2.h"
 #include "vdisk/qed.h"
+#include "vdisk/vdi.h"
+#include "vdisk/vhd.h"
+#include "vdisk/vmdk.h"
 
 // Scan currFile
 void scan(int *error) {
@@ -566,20 +568,13 @@ WAD:		{ // Fixes "expression expected" on clang-alpine
 		return;
 
 	case 0x587A37FD:
-		report("XZ archive");
+		scan_xz();
 		return;
 
 	default:
 		switch (s & 0xFFFFFF) {
 		case 0x464947: // "GIF"
 			scan_gif();
-			return;
-
-		case 0x685A42: // "BZh"
-			report("Bzip2 archive");
-			return;
-		case 0x305A42: // "BZ0"
-			report("Bzip1 archive");
 			return;
 
 		case 0xBFBBEF:
@@ -597,19 +592,21 @@ WAD:		{ // Fixes "expression expected" on clang-alpine
 		case 0x474154: // "TAG", big-endian, ID3v1
 			scan_mp3(skip_id3v1(), 1);
 			return;
-
 		case 0x334449: // "ID3", big-endian, ID3v2
 			scan_mp3(skip_id3v2(), 2);
 			return;
 
 		default:
 			switch ((uint16_t)s) {
-			case 0x9D1F:
-				report("Lempel-Ziv-Welch archive (RAR/ZIP)");
+			case 0x5A42: // "BZ"
+				scan_bzip(s);
 				return;
 
+			case 0x9D1F:
+				report("Lempel-Ziv-Welch (zip/rar) archive");
+				return;
 			case 0xA01F:
-				report("LZH archive (RAR/ZIP)");
+				report("LZH (zip/rar) archive");
 				return;
 
 			case 0x5A4D: // "MZ"
