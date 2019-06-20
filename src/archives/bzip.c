@@ -15,5 +15,5 @@ void scan_bzip(uint32_t s) {
 	case '0': v = '1'; break;
 	default:  v = '?';
 	}
-	printf("bzip%c (bz, bz2) archive, %c00 KB blocks\n", v, h->bsize);
+	reportf("bzip%c (bz, bz2) archive, %c00 KB blocks\n", v, h->bsize);
 }
