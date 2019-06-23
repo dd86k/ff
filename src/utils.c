@@ -40,7 +40,11 @@ void _printfd(uint64_t l) {
 	} else if (f >= KB) {
 		printf("%.1f KB", f / KB);
 	} else
+#ifdef _WIN32
 		printf("%llu B", l);
+#else
+		printf("%lu B", l);
+#endif
 }
 
 uint16_t bswap16(uint16_t s) {

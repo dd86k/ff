@@ -25,7 +25,7 @@ int _osseek(int pos, int mode);
  * e.g. 24554 will result 23K
  * l: Value
  */
-void _printfd(unsigned long long l);
+void _printfd(uint64_t l);
 /**
  * Prints a line to stdout.
  * str: Input string

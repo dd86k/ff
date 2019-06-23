@@ -24,10 +24,10 @@ Manuel - Gas Gas Gas.flac: FLAC audio, 44100 Hz, 16-bit, 2 channels
 cv.wav: WAVE audio (G.729) 8000 Hz, 0 kbps, 0-bit, 1 channels
 2002ado.wad: PWAD, 894 entries at C7A7FDh
 
-(Linux)$ ff /dev/null
+$ ff /dev/null
 Character device
 
-(Windows)> ff nul
+> ff NUL
 Character device
 ```
 
