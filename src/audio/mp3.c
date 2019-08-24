@@ -49,7 +49,6 @@ void scan_mp3(uint32_t sig, int id3) {
 	char *l; // layer
 	char *b; // bitrate
 	char *f; // frequency
-	char *c; // channels
 	size_t bi = h->info >> 4; // bitrate index
 	size_t fi = (h->info >> 2) & 3; // frequency index
 	size_t ci = (h->extra >> 6); // channel index
@@ -76,11 +75,10 @@ void scan_mp3(uint32_t sig, int id3) {
 		break;
 	}
 	f = v == '2' ? fv2[fi] : fv1[fi];
-	c = ca[ci];
 
 	reportf(
 		"MPEG-%c Audio Layer %s (MP3) audio, %s Hz, %s kbps, %s",
-		v, l, f, b, c
+		v, l, f, b, ca[ci]
 	);
 	if (ci == 1) { // joint stereo audio, regardless of version
 		switch (li) { // layer
@@ -110,10 +108,10 @@ void scan_mp3(uint32_t sig, int id3) {
 		printl(", pbit");
 	if (h->info & 2)
 		printl(", pad");
-	if (h->extra & 8)
-		printl(", copyright");
 	if (h->extra & 6)
 		printl(", original");
+	if (h->extra & 8)
+		printl(", copyright");
 	switch (h->extra & 3) {
 	case 1: printl(", 50/15 ms\n"); return;
 	case 3: printl(", CCIT J.17\n"); return;
@@ -121,7 +119,7 @@ void scan_mp3(uint32_t sig, int id3) {
 	putchar('\n');
 }
 
-// returns non-zero if 4-byte sig is mp3, LSB only
+// Return non-zero if 4-byte sig is mp3, LSB only
 int check_mp3(uint32_t s) {
 	return (bswap16(s) >> 4) == 0xFFF;
 }
@@ -129,6 +127,7 @@ int check_mp3(uint32_t s) {
 // skip ID3v2 header, assuming we're already 4 bytes within file (file pointer
 // being at position byte 3), and return signature after id3
 int skip_id3v2() {
+	//TODO: Check rare files that push the data file offset beyond IDv2 hsize
 	struct id3_hdr_p h;
 	_osread(&h, sizeof(h));
 	// Synchsafe integers: only bits 0-6 are used (0xxxxxxx 0xxxxxxx)

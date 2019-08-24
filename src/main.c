@@ -9,7 +9,7 @@
 #include "settings.h"
 #include "utils.h"
 
-#define VERSION "0.5.0"
+#define VERSION "0.5.1"
 
 void help() {
 	printl(
@@ -33,37 +33,8 @@ void version() {
 	"  (" TIMESTAMP ")"
 #endif
 	"\n"
-	"License: Unlicense <https://unlicense.org>\n"
+	"License: CC0 1.0 Universal <https://creativecommons.org/choose/zero/>\n"
 	"Home: <https://git.dd86k.space/dd86k/ff>\n"
-	);
-}
-
-void license() {
-	printl(
-	"This is free and unencumbered software released into the public domain.\n"
-	"\n"
-	"Anyone is free to copy, modify, publish, use, compile, sell, or\n"
-	"distribute this software, either in source code form or as a compiled\n"
-	"binary, for any purpose, commercial or non-commercial, and by any\n"
-	"means.\n"
-	"\n"
-	"In jurisdictions that recognize copyright laws, the author or authors\n"
-	"of this software dedicate any and all copyright interest in the\n"
-	"software to the public domain. We make this dedication for the benefit\n"
-	"of the public at large and to the detriment of our heirs and\n"
-	"successors. We intend this dedication to be an overt act of\n"
-	"relinquishment in perpetuity of all present and future rights to this\n"
-	"software under copyright law.\n"
-	"\n"
-	"THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND,\n"
-	"EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF\n"
-	"MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.\n"
-	"IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR\n"
-	"OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,\n"
-	"ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR\n"
-	"OTHER DEALINGS IN THE SOFTWARE.\n"
-	"\n"
-	"For more information, please refer to <https://unlicense.org>\n"
 	);
 }
 
@@ -99,10 +70,6 @@ int main(int argc, char **argv) {
 				version();
 				return 0;
 			}
-			if (wcscmp(a, L"license") == 0) {
-				license();
-				return 0;
-			}
 			_fwprintf_p(stderr, L"Unknown argument: --%s\n", a);
 #else
 			char *a = argv[argc] + 2;
@@ -112,10 +79,6 @@ int main(int argc, char **argv) {
 			}
 			if (strcmp(a, "version") == 0) {
 				version();
-				return 0;
-			}
-			if (strcmp(a, "license") == 0) {
-				license();
 				return 0;
 			}
 			fprintf(stderr, "Unknown argument: --%s\n", a);

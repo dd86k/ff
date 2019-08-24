@@ -31,13 +31,17 @@ Character device
 Character device
 ```
 
-For a list of files ff(1) picks up, visit [File Detection List](https://git.dd86k.space/dd86k/ff/wiki/File%20Detection%20List) (Gitbucket).
+For a list of files ff(1) picks up, visit
+[File List](https://git.dd86k.space/dd86k/ff/wiki/File%20Detection%20List)
+(Gitbucket).
 
 # Compiling
 
 There is currently no Makefile at the moment.
 
-It's usually best to use `build-clang.cmd` on Windows and `build-clang.sh` on Linux, as you can add additional arguments easily. Reminder that you should add `-O3` (or `/Ot` for cl).
+It's usually best to use `build-clang.cmd` on Windows and `build-clang.sh` on
+Linux, as you can add additional arguments easily. Reminder that you should add
+`-O3` (or `/Ot` for cl).
 
 However, if you want to define your own arguments:
 
@@ -48,4 +52,11 @@ You **MUST**:
 
 ## File Globbing on Windows
 
-If you wish to include file globbing, throw in `setargv.obj` alongside the build script. This object file is included with your Visual Studio install. Don't forget to use the proper target architecture.
+If you wish to include file globbing, throw in `setargv.obj` alongside the
+build script. This object file is included with your Visual Studio install.
+Don't forget to use the proper target architecture.
+
+# License
+
+This project is licensed under the CC0 1.0 Universal Public Domain Dedication
+license.
