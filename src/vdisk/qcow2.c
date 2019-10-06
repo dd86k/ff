@@ -17,7 +17,7 @@ void scan_qcow2(void) {
 	default: c = "no";
 	}
 
-	reportf("QEMU QCOW2 vdisk v%u, %s encryption, ", bswap32(h.version));
+	reportf("QEMU QCOW2 vdisk v%u, %s encryption, ", bswap32(h.version), c);
 	_printfd(bswap64(h.size));
 
 	putchar('\n');
