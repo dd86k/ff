@@ -118,8 +118,8 @@ CLI_SKIP:
 		uint32_t a = GetFileAttributesW(currFile);
 		if (a == 0xFFFFFFFF) { // INVALID_FILE_ATTRIBUTES
 G_ERROR:		_fwprintf_p(stderr, //TODO: GetLastError (Windows)
-				L"Could not open file: %s\n",
-				currFile
+				L"Could not open file: %s (%08X)\n",
+				currFile, GetLastError()
 			);
 			return 1;
 		}
