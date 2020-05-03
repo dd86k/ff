@@ -7,7 +7,9 @@ SOURCES := $(wildcard src/*.c src/*/*.c)
 HEADERS := $(wildcard src/*.h src/*/*.h)
 OBJECTS := $(subst .c,.o, $(subst src,build, $(SOURCES)))
 
-.Phony: clean
+PREFIX=/usr/local
+
+.Phony: clean install uninstall
 
 default: ff
 
@@ -21,3 +23,11 @@ $(OBJECTS): ./build/%.o: ./src/%.c
 clean:
 	rm -f ff
 	rm -rf build
+
+install: ff
+	cp ff $(PREFIX)/bin
+	cp ./docs/ff.1 $(PREFIX)/share/man/man1
+
+uninstall: 
+	rm -fv $(PREFIX)/bin/ff
+	rm -fv $(PREFIX)/share/man/man1/ff.1
