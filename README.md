@@ -37,11 +37,11 @@ For a list of files ff(1) picks up, visit
 
 # Compiling
 
-There is currently no Makefile at the moment.
+There is a Makefile defaulting to clang. It will work with gcc aswell: `make CC=gcc`.
 
-It's usually best to use `build-clang.cmd` on Windows and `build-clang.sh` on
-Linux, as you can add additional arguments easily. Reminder that you should add
-`-O3` (or `/Ot` for cl).
+It's usually best to use `build-clang.cmd` on Windows, as you can add additional arguments easily. 
+Reminder that you should add `-O3` (or `/Ot` for cl).
+There is also `build-clang.sh` as an alternative to the Makefile for Unix-like systems.
 
 However, if you want to define your own arguments:
 
