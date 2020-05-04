@@ -41,7 +41,7 @@ There is a Makefile defaulting to clang. It will work with gcc aswell: `make CC=
 
 It's usually best to use `build-clang.cmd` on Windows, as you can add additional arguments easily. 
 Reminder that you should add `-O3` (or `/Ot` for cl).
-There is also `build-clang.sh` for Unix-like systems, should you wish not to use the Makefile.
+There is also `build-clang.sh` as an alternative to the Makefile for Unix-like systems.
 
 However, if you want to define your own arguments:
 
